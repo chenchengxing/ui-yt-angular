@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+<div ng-controller="Ctrl">
+    <input focus-once="trigger" id="dfs"/>
+  </div>
+
+  <script src="angular.js"></script>
+  <script src="ui-yt.js"></script>
+  <script>
+  angular.module('app', ['ui.yt']).controller('Ctrl', function ($scope) {
+    $scope.trigger = true;
+  })
+  </script>
+</body>
+</html>

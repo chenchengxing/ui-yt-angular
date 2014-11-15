@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  <div ng-controller="Ctrl">
+    <input focus-once="trigger" id="dfs"/>
+  </div>
+  <script src="angular.js"></script>
+  <script type="text/javascript">
+function Ctrl ($scope) {
+  $scope.trigger = true;
+}
+angular.module('app', []).directive('focusOnce', [
+    '$timeout',
+    '$parse',
+    function($timeout, $parse) {
+      return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+          var model = $parse(attrs.focusOnce);
+          var unwatch = scope.$watch(model, function(value) {
+            if (value === true) {
+              $timeout(function() {
+                element[0].focus();
+                unwatch();
+              });
+            }
+          });
+        }
+      };
+    }
+  ])
+  </script>
+</body>
+</html>
