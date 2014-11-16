@@ -1,0 +1,15 @@
+<div class="popover top" ng-style="{display: (isOpened && 'block') || 'none', top: position.top+'px', left: position.left+'px', zIndex: 3000}">
+  <div class="arrow"></div>
+  <div class="popover-inner">
+    <h3 class="popover-title" ng-if="title">{{title}}</h3>
+    <div class="popover-content">
+      <div ng-bind-html="msg"></div>
+      <div class="popover-footer clearfix">
+        <div class="align-center">
+          <button class="btn {{confirmBtnClass}}" ng-click="confirm()">{{confirmText}}</button>
+          <button class="btn btn-default" ng-click="cancel()">{{cancelText}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

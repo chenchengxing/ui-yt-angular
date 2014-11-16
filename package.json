@@ -1,6 +1,6 @@
 {
   "name": "yt-ui-angular",
-  "version": "0.0.0",
+  "version": "0.1.1",
   "description": "ui for angular",
   "main": "gulpfile.js",
   "scripts": {
@@ -29,6 +29,9 @@
     "gulp-karma": "0.0.4",
     "gulp-jshint": "~1.9.0",
     "gulp-concat": "~2.4.1",
-    "gulp-uglify": "~1.0.1"
+    "gulp-uglify": "~1.0.1",
+    "gulp-html2js": "~0.2.0",
+    "gulp-foreach": "0.0.1",
+    "gulp-rename": "~1.2.0"
   }
 }

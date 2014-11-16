@@ -3,18 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <title>Document</title>
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 </head>
 <body>
-<div ng-controller="Ctrl">
+<div ng-controller="Ctrl" style="padding-top: 100px;">
     <input focus-once="trigger" id="dfs"/>
+    <button popover-confirm confirm="confirm()">pop</button>
   </div>
-
+  
   <script src="angular.js"></script>
   <script src="ui-yt.js"></script>
   <script>
-  angular.module('app', ['ui.yt']).controller('Ctrl', function ($scope) {
+  angular.module('app', ['ui.yt']).controller('Ctrl', function ($scope, $timeout) {
     $scope.trigger = true;
-  })
+    $scope.options = {
+      title: 'hehe',
+      confirmText: 'ensure'
+    };
+    $scope.confirm = function () {
+      console.log(1)
+    };
+    $scope.cancel = function () {
+      console.log(2)
+    };
+  });
   </script>
 </body>
 </html>
