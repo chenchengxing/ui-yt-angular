@@ -4,17 +4,27 @@
   <meta charset="UTF-8">
   <title>Document</title>
   <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="ui-yt.css">
 </head>
 <body>
 <div ng-controller="Ctrl" style="padding-top: 100px;">
     <input focus-once="trigger" id="dfs"/>
     <button popover-confirm confirm="confirm()">pop</button>
+    <a class="btn btn-primary" ng-click="stopSpin()">stop</a>
   </div>
   
   <script src="angular.js"></script>
   <script src="ui-yt.js"></script>
   <script>
-  angular.module('app', ['ui.yt']).controller('Ctrl', function ($scope, $timeout) {
+  angular.module('app', ['ui.yt']).controller('Ctrl', function ($scope, $timeout, $busySpin) {
+    $busySpin.start();
+    $scope.stopSpin = function () {
+      $busySpin.dismiss();
+    }
+    $timeout(function () {
+      $busySpin.dismiss()
+
+    }, 5000)
     $scope.trigger = true;
     $scope.options = {
       title: 'hehe',

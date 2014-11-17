@@ -11,7 +11,7 @@ var karma = require('gulp-karma');
  * default task `gulp`
  * watch src, when changed, run `lint`, 'test'
  */
-gulp.task('default', function() {
+gulp.task('default', ['lint', 'test', 'b'], function() {
   return gulp.watch(['src/**/*.js', 'gulpfile.js'], ['lint', 'test', 'b']);
 });
 
@@ -33,7 +33,6 @@ gulp.task('test', ['html2js'], function() {
 gulp.task('html2js', function() {
   return gulp.src('src/**/*.html')
     .pipe(foreach(function(stream, file) {
-      console.dir(file)
       return stream
         .pipe(html2js({
           outputModuleName: file.name,
@@ -48,11 +47,17 @@ gulp.task('html2js', function() {
  * build task
  * @description concat ui-yi.js, also minified one
  */
-gulp.task('b', ['test'], function() {
+gulp.task('b', ['mergeCss'], function() {
   return gulp.src(['build-prefix.js', 'src/**/*.js', '!src/**/*.spec.js'])
     .pipe(concat('ui-yt.js'))
     .pipe(gulp.dest('dist'))
-    .pipe(concat('ui-yt.min.js'))
+    .pipe(rename('ui-yt.min.js'))
     .pipe(uglify())
     .pipe(gulp.dest('dist'))
-})
+});
+
+gulp.task('mergeCss', function () {
+  return gulp.src(['src/**/*.css'])
+    .pipe(concat('ui-yt.css'))
+    .pipe(gulp.dest('dist'))
+});
