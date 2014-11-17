@@ -17,14 +17,18 @@ angular.module('myModule', ['ui.yt']);
 
 ## Contents
 
-- placeholder
-    for ie
-- focusOnce
-    trigger once focus
-- busySpin
-    busy spin for long time data loading
-- popoverConfirm
-    quick confirm preventing from a slip
+### placeholder
+for ie
+
+### focusOnce
+trigger once focus
+
+### busySpin
+busy spin for long time data loading
+
+### popoverConfirm
+quick confirm preventing from a slip
+    
 ## Compability
 ie8+, Chrome, ff
 
