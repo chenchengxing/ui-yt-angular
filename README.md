@@ -58,3 +58,18 @@ Please check the [CONTRIBUTING.md](CONTRIBUTING.md) for the contribution guideli
 
 #### tests
 we're using jasmine and sinon for testing.
+
+## todos
+* checkbox list
+* radio list
+* scrollfix
+* return to top
+* toaster
+* dropdown
+* maxlength
+* gtable
+* checkbox indeterminate
+* pager
+* slider
+* alert
+* confirm
