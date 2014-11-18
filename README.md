@@ -29,6 +29,12 @@ busy spin for long time data loading
 ### popoverConfirm
 quick confirm preventing from a slip
     
+### toaster
+toast
+
+### checklist
+checkbox list model
+
 ## Compatibility
 ie8+, Chrome, ff
 
@@ -60,11 +66,8 @@ Please check the [CONTRIBUTING.md](CONTRIBUTING.md) for the contribution guideli
 we're using jasmine and sinon for testing.
 
 ## todos
-* checkbox list
-* radio list
 * scrollfix
 * return to top
-* toaster
 * dropdown
 * maxlength
 * gtable
