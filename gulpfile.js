@@ -11,8 +11,13 @@ var karma = require('gulp-karma');
  * default task `gulp`
  * watch src, when changed, run `lint`, 'test'
  */
-gulp.task('default', ['lint', 'test', 'b'], function() {
-  return gulp.watch(['src/**/*.js', 'gulpfile.js'], ['lint', 'test', 'b']);
+gulp.task('default', function() {
+  gulp.src(['undefined.js'])
+    .pipe(karma({
+      configFile: 'karma.conf.js',
+      action: 'watch'
+    }))
+  gulp.watch(['src/**/*.js', 'gulpfile.js'], ['lint', 'b']);
 });
 
 /*lint src*/

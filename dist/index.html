@@ -11,20 +11,35 @@
     <input focus-once="trigger" id="dfs"/>
     <button popover-confirm confirm="confirm()">pop</button>
     <a class="btn btn-primary" ng-click="stopSpin()">stop</a>
+    <label ng-repeat="role in roles">
+      <input type="checkbox" checklist="user.roles" checklist-value="role"> {{role}}
+    </label>
+    <pre>
+      {{user.roles | json}}
+    </pre>
   </div>
   
   <script src="angular.js"></script>
   <script src="ui-yt.js"></script>
   <script>
   angular.module('app', ['ui.yt']).controller('Ctrl', function ($scope, $timeout, $busySpin) {
-    $busySpin.start();
-    $scope.stopSpin = function () {
-      $busySpin.dismiss();
-    }
-    $timeout(function () {
-      $busySpin.dismiss()
+    $scope.user = {
+      roles: ['user']
+    };
+    $scope.roles = [
+      'guest', 
+      'user', 
+      'customer', 
+      'admin'
+    ];
+    // $busySpin.start();
+    // $scope.stopSpin = function () {
+    //   $busySpin.dismiss();
+    // }
+    // $timeout(function () {
+    //   $busySpin.dismiss()
 
-    }, 5000)
+    // }, 5000)
     $scope.trigger = true;
     $scope.options = {
       title: 'hehe',
