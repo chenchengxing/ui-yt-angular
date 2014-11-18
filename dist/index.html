@@ -5,6 +5,11 @@
   <title>Document</title>
   <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="ui-yt.css">
+  <!--[if lt IE 9]>
+    <script src="html5shiv.js"></script>
+    <script src="es5-shim.js"></script>
+    <script src="es5-sham.js"></script>
+  <![endif]-->
 </head>
 <body>
 <div ng-controller="Ctrl" style="padding-top: 100px;">
@@ -17,12 +22,46 @@
     <pre>
       {{user.roles | json}}
     </pre>
+    Choose a new activity:
+    <label data-ng-repeat="act in activities">
+        <input
+            name="currentActivity"
+            type="radio"
+            ng-value="act"
+            ng-model="engineer.currentActivity" />
+            {{act.name}}
+    </label>
+    <pre>{{engineer.currentActivity | json}}</pre>
+    <a class="btn btn-primary" ng-click="pop()">toast</a>
   </div>
-  
   <script src="angular.js"></script>
   <script src="ui-yt.js"></script>
   <script>
-  angular.module('app', ['ui.yt']).controller('Ctrl', function ($scope, $timeout, $busySpin) {
+  angular.module('app', ['ui.yt']).controller('Ctrl', function ($scope, $timeout, $busySpin, $toaster) {
+    $toaster.pop({
+      title: 'title1',
+      body: 'body1',
+      timeout: 5000
+    });
+    $scope.pop = function () {
+      $toaster.pop({
+        title: 'title1111',
+        body: 'body1111'
+      });
+    }
+    $scope.activities = [ {
+      name: "Writing code"
+    }, {
+      name: "s code"
+    }, {
+      name: "b code"
+    }];
+    $scope.engineer = {
+        name: "Dani",
+        currentActivity: $scope.activities[1],
+        project: "App A"
+    };
+ 
     $scope.user = {
       roles: ['user']
     };

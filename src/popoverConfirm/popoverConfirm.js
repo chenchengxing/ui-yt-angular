@@ -10,6 +10,10 @@ angular.module('ui.yt.popoverConfirm', ['ui.yt.position'])
 
         var $popoverScope = scope.$new();
         $popoverScope.isOpened = false; // isOpened maintains status
+        $popoverScope.position = {
+          top: 0,
+          left: 0
+        };
         var defaultOptions = {
           confirmText: 'Confirm',
           cancelText: 'Cancel',

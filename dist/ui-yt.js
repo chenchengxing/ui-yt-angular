@@ -1,4 +1,4 @@
-angular.module('ui.yt', ['ui.yt.template', 'ui.yt.placeholder', 'ui.yt.focusOnce', 'ui.yt.popoverConfirm', 'ui.yt.busySpin', 'ui.yt.checklist']);
+angular.module('ui.yt', ['ui.yt.template', 'ui.yt.placeholder', 'ui.yt.focusOnce', 'ui.yt.popoverConfirm', 'ui.yt.busySpin', 'ui.yt.checklist', 'ui.yt.toaster']);
 angular.module('ui.yt.template', ['popoverConfirm/template/wrapper.html']);
 angular.module('ui.yt.busySpin', [])
   .factory('$busySpin', ['$compile', '$rootScope', '$document', '$log', function($compile, $rootScope, $document, $log) {
@@ -34,6 +34,27 @@ angular.module('ui.yt.busySpin', [])
         '</div>'
     };
   });
+angular.module('ui.yt.focusOnce', [])
+  .directive('focusOnce', [
+    '$timeout',
+    '$parse',
+    function($timeout, $parse) {
+      return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+          var model = $parse(attrs.focusOnce);
+          var unwatch = scope.$watch(model, function(value) {
+            if (value === true) {
+              $timeout(function() {
+                element[0].focus();
+                unwatch();
+              });
+            }
+          });
+        }
+      };
+    }
+  ]);
 //shamelessly plagiarize from http://vitalets.github.io/checklist-model/
 angular.module('ui.yt.checklist', [])
   .directive('checklist', ['$parse', '$compile', function($parse, $compile) {
@@ -111,7 +132,7 @@ angular.module('ui.yt.checklist', [])
         terminal: true,
         scope: true,
         compile: function(tElement, tAttrs) {
-          if (tElement[0].tagName !== 'INPUT' || !tElement.attr('type', 'checkbox')) {
+          if (tElement[0].tagName !== 'INPUT' || !tElement.attr('type') === 'checkbox') {
             throw 'checklist-model should be applied to `input[type="checkbox"]`.';
           }
 
@@ -129,27 +150,6 @@ angular.module('ui.yt.checklist', [])
         }
       };
     }]);
-angular.module('ui.yt.focusOnce', [])
-  .directive('focusOnce', [
-    '$timeout',
-    '$parse',
-    function($timeout, $parse) {
-      return {
-        restrict: 'A',
-        link: function(scope, element, attrs) {
-          var model = $parse(attrs.focusOnce);
-          var unwatch = scope.$watch(model, function(value) {
-            if (value === true) {
-              $timeout(function() {
-                element[0].focus();
-                unwatch();
-              });
-            }
-          });
-        }
-      };
-    }
-  ]);
 angular.module('ui.yt.placeholder', [])
   .directive('placeholder', function() {
     return {
@@ -213,6 +213,10 @@ angular.module('ui.yt.popoverConfirm', ['ui.yt.position'])
 
         var $popoverScope = scope.$new();
         $popoverScope.isOpened = false; // isOpened maintains status
+        $popoverScope.position = {
+          top: 0,
+          left: 0
+        };
         var defaultOptions = {
           confirmText: 'Confirm',
           cancelText: 'Cancel',
@@ -472,14 +476,64 @@ angular.module('ui.yt.position', [])
     };
   }]);
 
-angular.module('ui.yt.radiolist', [])
-  .directive('radiolist', ['$compile', function ($compile) {
-    return {
-      link: function () {
-        // body...
+angular.module('ui.yt.toaster', [])
+  .factory('$toaster', ['$compile', '$document', '$rootScope', '$timeout', function ($compile, $document, $rootScope, $timeout) {
+    var id = 0;
+    var scope = $rootScope.$new();
+    scope.toasters = [];
+    var $container;
+    var generateDom = function() {
+      var container = angular.element('<toaster-wrapper />');
+      $container = $compile(container)(scope);
+      $document.find('body').append($container);
+    };
+    var pop = function (toastOptions) {
+      toastOptions = toastOptions || {};
+      angular.extend(toastOptions, {
+        timeout: 3000,
+        type: 'success'
+      }, angular.copy(toastOptions), {id: id++});
+      toastOptions.type = 'toaster-' + toastOptions.type;//transform type
+      if (!$container) {
+        generateDom();
+      }
+      append(toastOptions);
+    };
+    var append = function (toastOptions) {
+      scope.toasters.push(toastOptions);
+      $timeout(function () {
+        clear(toastOptions.id);
+      }, toastOptions.timeout);
+    };
+    var clear = function (id) {
+      for (var i = 0; i < scope.toasters.length; i++) {
+        if (scope.toasters[i].id === id) {
+          scope.toasters.splice(i, 1);
+          break;
+        }
       }
     };
-  }]);
+    var clearAll = function () {
+      $container.remove();
+    };
+    return {
+      pop: pop,
+      clear: clearAll
+    }
+  }])
+  .directive('toasterWrapper', function() {
+    return {
+      restrict: 'E',
+      replace: true,
+      template:
+      '<div class="toaster-container">' +
+        '<div ng-repeat="toaster in toasters" class="toaster" ng-class="toaster.type">' +
+          '<div class="toaster-title">{{toaster.title}}</div>' + 
+          '<div class="toaster-body">{{toaster.body}}</div>' + 
+        '</div>' +
+      '</div>'
+    };
+  });
 (function(module) {
 try { module = angular.module("popoverConfirm/template/wrapper.html"); }
 catch(err) { module = angular.module("popoverConfirm/template/wrapper.html", []); }
