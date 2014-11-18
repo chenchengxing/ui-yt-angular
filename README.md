@@ -17,12 +17,19 @@ angular.module('myModule', ['ui.yt']);
 
 ## Contents
 
-- placeholder
-    for ie
-- focusOnce
-    trigger once focus
+### placeholder
+for ie
+
+### focusOnce
+trigger once focus
+
+### busySpin
+busy spin for long time data loading
+
+### popoverConfirm
+quick confirm preventing from a slip
     
-## Compability
+## Compatibility
 ie8+, Chrome, ff
 
 ## FAQ
@@ -35,15 +42,15 @@ Please check the [CONTRIBUTING.md](CONTRIBUTING.md) for the contribution guideli
 #### environment
 * install `nodejs`
 * run `npm install`
-* 
+
 #### Build
 * run cli `gulp` to watch changes, which will trigger tasks
 * run `gulp b` to just build
-* 
+
 #### Test coverage
 * todo..
 
-#### src constructure
+#### src structure
 * all components lays in `src` diretory.
 * each component has `test` `template` folder
 * tests file name must end up with `.spec.js`
@@ -51,3 +58,18 @@ Please check the [CONTRIBUTING.md](CONTRIBUTING.md) for the contribution guideli
 
 #### tests
 we're using jasmine and sinon for testing.
+
+## todos
+* checkbox list
+* radio list
+* scrollfix
+* return to top
+* toaster
+* dropdown
+* maxlength
+* gtable
+* checkbox indeterminate
+* pager
+* slider
+* alert
+* confirm
