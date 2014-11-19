@@ -1,5 +1,19 @@
-angular.module('ui.yt', ['ui.yt.template', 'ui.yt.placeholder', 'ui.yt.focusOnce', 'ui.yt.popoverConfirm', 'ui.yt.busySpin', 'ui.yt.checklist', 'ui.yt.toaster']);
-angular.module('ui.yt.template', ['popoverConfirm/template/wrapper.html']);
+angular.module('ui.yt', [
+  'ui.yt.template',
+  'ui.yt.placeholder',
+  'ui.yt.focusOnce',
+  'ui.yt.popoverConfirm',
+  'ui.yt.busySpin',
+  'ui.yt.checklist',
+  'ui.yt.toaster',
+  'ui.yt.alert',
+  'ui.yt.confirm'
+]);
+angular.module('ui.yt.template', [
+  'popoverConfirm/template/wrapper.html',
+  'alert/template/wrapper.html',
+  'confirm/template/wrapper.html'
+]);
 angular.module('ui.yt.busySpin', [])
   .factory('$busySpin', ['$compile', '$rootScope', '$document', '$log', function($compile, $rootScope, $document, $log) {
     var launchSpin = function() {
@@ -34,27 +48,6 @@ angular.module('ui.yt.busySpin', [])
         '</div>'
     };
   });
-angular.module('ui.yt.focusOnce', [])
-  .directive('focusOnce', [
-    '$timeout',
-    '$parse',
-    function($timeout, $parse) {
-      return {
-        restrict: 'A',
-        link: function(scope, element, attrs) {
-          var model = $parse(attrs.focusOnce);
-          var unwatch = scope.$watch(model, function(value) {
-            if (value === true) {
-              $timeout(function() {
-                element[0].focus();
-                unwatch();
-              });
-            }
-          });
-        }
-      };
-    }
-  ]);
 //shamelessly plagiarize from http://vitalets.github.io/checklist-model/
 angular.module('ui.yt.checklist', [])
   .directive('checklist', ['$parse', '$compile', function($parse, $compile) {
@@ -150,6 +143,87 @@ angular.module('ui.yt.checklist', [])
         }
       };
     }]);
+angular.module('ui.yt.confirm', [])
+  .factory('$confirm', ['$compile', '$rootScope', '$q', '$document', function ($compile, $rootScope, $q, $document) {
+    var mask = angular.element('<div class="modal-backdrop fade in" />');
+    mask.css({
+      'z-index': 1000
+    });
+    var confirmCount = 0;
+    var defaultOptions = {
+      title: 'Confirm',
+      okText: 'OK',
+      cancelText: 'Cancel'
+    };
+    var confirmDialog;
+    var scope;
+    var defer;
+    var pop = function(options) {
+      if (confirmCount === 0) {
+        defer = $q.defer();
+        scope = $rootScope.$new();
+        angular.extend(scope, defaultOptions, options);
+        var wrapper = angular.element('<confirm-wrapper />');
+        confirmDialog = $compile(wrapper)(scope);
+        $document.find('body').append(confirmDialog);
+        $document.find('body').append(mask);
+
+        scope.close = dismiss;
+        scope.cancel = dismiss;
+        scope.ok = okDismiss;
+        confirmCount++;
+        return defer.promise;
+      }
+    };
+    var dismiss = function() {
+      if (confirmCount === 1) {
+        close('cancel');
+      }
+    };
+    var okDismiss = function () {
+      if (confirmCount === 1) {
+        close('ok');
+      }
+    };
+    var close = function (resolveType) {
+      confirmDialog.remove();
+      mask.remove();
+      scope.$destroy();
+      defer.resolve(resolveType);
+      confirmCount--;
+    };
+    return {
+      pop: pop
+    };
+  }])
+  .directive('confirmWrapper', function() {
+    return {
+      restrict: 'E',
+      replace: true,
+      templateUrl: 'confirm/template/wrapper.html',
+    };
+  });
+angular.module('ui.yt.focusOnce', [])
+  .directive('focusOnce', [
+    '$timeout',
+    '$parse',
+    function($timeout, $parse) {
+      return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+          var model = $parse(attrs.focusOnce);
+          var unwatch = scope.$watch(model, function(value) {
+            if (value === true) {
+              $timeout(function() {
+                element[0].focus();
+                unwatch();
+              });
+            }
+          });
+        }
+      };
+    }
+  ]);
 angular.module('ui.yt.placeholder', [])
   .directive('placeholder', function() {
     return {
@@ -320,6 +394,56 @@ angular.module('ui.yt.popoverConfirm', ['ui.yt.position'])
           event.stopPropagation();
         });
       }
+    };
+  });
+angular.module('ui.yt.alert', [])
+  .factory('$alert', ['$document', '$rootScope', '$compile', '$q', function($document, $rootScope, $compile, $q) {
+    var mask = angular.element('<div class="modal-backdrop fade in" />');
+    mask.css({
+      'z-index': 1000
+    });
+    var alertCount = 0;
+    var defaultOptions = {
+      title: 'Alert',
+      okText: 'OK'
+    };
+    var alertDialog;
+    var scope;
+    var defer;
+    var pop = function(options) {
+      if (alertCount === 0) {
+        defer = $q.defer();
+        scope = $rootScope.$new();
+        angular.extend(scope, defaultOptions, options);
+        var wrapper = angular.element('<alert-wrapper />');
+        alertDialog = $compile(wrapper)(scope);
+        $document.find('body').append(alertDialog);
+        $document.find('body').append(mask);
+
+        scope.close = dismiss;
+        scope.ok = dismiss;
+        alertCount++;
+        return defer.promise;
+      }
+    };
+    var dismiss = function() {
+      if (alertCount === 1) {
+        alertDialog.remove();
+        mask.remove();
+        scope.$destroy();
+        defer.resolve('ok');
+        alertCount--;
+      }
+    };
+    return {
+      pop: pop
+    };
+  }])
+  .directive('alertWrapper', function() {
+    return {
+      restrict: 'E',
+      replace: true,
+      templateUrl: 'alert/template/wrapper.html',
     };
   });
 /*shamelessly pliagarize from ui-bootstrap*/
@@ -535,6 +659,31 @@ angular.module('ui.yt.toaster', [])
     };
   });
 (function(module) {
+try { module = angular.module("confirm/template/wrapper.html"); }
+catch(err) { module = angular.module("confirm/template/wrapper.html", []); }
+module.run(["$templateCache", function($templateCache) {
+  $templateCache.put("confirm/template/wrapper.html",
+    "<div class=\"modal fade in\" style=\"display: block\">\n" +
+    "  <div class=\"modal-dialog\">\n" +
+    "    <div class=\"modal-content\">\n" +
+    "      <div class=\"modal-header\">\n" +
+    "        <button type=\"button\" class=\"close\" ng-click=\"close()\"><span aria-hidden=\"true\">&times;</span><span class=\"sr-only\">Close</span></button>\n" +
+    "        <h4 class=\"modal-title\">{{title}}</h4>\n" +
+    "      </div>\n" +
+    "      <div class=\"modal-body\">\n" +
+    "        {{body}}\n" +
+    "      </div>\n" +
+    "      <div class=\"modal-footer\">\n" +
+    "        <button type=\"button\" class=\"btn btn-primary\" ng-click=\"ok()\">{{okText}}</button>\n" +
+    "        <button type=\"button\" class=\"btn btn-default\" ng-click=\"cancel()\">{{cancelText}}</button>\n" +
+    "      </div>\n" +
+    "    </div>\n" +
+    "  </div>\n" +
+    "</div>");
+}]);
+})();
+
+(function(module) {
 try { module = angular.module("popoverConfirm/template/wrapper.html"); }
 catch(err) { module = angular.module("popoverConfirm/template/wrapper.html", []); }
 module.run(["$templateCache", function($templateCache) {
@@ -550,6 +699,30 @@ module.run(["$templateCache", function($templateCache) {
     "          <button class=\"btn {{confirmBtnClass}}\" ng-click=\"confirm()\">{{confirmText}}</button>\n" +
     "          <button class=\"btn btn-default\" ng-click=\"cancel()\">{{cancelText}}</button>\n" +
     "        </div>\n" +
+    "      </div>\n" +
+    "    </div>\n" +
+    "  </div>\n" +
+    "</div>");
+}]);
+})();
+
+(function(module) {
+try { module = angular.module("alert/template/wrapper.html"); }
+catch(err) { module = angular.module("alert/template/wrapper.html", []); }
+module.run(["$templateCache", function($templateCache) {
+  $templateCache.put("alert/template/wrapper.html",
+    "<div class=\"modal fade in\" style=\"display: block\">\n" +
+    "  <div class=\"modal-dialog\">\n" +
+    "    <div class=\"modal-content\">\n" +
+    "      <div class=\"modal-header\">\n" +
+    "        <button type=\"button\" class=\"close\" ng-click=\"close()\"><span aria-hidden=\"true\">&times;</span><span class=\"sr-only\">Close</span></button>\n" +
+    "        <h4 class=\"modal-title\">{{title}}</h4>\n" +
+    "      </div>\n" +
+    "      <div class=\"modal-body\">\n" +
+    "        {{body}}\n" +
+    "      </div>\n" +
+    "      <div class=\"modal-footer\">\n" +
+    "        <button type=\"button\" class=\"btn btn-primary\" ng-click=\"ok()\">{{okText}}</button>\n" +
     "      </div>\n" +
     "    </div>\n" +
     "  </div>\n" +

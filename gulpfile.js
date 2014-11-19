@@ -17,7 +17,7 @@ gulp.task('default', function() {
       configFile: 'karma.conf.js',
       action: 'watch'
     }))
-  gulp.watch(['src/**/*.js', 'gulpfile.js'], ['lint', 'b']);
+  gulp.watch(['src/**/*.js', 'gulpfile.js'], ['lint', 'b', 'html2js']);
 });
 
 /*lint src*/

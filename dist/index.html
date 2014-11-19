@@ -37,12 +37,27 @@
   <script src="angular.js"></script>
   <script src="ui-yt.js"></script>
   <script>
-  angular.module('app', ['ui.yt']).controller('Ctrl', function ($scope, $timeout, $busySpin, $toaster) {
-    $toaster.pop({
-      title: 'title1',
-      body: 'body1',
-      timeout: 5000
+  angular.module('app', ['ui.yt']).controller('Ctrl', function ($scope, $timeout, $busySpin, $toaster, $alert, $confirm) {
+    var promise = $confirm.pop({
+      title: 'kaka',
+      body: 'nnn',
+      cancelText: 'c'
     });
+    promise.then(function (result) {
+      console.log(result);
+    });
+    // var promise = $alert.pop({
+    //   title: 'kaka',
+    //   body: 'nnn'
+    // });
+    // promise.then(function () {
+    //   console.log(2)
+    // })
+    // $toaster.pop({
+    //   title: 'title1',
+    //   body: 'body1',
+    //   timeout: 5000
+    // });
     $scope.pop = function () {
       $toaster.pop({
         title: 'title1111',
