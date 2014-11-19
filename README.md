@@ -18,22 +18,28 @@ angular.module('myModule', ['ui.yt']);
 ## Contents
 
 ### placeholder
-for ie
+`directive` for ie
 
 ### focusOnce
-trigger once focus
+`directive` trigger once focus
 
 ### busySpin
-busy spin for long time data loading
+`service` busy spin for long time data loading
 
 ### popoverConfirm
-quick confirm preventing from a slip
+`directive` quick confirm preventing from a slip
     
 ### toaster
-toast
+`service` toast
 
 ### checklist
-checkbox list model
+`directive` checkbox list model
+
+### alert
+`service` alert
+
+### confirm
+`service` confirm
 
 ## Compatibility
 ie8+, Chrome, ff
