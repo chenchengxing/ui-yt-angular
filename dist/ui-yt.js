@@ -7,13 +7,65 @@ angular.module('ui.yt', [
   'ui.yt.checklist',
   'ui.yt.toaster',
   'ui.yt.alert',
-  'ui.yt.confirm'
+  'ui.yt.confirm',
+  'ui.yt.dropdownlist'
 ]);
 angular.module('ui.yt.template', [
   'popoverConfirm/template/wrapper.html',
   'alert/template/wrapper.html',
-  'confirm/template/wrapper.html'
+  'confirm/template/wrapper.html',
+  'dropdownlist/template/dropdown.html'
 ]);
+angular.module('ui.yt.alert', [])
+  .factory('$alert', ['$document', '$rootScope', '$compile', '$q', function($document, $rootScope, $compile, $q) {
+    var mask = angular.element('<div class="modal-backdrop fade in" />');
+    mask.css({
+      'z-index': 1000
+    });
+    var alertCount = 0;
+    var defaultOptions = {
+      title: 'Alert',
+      okText: 'OK'
+    };
+    var alertDialog;
+    var scope;
+    var defer;
+    var pop = function(options) {
+      if (alertCount === 0) {
+        defer = $q.defer();
+        scope = $rootScope.$new();
+        angular.extend(scope, defaultOptions, options);
+        var wrapper = angular.element('<alert-wrapper />');
+        alertDialog = $compile(wrapper)(scope);
+        $document.find('body').append(alertDialog);
+        $document.find('body').append(mask);
+
+        scope.close = dismiss;
+        scope.ok = dismiss;
+        alertCount++;
+        return defer.promise;
+      }
+    };
+    var dismiss = function() {
+      if (alertCount === 1) {
+        alertDialog.remove();
+        mask.remove();
+        scope.$destroy();
+        defer.resolve('ok');
+        alertCount--;
+      }
+    };
+    return {
+      pop: pop
+    };
+  }])
+  .directive('alertWrapper', function() {
+    return {
+      restrict: 'E',
+      replace: true,
+      templateUrl: 'alert/template/wrapper.html',
+    };
+  });
 angular.module('ui.yt.busySpin', [])
   .factory('$busySpin', ['$compile', '$rootScope', '$document', '$log', function($compile, $rootScope, $document, $log) {
     var launchSpin = function() {
@@ -203,6 +255,82 @@ angular.module('ui.yt.confirm', [])
       templateUrl: 'confirm/template/wrapper.html',
     };
   });
+angular.module('ui.yt.dropdownlist', [])
+  .directive('dropdownlist', ['$compile', '$document', '$parse', function($compile, $document, $parse) {
+    
+    var compile = function compile( tElement, tAttributes, transclude ) {
+      return function (scope, element, attrs, ctrl ) {
+        if (!attrs.dropdownlist) {
+          element.remove();
+          return false;
+        }
+        // console.log(element[0].innerHTML);
+        // .match(/^\s*(.+)\s+in\s+(.*?)\s*(\s+track\s+by\s+(.+)\s*)?$/);
+        // var NG_OPTIONS_REGEXP = /^\s*([\s\S]+?)(?:\s+as\s+([\s\S]+?))?(?:\s+group\s+by\s+([\s\S]+?))?\s+for\s+(?:([\$\w][\$\w]*)|(?:\(\s*([\$\w][\$\w]*)\s*,\s*([\$\w][\$\w]*)\s*\)))\s+in\s+([\s\S]+?)(?:\s+track\s+by\s+([\s\S]+?))?$/,
+        var DROPDOWN_OPTIONS_REGEXP = /^\s*([\S]+)(?:\s+as\s+([\S]+))?\s+in\s+([\S]+)\s*$/;
+        var match = attrs.dropdownlist.match(DROPDOWN_OPTIONS_REGEXP);
+        var repeatArray = match[3];
+        var repeatItem = match[2] ? match[2] : match[1];
+        var asString = match[2] ? match[1] : '';
+        
+        transclude(scope, function (clone) {
+          var transcludeContent;
+          if (clone && clone[0]) {
+            transcludeContent = clone[0].innerHTML.trim();//http://stackoverflow.com/questions/22183778/angularjs-transclude-how-to-access-the-html-content-of-clone-object
+          } else {
+            transcludeContent = '{{' + repeatItem + '}}';
+          }
+
+          var tpl = '<li ng-repeat="' + repeatItem + ' in ' + repeatArray + '">' + 
+                      '<a ng-click="itemClick(' + repeatItem + ', $event)">' + transcludeContent + '</a>' +
+                    '</li>';
+          var lisEle = angular.element(tpl);
+          lis = $compile(lisEle)(scope);
+          element.find('ul').append(lis);
+        });
+        var model = $parse(attrs.ngModel);
+        scope.itemClick = function(item, $event) {
+          if (!asString) {
+            model.assign(scope.$parent, item);
+          } else {
+            var value = $parse(asString)(angular.element($event.target).scope());
+            model.assign(scope.$parent, value);
+          }
+          //http://stackoverflow.com/questions/18326689/javascript-textcontent-is-not-working-in-ie8-or-ie7
+          scope.curText = $event.target.textContent || $event.target.innerText;
+        };
+        element.find('button').on('click', function(e) {
+          element.toggleClass('open');
+
+          e.preventDefault();
+          e.stopPropagation();
+        });
+
+        $document.on('click', function() {
+          element.removeClass('open');
+        });
+      };
+    };
+    return {
+      scope: true,
+      replace: true,
+      transclude: true,
+      templateUrl: 'dropdownlist/template/dropdown.html',
+      compile: compile
+     //  ,
+     //  controller: function($scope, $element, $transclude, $log){
+     //    if (!this.transcludeContent) {
+     //      $transclude(function(clone) {
+     //        this.transcludeContent = clone[0].innerHTML;
+     //         // console.log(clone[0].innerHTML); //undefined??
+     //         // console.log(clone[0].outerHTML); //undefined??
+     //         // console.log(angular.element("<div/>").append(clone).html()); //undefined??
+     //         // console.log(clone.text()); //works but strips the html tags    
+     //      });
+     //    }
+     // }
+    };
+  }]);
 angular.module('ui.yt.focusOnce', [])
   .directive('focusOnce', [
     '$timeout',
@@ -394,56 +522,6 @@ angular.module('ui.yt.popoverConfirm', ['ui.yt.position'])
           event.stopPropagation();
         });
       }
-    };
-  });
-angular.module('ui.yt.alert', [])
-  .factory('$alert', ['$document', '$rootScope', '$compile', '$q', function($document, $rootScope, $compile, $q) {
-    var mask = angular.element('<div class="modal-backdrop fade in" />');
-    mask.css({
-      'z-index': 1000
-    });
-    var alertCount = 0;
-    var defaultOptions = {
-      title: 'Alert',
-      okText: 'OK'
-    };
-    var alertDialog;
-    var scope;
-    var defer;
-    var pop = function(options) {
-      if (alertCount === 0) {
-        defer = $q.defer();
-        scope = $rootScope.$new();
-        angular.extend(scope, defaultOptions, options);
-        var wrapper = angular.element('<alert-wrapper />');
-        alertDialog = $compile(wrapper)(scope);
-        $document.find('body').append(alertDialog);
-        $document.find('body').append(mask);
-
-        scope.close = dismiss;
-        scope.ok = dismiss;
-        alertCount++;
-        return defer.promise;
-      }
-    };
-    var dismiss = function() {
-      if (alertCount === 1) {
-        alertDialog.remove();
-        mask.remove();
-        scope.$destroy();
-        defer.resolve('ok');
-        alertCount--;
-      }
-    };
-    return {
-      pop: pop
-    };
-  }])
-  .directive('alertWrapper', function() {
-    return {
-      restrict: 'E',
-      replace: true,
-      templateUrl: 'alert/template/wrapper.html',
     };
   });
 /*shamelessly pliagarize from ui-bootstrap*/
@@ -659,6 +737,30 @@ angular.module('ui.yt.toaster', [])
     };
   });
 (function(module) {
+try { module = angular.module("alert/template/wrapper.html"); }
+catch(err) { module = angular.module("alert/template/wrapper.html", []); }
+module.run(["$templateCache", function($templateCache) {
+  $templateCache.put("alert/template/wrapper.html",
+    "<div class=\"modal fade in\" style=\"display: block\">\n" +
+    "  <div class=\"modal-dialog\">\n" +
+    "    <div class=\"modal-content\">\n" +
+    "      <div class=\"modal-header\">\n" +
+    "        <button type=\"button\" class=\"close\" ng-click=\"close()\"><span aria-hidden=\"true\">&times;</span><span class=\"sr-only\">Close</span></button>\n" +
+    "        <h4 class=\"modal-title\">{{title}}</h4>\n" +
+    "      </div>\n" +
+    "      <div class=\"modal-body\">\n" +
+    "        {{body}}\n" +
+    "      </div>\n" +
+    "      <div class=\"modal-footer\">\n" +
+    "        <button type=\"button\" class=\"btn btn-primary\" ng-click=\"ok()\">{{okText}}</button>\n" +
+    "      </div>\n" +
+    "    </div>\n" +
+    "  </div>\n" +
+    "</div>");
+}]);
+})();
+
+(function(module) {
 try { module = angular.module("confirm/template/wrapper.html"); }
 catch(err) { module = angular.module("confirm/template/wrapper.html", []); }
 module.run(["$templateCache", function($templateCache) {
@@ -684,6 +786,25 @@ module.run(["$templateCache", function($templateCache) {
 })();
 
 (function(module) {
+try { module = angular.module("dropdownlist/template/dropdown.html"); }
+catch(err) { module = angular.module("dropdownlist/template/dropdown.html", []); }
+module.run(["$templateCache", function($templateCache) {
+  $templateCache.put("dropdownlist/template/dropdown.html",
+    "\n" +
+    "\n" +
+    "<div class=\"dropdown btn-group w_100p\">\n" +
+    "  <button class=\"dropdown-toggle btn btn-default btn-full-width\" ng-disabled=\"dropdownDisabled\">\n" +
+    "    <span class=\"col-md-11 dropdown-text\">{{curText}}</span>\n" +
+    "    <span class=\"caret\"></span>\n" +
+    "  </button>\n" +
+    "  <ul class=\"dropdown-menu\">\n" +
+    "  </ul>\n" +
+    "</div>\n" +
+    "");
+}]);
+})();
+
+(function(module) {
 try { module = angular.module("popoverConfirm/template/wrapper.html"); }
 catch(err) { module = angular.module("popoverConfirm/template/wrapper.html", []); }
 module.run(["$templateCache", function($templateCache) {
@@ -699,30 +820,6 @@ module.run(["$templateCache", function($templateCache) {
     "          <button class=\"btn {{confirmBtnClass}}\" ng-click=\"confirm()\">{{confirmText}}</button>\n" +
     "          <button class=\"btn btn-default\" ng-click=\"cancel()\">{{cancelText}}</button>\n" +
     "        </div>\n" +
-    "      </div>\n" +
-    "    </div>\n" +
-    "  </div>\n" +
-    "</div>");
-}]);
-})();
-
-(function(module) {
-try { module = angular.module("alert/template/wrapper.html"); }
-catch(err) { module = angular.module("alert/template/wrapper.html", []); }
-module.run(["$templateCache", function($templateCache) {
-  $templateCache.put("alert/template/wrapper.html",
-    "<div class=\"modal fade in\" style=\"display: block\">\n" +
-    "  <div class=\"modal-dialog\">\n" +
-    "    <div class=\"modal-content\">\n" +
-    "      <div class=\"modal-header\">\n" +
-    "        <button type=\"button\" class=\"close\" ng-click=\"close()\"><span aria-hidden=\"true\">&times;</span><span class=\"sr-only\">Close</span></button>\n" +
-    "        <h4 class=\"modal-title\">{{title}}</h4>\n" +
-    "      </div>\n" +
-    "      <div class=\"modal-body\">\n" +
-    "        {{body}}\n" +
-    "      </div>\n" +
-    "      <div class=\"modal-footer\">\n" +
-    "        <button type=\"button\" class=\"btn btn-primary\" ng-click=\"ok()\">{{okText}}</button>\n" +
     "      </div>\n" +
     "    </div>\n" +
     "  </div>\n" +

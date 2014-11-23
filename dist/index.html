@@ -33,19 +33,42 @@
     </label>
     <pre>{{engineer.currentActivity | json}}</pre>
     <a class="btn btn-primary" ng-click="pop()">toast</a>
+    <!-- <div dropdownlist="list" model="cur" value="id">{{item.text}}</div> -->
+    <div dropdownlist>{{item.text}}</div>
+    <div dropdownlist="item in list" ng-model="cur">{{item.text}}</div>
+    <div dropdownlist="item.id as item in list" ng-model="cur">{{item.text}}</div>
+    <pre>{{cur | json}}</pre>
+    <select ng-model="myColor" ng-options="color.name for color in colors">
+      <option value="">-- choose color --</option>
+    </select>
   </div>
   <script src="angular.js"></script>
   <script src="ui-yt.js"></script>
   <script>
   angular.module('app', ['ui.yt']).controller('Ctrl', function ($scope, $timeout, $busySpin, $toaster, $alert, $confirm) {
-    var promise = $confirm.pop({
-      title: 'kaka',
-      body: 'nnn',
-      cancelText: 'c'
-    });
-    promise.then(function (result) {
-      console.log(result);
-    });
+    $scope.colors = [
+      {name:'black', shade:'dark'},
+      {name:'white', shade:'light'},
+      {name:'red', shade:'dark'},
+      {name:'blue', shade:'dark'},
+      {name:'yellow', shade:'light'}
+    ];
+    $scope.myColor = $scope.colors[2]; // red
+    $scope.list = [{
+      id: 1,
+      text: 't1'
+    }, {
+      id: 2,
+      text: 't2'
+    }];
+    // var promise = $confirm.pop({
+    //   title: 'kaka',
+    //   body: 'nnn',
+    //   cancelText: 'c'
+    // });
+    // promise.then(function (result) {
+    //   console.log(result);
+    // });
     // var promise = $alert.pop({
     //   title: 'kaka',
     //   body: 'nnn'

@@ -7,10 +7,12 @@ angular.module('ui.yt', [
   'ui.yt.checklist',
   'ui.yt.toaster',
   'ui.yt.alert',
-  'ui.yt.confirm'
+  'ui.yt.confirm',
+  'ui.yt.dropdownlist'
 ]);
 angular.module('ui.yt.template', [
   'popoverConfirm/template/wrapper.html',
   'alert/template/wrapper.html',
-  'confirm/template/wrapper.html'
+  'confirm/template/wrapper.html',
+  'dropdownlist/template/dropdown.html'
 ]);
