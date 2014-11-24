@@ -41,6 +41,9 @@ angular.module('myModule', ['ui.yt']);
 ### confirm
 `service` confirm
 
+### dropdownlist
+`directive` for dropdown array
+
 ## Compatibility
 ie8+, Chrome, ff
 
@@ -74,11 +77,9 @@ we're using jasmine and sinon for testing.
 ## todos
 * scrollfix
 * return to top
-* dropdown
 * maxlength
 * gtable
 * checkbox indeterminate
 * pager
 * slider
-* alert
-* confirm
+
