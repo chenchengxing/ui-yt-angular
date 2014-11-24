@@ -107,6 +107,58 @@ describe('dropdownlist', function() {
       $rootScope.$digest();
       expect($('.dropdown').find('.dropdown-text').eq(0).text()).toBe('1');
     });
+    it('updates curText when model change', function() {
+      var tpl = angular.element('<div dropdownlist="item in list" ng-model="cur"></div>');
+      document.body.appendChild(tpl[0]);
+      var scope = $rootScope.$new();
+      $compile(tpl)(scope);
+      scope.list = [{
+        text: '1'
+      }, 2, 3];
+      $rootScope.$digest();
+      expect($('.dropdown').length).toBe(1);
+      scope.cur = 2;
+      $rootScope.$digest();
+      expect($('.dropdown').find('.dropdown-text').eq(0).text()).toBe('2');
+      scope.cur = scope.list[0];
+      $rootScope.$digest();
+      expect($('.dropdown').find('.dropdown-text').eq(0).text()).toBe('{"text":"1"}');
+      scope.cur = {
+        text: '1'
+      };
+      $rootScope.$digest();
+      expect($('.dropdown').find('.dropdown-text').eq(0).text()).toBe('');
+    });
+  });
+  describe('as', function() {
+    it('should match the value of as described', function() {
+      var tpl = angular.element('<div dropdownlist="item.text as item in list" ng-model="cur"></div>');
+      document.body.appendChild(tpl[0]);
+      var scope = $rootScope.$new();
+      $compile(tpl)(scope);
+      scope.list = [{
+        text: '1'
+      }, 2, 3];
+      $rootScope.$digest();
+      var ul = $('.dropdown').find('ul');
+      ul.find('li').find('a').eq(0).click();
+      $rootScope.$digest();
+      expect(scope.cur).toBe('1');
+    });
+    it('should update text using as when model change', function() {
+      var tpl = angular.element('<div dropdownlist="iii.id as iii in list" ng-model="cur">{{iii.text}}</div>');
+      document.body.appendChild(tpl[0]);
+      var scope = $rootScope.$new();
+      $compile(tpl)(scope);
+      scope.list = [{
+        text: '1',
+        id: 1
+      }, 2, 3];
+      $rootScope.$digest();
+      scope.cur = 1;
+      $rootScope.$digest();
+      expect($('.dropdown').find('.dropdown-text').eq(0).text()).toBe('1');
+    });
   });
   // it('should generate lists from attr dropdownlist', function() {
   //   var tpl = angular.element('<div dropdownlist="list">{{item}}</div>');

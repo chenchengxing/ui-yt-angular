@@ -12,6 +12,10 @@
   <![endif]-->
 </head>
 <body>
+<select name="" id="">
+  <option value=""></option>
+  <option value="">1</option>
+</select>
 <div ng-controller="Ctrl" style="padding-top: 100px;">
     <input focus-once="trigger" id="dfs"/>
     <button popover-confirm confirm="confirm()">pop</button>
@@ -35,7 +39,7 @@
     <a class="btn btn-primary" ng-click="pop()">toast</a>
     <!-- <div dropdownlist="list" model="cur" value="id">{{item.text}}</div> -->
     <div dropdownlist>{{item.text}}</div>
-    <div dropdownlist="item in list" ng-model="cur">{{item.text}}</div>
+    <div dropdownlist="item in list" ng-model="c">{{item.text}}</div>
     <div dropdownlist="item.id as item in list" ng-model="cur">{{item.text}}</div>
     <pre>{{cur | json}}</pre>
     <select ng-model="myColor" ng-options="color.name for color in colors">
@@ -61,6 +65,7 @@
       id: 2,
       text: 't2'
     }];
+    $scope.cur = 1
     // var promise = $confirm.pop({
     //   title: 'kaka',
     //   body: 'nnn',

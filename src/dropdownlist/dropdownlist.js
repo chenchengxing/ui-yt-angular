@@ -1,5 +1,5 @@
 angular.module('ui.yt.dropdownlist', [])
-  .directive('dropdownlist', ['$compile', '$document', '$parse', function($compile, $document, $parse) {
+  .directive('dropdownlist', ['$compile', '$document', '$parse', '$timeout', function($compile, $document, $parse, $timeout) {
     
     var compile = function compile( tElement, tAttributes, transclude ) {
       return function (scope, element, attrs, ctrl ) {
@@ -32,7 +32,57 @@ angular.module('ui.yt.dropdownlist', [])
           element.find('ul').append(lis);
         });
         var model = $parse(attrs.ngModel);
+        //watch model change, update cur text
+        scope.$parent.$watch(attrs.ngModel, function (newValue) {
+          if (newValue) {
+            var index = getItemIndex(newValue, $parse(repeatArray)(scope.$parent), asString);
+            if (index !== -1) {
+              // trick to delay dom query
+              // $timeout(function () {
+              //   var aForIndex = element.find('li').eq(index).find('a')[0];
+              //   scope.curText = aForIndex.textContent || aForIndex.innerText;
+              // });
+              // finally change to get value from dom
+              if (!asString) {
+                scope.curText = $parse(repeatArray)(scope.$parent)[index];
+              } else {
+                scope.curText = getPathValue($parse(repeatArray)(scope.$parent)[index], asString);
+              }
+            } else {
+              scope.curText = '';
+            }
+          }
+        });
+        var getItemIndex = function (value, array, keyPath) {
+          if (!value || !array || !array.length) {
+            return -1;
+          }
+          for (var i = 0; i < array.length; i++) {
+            if ((keyPath && getPathValue(array[i], keyPath) === value) || (!keyPath && array[i] === value)) {
+              return i;
+            }
+          }
+          return -1;
+        };
+        // return value under path, e.g. value={key: '1'}, path='item.key', should return '1', maximum depth: 2
+        var getPathValue = function (value, path) {
+          // dump(value, path)
+          if (!value || !path) {
+            return;
+          }
+          var paths = path.split('.');
+          if (!paths[1]) {
+            return;
+          }
+          if (paths[2]) {
+            return value[paths[1]][paths[2]];
+          }
+          return value[paths[1]];
+        };
         scope.itemClick = function(item, $event) {
+          if (!attrs.ngModel) {
+            return false;
+          }
           if (!asString) {
             model.assign(scope.$parent, item);
           } else {
@@ -40,7 +90,7 @@ angular.module('ui.yt.dropdownlist', [])
             model.assign(scope.$parent, value);
           }
           //http://stackoverflow.com/questions/18326689/javascript-textcontent-is-not-working-in-ie8-or-ie7
-          scope.curText = $event.target.textContent || $event.target.innerText;
+          // scope.curText = $event.target.textContent || $event.target.innerText;
         };
         element.find('button').on('click', function(e) {
           element.toggleClass('open');
