@@ -12,7 +12,7 @@ describe('$alert', function() {
   afterEach(function () {
     $('.modal-backdrop').remove();
     $('.modal').remove();
-  })
+  });
   it('should pop', function() {
     $alert.pop();
     $rootScope.$digest();

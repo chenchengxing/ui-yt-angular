@@ -1,0 +1,17 @@
+<div class="container">
+  <div class="row">
+    <div class="col12 clearfix">
+      <ul class="list-group">
+        <li class="list-group-item" ng-repeat="item in list">
+          <!-- <button class="pull-right btn btn-link" ng-click="addToDownloads()"><span class="glyphicon glyphicon-shopping-cart"></span></button> -->
+          <h4>
+            <a ui-sref="component({id: item.name})">{{item.name}}</a>
+          </h4>
+          <div class="pt_10 pl_20" >
+            <p ng-repeat="p in item.desc">{{p}}</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

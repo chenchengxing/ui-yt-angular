@@ -12,7 +12,7 @@ describe('$confirm', function() {
   afterEach(function () {
     $('.modal-backdrop').remove();
     $('.modal').remove();
-  })
+  });
   it('should pop', function() {
     $confirm.pop();
     $rootScope.$digest();

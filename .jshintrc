@@ -7,5 +7,5 @@
   "eqnull": true,
   "trailing": true,
   "eqeqeq": true,
-  "strict": true
+  "strict": false
 }
