@@ -3,9 +3,11 @@ describe('dropdownlist', function() {
   beforeEach(module('dropdownlist/template/dropdown.html'));
   var $compile;
   var $rootScope;
-  beforeEach(inject(function(_$compile_, _$rootScope_) {
+  var $timeout;
+  beforeEach(inject(function(_$compile_, _$rootScope_, _$timeout_) {
     $compile = _$compile_;
     $rootScope = _$rootScope_;
+    $timeout = _$timeout_;
   }));
   afterEach(function() {
     $('.dropdown').remove();
@@ -105,6 +107,7 @@ describe('dropdownlist', function() {
       var ul = $('.dropdown').find('ul');
       ul.find('li').find('a').eq(0).click();
       $rootScope.$digest();
+      $timeout.flush();
       expect($('.dropdown').find('.dropdown-text').eq(0).text()).toBe('1');
     });
     it('updates curText when model change', function() {
@@ -119,9 +122,11 @@ describe('dropdownlist', function() {
       expect($('.dropdown').length).toBe(1);
       scope.cur = 2;
       $rootScope.$digest();
+      $timeout.flush();
       expect($('.dropdown').find('.dropdown-text').eq(0).text()).toBe('2');
       scope.cur = scope.list[0];
       $rootScope.$digest();
+      $timeout.flush();
       expect($('.dropdown').find('.dropdown-text').eq(0).text()).toBe('{"text":"1"}');
       scope.cur = {
         text: '1'
@@ -157,6 +162,7 @@ describe('dropdownlist', function() {
       $rootScope.$digest();
       scope.cur = 1;
       $rootScope.$digest();
+      $timeout.flush();
       expect($('.dropdown').find('.dropdown-text').eq(0).text()).toBe('1');
     });
   });

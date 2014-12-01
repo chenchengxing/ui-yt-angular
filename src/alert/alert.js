@@ -45,6 +45,6 @@ angular.module('ui.yt.alert', [])
     return {
       restrict: 'E',
       replace: true,
-      templateUrl: 'alert/template/wrapper.html',
+      templateUrl: 'alert/template/wrapper.html'
     };
   });

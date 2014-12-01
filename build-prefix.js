@@ -8,7 +8,8 @@ angular.module('ui.yt', [
   'ui.yt.toaster',
   'ui.yt.alert',
   'ui.yt.confirm',
-  'ui.yt.dropdownlist'
+  'ui.yt.dropdownlist',
+  'ui.yt.msie'
 ]);
 angular.module('ui.yt.template', [
   'popoverConfirm/template/wrapper.html',
