@@ -178,7 +178,7 @@ angular.module('ui.yt.checklist', [])
         terminal: true,
         scope: true,
         compile: function(tElement, tAttrs) {
-          if (tElement[0].tagName !== 'INPUT' || !tElement.attr('type') === 'checkbox') {
+          if (tElement[0].tagName !== 'INPUT' || tElement.attr('type') !== 'checkbox') {
             throw 'checklist-model should be applied to `input[type="checkbox"]`.';
           }
 
@@ -501,7 +501,7 @@ angular.module('ui.yt.position', [])
         var elBCR = this.offset(element);
         var offsetParentBCR = { top: 0, left: 0 };
         var offsetParentEl = parentOffsetEl(element[0]);
-        if (offsetParentEl != $document[0]) {
+        if (offsetParentEl !== $document[0]) {
           offsetParentBCR = this.offset(angular.element(offsetParentEl));
           offsetParentBCR.top += offsetParentEl.clientTop - offsetParentEl.scrollTop;
           offsetParentBCR.left += offsetParentEl.clientLeft - offsetParentEl.scrollLeft;
@@ -768,7 +768,7 @@ angular.module('ui.yt.toaster', [])
     return {
       pop: pop,
       clear: clearAll
-    }
+    };
   }])
   .directive('toasterWrapper', function() {
     return {
@@ -777,8 +777,8 @@ angular.module('ui.yt.toaster', [])
       template:
       '<div class="toaster-container">' +
         '<div ng-repeat="toaster in toasters" class="toaster" ng-class="toaster.type">' +
-          '<div class="toaster-title">{{toaster.title}}</div>' + 
-          '<div class="toaster-body">{{toaster.body}}</div>' + 
+          '<div class="toaster-title">{{toaster.title}}</div>' +
+          '<div class="toaster-body">{{toaster.body}}</div>' +
         '</div>' +
       '</div>'
     };

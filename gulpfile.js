@@ -1,68 +1,18 @@
-var path = require('path');
+/*
+  gulpfile.js
+  ===========
+  Rather than manage one giant configuration file responsible
+  for creating multiple tasks, each task has been broken out into
+  its own file in gulp/tasks. Any files in that directory get
+  automatically required below.
+  To add a new task, simply add a new task file that directory.
+  gulp/tasks/default.js specifies the default set of tasks to run
+  when you run `gulp`.
+*/
+
+var requireDir = require('require-dir');
 var gulp = require('gulp');
-var concat = require('gulp-concat');
-var uglify = require('gulp-uglify');
-var foreach = require('gulp-foreach');
-var html2js = require('gulp-html2js');
-var rename = require('gulp-rename');
-var karma = require('gulp-karma');
+// Require all tasks in gulp/tasks, including subfolders
+requireDir('./gulp_tasks', { recurse: true });
 
-/**
- * default task `gulp`
- * watch src, when changed, run `lint`, 'test'
- */
-gulp.task('default', function() {
-  gulp.src(['undefined.js'])
-    .pipe(karma({
-      configFile: 'karma.conf.js',
-      action: 'watch'
-    }))
-  gulp.watch(['src/**/*.js', 'gulpfile.js'], ['lint', 'b', 'html2js']);
-});
-
-/*lint src*/
-gulp.task('lint', function() {
-  return gulp.src(['src/**/*.js', 'gulpfile.js'])
-});
-
-/*run karma tests*/
-gulp.task('test', ['html2js'], function() {
-  return gulp.src(['undefined.js'])
-    .pipe(karma({
-      configFile: 'karma.conf.js',
-      action: 'watch'
-    }))
-});
-
-/*generate templateCache from tpl*/
-gulp.task('html2js', function() {
-  return gulp.src('src/**/*.html')
-    .pipe(foreach(function(stream, file) {
-      return stream
-        .pipe(html2js({
-          outputModuleName: file.name,
-          base: 'src'
-        }))
-        .pipe(rename(path.basename(file.path, '.html') + '.js'))
-        .pipe(gulp.dest(path.dirname(file.path)));
-    }));
-});
-
-/**
- * build task
- * @description concat ui-yi.js, also minified one
- */
-gulp.task('b', ['mergeCss'], function() {
-  return gulp.src(['build-prefix.js', 'src/**/*.js', '!src/**/*.spec.js'])
-    .pipe(concat('ui-yt.js'))
-    .pipe(gulp.dest('dist'))
-    .pipe(rename('ui-yt.min.js'))
-    .pipe(uglify())
-    .pipe(gulp.dest('dist'))
-});
-
-gulp.task('mergeCss', function () {
-  return gulp.src(['src/**/*.css'])
-    .pipe(concat('ui-yt.css'))
-    .pipe(gulp.dest('dist'))
-});
+gulp.task('default', ['test', 'webserver', 'watch']);

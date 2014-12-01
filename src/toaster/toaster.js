@@ -41,7 +41,7 @@ angular.module('ui.yt.toaster', [])
     return {
       pop: pop,
       clear: clearAll
-    }
+    };
   }])
   .directive('toasterWrapper', function() {
     return {
@@ -50,8 +50,8 @@ angular.module('ui.yt.toaster', [])
       template:
       '<div class="toaster-container">' +
         '<div ng-repeat="toaster in toasters" class="toaster" ng-class="toaster.type">' +
-          '<div class="toaster-title">{{toaster.title}}</div>' + 
-          '<div class="toaster-body">{{toaster.body}}</div>' + 
+          '<div class="toaster-title">{{toaster.title}}</div>' +
+          '<div class="toaster-body">{{toaster.body}}</div>' +
         '</div>' +
       '</div>'
     };

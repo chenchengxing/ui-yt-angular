@@ -1,0 +1,95 @@
+<div class="container mb_20">
+  <div class="row">
+    <div class="col-md-6"><div ng-controller="ModalDemoCtrl">
+    <script type="text/ng-template" id="myModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">I'm a modal!</h3>
+        </div>
+        <div class="modal-body">
+            <ul>
+                <li ng-repeat="item in items">
+                    <a ng-click="selected.item = item">{{ item }}</a>
+                </li>
+            </ul>
+            Selected: <b>{{ selected.item }}</b>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="ok()">OK</button>
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+
+    <button class="btn btn-default" ng-click="open()">Open me!</button>
+    <button class="btn btn-default" ng-click="open('lg')">Large modal</button>
+    <button class="btn btn-default" ng-click="open('sm')">Small modal</button>
+    <div ng-show="selected">Selection from a modal: {{ selected }}</div>
+</div></div>
+    <div class="col-md-6">no apiHtml</div>
+  </div>
+</div>
+
+<div class="container code">
+  <tabset>
+    <tab>
+      <tab-heading>html</tab-heading>
+      <pre>
+        <code><br>&lt;div ng-controller=&quot;ModalDemoCtrl&quot;&gt;&#10;    &lt;script type=&quot;text/ng-template&quot; id=&quot;myModalContent.html&quot;&gt;&#10;        &lt;div class=&quot;modal-header&quot;&gt;&#10;            &lt;h3 class=&quot;modal-title&quot;&gt;I&#39;m a modal!&lt;/h3&gt;&#10;        &lt;/div&gt;&#10;        &lt;div class=&quot;modal-body&quot;&gt;&#10;            &lt;ul&gt;&#10;                &lt;li ng-repeat=&quot;item in items&quot;&gt;&#10;                    &lt;a ng-click=&quot;selected.item = item&quot;&gt;{{ item }}&lt;/a&gt;&#10;                &lt;/li&gt;&#10;            &lt;/ul&gt;&#10;            Selected: &lt;b&gt;{{ selected.item }}&lt;/b&gt;&#10;        &lt;/div&gt;&#10;        &lt;div class=&quot;modal-footer&quot;&gt;&#10;            &lt;button class=&quot;btn btn-primary&quot; ng-click=&quot;ok()&quot;&gt;OK&lt;/button&gt;&#10;            &lt;button class=&quot;btn btn-warning&quot; ng-click=&quot;cancel()&quot;&gt;Cancel&lt;/button&gt;&#10;        &lt;/div&gt;&#10;    &lt;/script&gt;&#10;&#10;    &lt;button class=&quot;btn btn-default&quot; ng-click=&quot;open()&quot;&gt;Open me!&lt;/button&gt;&#10;    &lt;button class=&quot;btn btn-default&quot; ng-click=&quot;open(&#39;lg&#39;)&quot;&gt;Large modal&lt;/button&gt;&#10;    &lt;button class=&quot;btn btn-default&quot; ng-click=&quot;open(&#39;sm&#39;)&quot;&gt;Small modal&lt;/button&gt;&#10;    &lt;div ng-show=&quot;selected&quot;&gt;Selection from a modal: {{ selected }}&lt;/div&gt;&#10;&lt;/div&gt;</code>
+      </pre>
+    </tab>
+    <tab>
+      <tab-heading>javascript</tab-heading>
+      <pre>
+        <code><br>angular.module('ui.bootstrap.demo').controller('ModalDemoCtrl', function ($scope, $modal, $log) {
+
+  $scope.items = ['item1', 'item2', 'item3'];
+
+  $scope.open = function (size) {
+
+    var modalInstance = $modal.open({
+      templateUrl: 'myModalContent.html',
+      controller: 'ModalInstanceCtrl',
+      size: size,
+      resolve: {
+        items: function () {
+          return $scope.items;
+        }
+      }
+    });
+
+    modalInstance.result.then(function (selectedItem) {
+      $scope.selected = selectedItem;
+    }, function () {
+      $log.info('Modal dismissed at: ' + new Date());
+    });
+  };
+});
+
+// Please note that $modalInstance represents a modal window (instance) dependency.
+// It is not the same as the $modal service used above.
+
+angular.module('ui.bootstrap.demo').controller('ModalInstanceCtrl', function ($scope, $modalInstance, items) {
+
+  $scope.items = items;
+  $scope.selected = {
+    item: $scope.items[0]
+  };
+
+  $scope.ok = function () {
+    $modalInstance.close($scope.selected.item);
+  };
+
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
+});
+</code>
+      </pre>
+    </tab>
+    <tab>
+      <tab-heading>css</tab-heading>
+      <pre>
+        <code><br>no css</code>
+      </pre>
+    </tab>
+  </tabset>
+</div>
