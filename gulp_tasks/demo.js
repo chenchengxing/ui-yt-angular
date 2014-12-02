@@ -34,7 +34,7 @@ gulp.task('demoJsMerge', function () {
 /**
   read name from docs/oneWordDescription and generate CONSTANTS
 */
-gulp.task('demoOneWordDescription', ['demoOneWordDescriptionClean'], function () {
+gulp.task('demoOneWordDescription', function () {
   var components = fs.readdirSync('src');
   var componentConstant = [];
   _.forEach(components, function (component) {
