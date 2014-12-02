@@ -19,8 +19,9 @@ module.exports = function(config) {
       'misc/test-lib/angular.js',
       'misc/test-lib/angular-mocks.js',
       'misc/test-lib/sinon.js',
-      'src/**/*.js',
-      'src/**/*.spec.js'
+      'src/*/*.js',
+      'src/*/template/*.js',
+      'src/*/test/*.spec.js'
     ],
 
 

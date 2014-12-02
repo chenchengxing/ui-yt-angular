@@ -1,42 +1,33 @@
 var capital = function (input) {
       return input.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
     }
-angular.module('ui.bootstrap.demo', []);
-angular.module('app', ['ui.bootstrap', 'ui.router', 'ui.bootstrap.demo', 'ui.yt'])
+angular.module('ui.yt.demo', []);
+angular.module('app', ['ui.router', 'ui.yt.demo', 'ui.yt', 'ui.bootstrap'])
   .constant('COMPONENTS', [
-    {
-      name: 'accordion',
-      desc: [
-        'The **accordion directive** builds on top of the collapse directive to provide a list of items, with collapsible bodies that are collapsed or expanded by clicking on the item\'s header.',
-        'We can control whether expanding an item will cause the other items to close, using the `close-others` attribute on accordion.',
-        'The body of each accordion group is transcluded in to the body of the collapsible element.'
-      ]
-    },
     {
       name: 'alert'
     },
     {
-      name: 'buttons'
+      name: 'busySpin'
+    },
+    {
+      name: 'checklist'
     },{
-      name: 'collapse'
+      name: 'confirm'
     },{
-      name: 'datepicker'
+      name: 'dropdownlist'
     },{
-      name: 'dropdown'
+      name: 'focusOnce'
     },{
-      name: 'modal'
+      name: 'msie'
     },{
-      name: 'pagination'
+      name: 'placeholder'
     },{
-      name: 'popover'
+      name: 'popoverConfirm'
     },{
-      name: 'progressbar'
+      name: 'position'
     },{
-      name: 'rating'
-    },{
-      name: 'tabs'
-    },{
-      name: 'timepicker'
+      name: 'toaster'
     }
   ])
   .config(function($stateProvider, $urlRouterProvider) {
@@ -65,7 +56,7 @@ angular.module('app', ['ui.bootstrap', 'ui.router', 'ui.bootstrap.demo', 'ui.yt'
       views: {
         'body': {
           templateUrl: function($stateParams) {
-            return 'demo/app/components/' + $stateParams.id + '/docs/all.tpl.html';
+            return 'demo/app/components/' + $stateParams.id + '/docs/demo.tpl.html';
           }
         },
         'hint@': {
@@ -74,7 +65,9 @@ angular.module('app', ['ui.bootstrap', 'ui.router', 'ui.bootstrap.demo', 'ui.yt'
           }
         },
         'readme@': {
-          templateUrl: 'demo/app/home/readme.tpl.html'
+          templateUrl: function($stateParams) {
+            return 'demo/app/components/' + $stateParams.id + '/docs/readme.tpl.html';
+          }
         }
       }
     });
@@ -118,6 +111,7 @@ angular.module('app', ['ui.bootstrap', 'ui.router', 'ui.bootstrap.demo', 'ui.yt'
       y: 'm0,0 l2,2 l1,-1 v-1 v1 l-3,3',
       z: 'm0,0 h3 l-3,3 v1 h3',
       '-': 'm0,2 h2',
+      '$': '',
       '': ''
     };
     return {

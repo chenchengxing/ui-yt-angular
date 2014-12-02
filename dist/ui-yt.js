@@ -21,13 +21,14 @@ angular.module('ui.yt.alert', [])
   .factory('$alert', ['$document', '$rootScope', '$compile', '$q', function($document, $rootScope, $compile, $q) {
     var mask = angular.element('<div class="modal-backdrop fade in" />');
     mask.css({
-      'z-index': 1000
+      'z-index': 1035
     });
     var alertCount = 0;
     var defaultOptions = {
       title: 'Alert',
       okText: 'OK'
     };
+    //ccx
     var alertDialog;
     var scope;
     var defer;
@@ -391,6 +392,27 @@ angular.module('ui.yt.dropdownlist', [])
      // }
     };
   }]);
+angular.module('ui.yt.focusOnce', [])
+  .directive('focusOnce', [
+    '$timeout',
+    '$parse',
+    function($timeout, $parse) {
+      return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+          var model = $parse(attrs.focusOnce);
+          var unwatch = scope.$watch(model, function(value) {
+            if (value === true) {
+              $timeout(function() {
+                element[0].focus();
+                unwatch();
+              });
+            }
+          });
+        }
+      };
+    }
+  ]);
 angular.module('ui.yt.msie', [])
   .constant('MSIE', (function() {
     var msie = ~~((/msie (\d+)/.exec(navigator.userAgent.toLowerCase()) || [])[1]);
@@ -447,6 +469,127 @@ angular.module('ui.yt.placeholder', [])
             return val;
           });
         }
+      }
+    };
+  });
+angular.module('ui.yt.popoverConfirm', ['ui.yt.position'])
+  .directive('popoverConfirm', ['$compile', '$document', '$timeout', '$position', '$parse', function($compile, $document, $timeout, $position, $parse) {
+    return {
+      scope: {
+        options: '=popoverConfirm',
+        confirm: '&',
+        cancel: '&'
+      },
+      link: function(scope, element, attrs) {
+
+        var $popoverScope = scope.$new();
+        $popoverScope.isOpened = false; // isOpened maintains status
+        $popoverScope.position = {
+          top: 0,
+          left: 0
+        };
+        var defaultOptions = {
+          confirmText: 'Confirm',
+          cancelText: 'Cancel',
+          confirmBtnClass: 'btn-primary'
+        };
+        var ifDocumentClickedBind = false;
+        var ifElementClickBind = false;
+        var $popover;
+
+        var generatePopoverDom = function() {
+          var popoverElement = angular.element('<popover-confirm-wrapper />');
+          $popover = $compile(popoverElement)($popoverScope);
+          $document.find('body').append($popover);
+        };
+
+        var updateContent = function() {
+          angular.extend($popoverScope, defaultOptions, scope.options);
+        };
+
+        //TODO adjust position, when different `placement`
+        var updatePosition = function() {
+          $popoverScope.position = $position.offset(element);
+          $popoverScope.position.top = $popoverScope.position.top - $popover.prop('offsetHeight');
+          $popoverScope.position.left = $popoverScope.position.left - ($popover.prop('offsetWidth') - $position.position(element).width) / 2;
+        };
+
+        //when document clicked
+        var documentClicked = function(event) {
+          if ($popoverScope.isOpened && event.target !== element[0]) {
+            $popoverScope.isOpened = false;
+            element.removeAttr('disabled');
+            if (!$popoverScope.$$phase) {
+              $popoverScope.$apply();
+            }
+            element.removeAttr('disabled');
+          }
+        };
+
+        //when clicked
+        var elementClicked = function(e) {
+          if (!$popover) {
+            generatePopoverDom();
+          }
+          e.preventDefault();
+          $popoverScope.$apply(function() {
+            $popoverScope.isOpened = true;
+          });
+        };
+
+        $popoverScope.$watch('isOpened', function(value) {
+          if (value) {
+            updateContent();
+            $timeout(function() {
+              updatePosition();
+            });
+            $document.bind('click', documentClicked);
+            if (ifElementClickBind) {
+              element.unbind('click', elementClicked);
+            }
+            ifDocumentClickedBind = true;
+          } else {
+            if (ifDocumentClickedBind) {
+              $document.unbind('click', documentClicked);
+            }
+            element.bind('click', elementClicked);
+            ifElementClickBind = true;
+          }
+        });
+
+        /*confirm and cancel handler*/
+        //TODO retrieve a promise from outer `confirm`
+        $popoverScope.confirm = function () {
+          // $timeout(function () {
+            $popoverScope.isOpened = false;
+            scope.confirm();
+            element.removeAttr("disabled");
+          // });
+        };
+        $popoverScope.cancel = function () {
+          $popoverScope.isOpened = false;
+          scope.cancel();
+          element.removeAttr("disabled");
+        };
+
+        /* destroy pop when ele destroyed*/
+        scope.$on('$destroy', function() {
+          $popover.remove();
+          $popoverScope.$destroy();
+        });
+      }
+    };
+  }])
+  .directive('popoverConfirmWrapper', function() {
+    return {
+      restrict: 'EA',
+      replace: true,
+      templateUrl: 'popoverConfirm/template/wrapper.html',
+      link: function(scope, element, attrs) {
+        element.bind('click', function(event) {
+          event.preventDefault();
+          event.stopPropagation();
+        });
       }
     };
   });
@@ -604,127 +747,6 @@ angular.module('ui.yt.position', [])
     };
   }]);
 
-angular.module('ui.yt.popoverConfirm', ['ui.yt.position'])
-  .directive('popoverConfirm', ['$compile', '$document', '$timeout', '$position', '$parse', function($compile, $document, $timeout, $position, $parse) {
-    return {
-      scope: {
-        options: '=popoverConfirm',
-        confirm: '&',
-        cancel: '&'
-      },
-      link: function(scope, element, attrs) {
-
-        var $popoverScope = scope.$new();
-        $popoverScope.isOpened = false; // isOpened maintains status
-        $popoverScope.position = {
-          top: 0,
-          left: 0
-        };
-        var defaultOptions = {
-          confirmText: 'Confirm',
-          cancelText: 'Cancel',
-          confirmBtnClass: 'btn-primary'
-        };
-        var ifDocumentClickedBind = false;
-        var ifElementClickBind = false;
-        var $popover;
-
-        var generatePopoverDom = function() {
-          var popoverElement = angular.element('<popover-confirm-wrapper />');
-          $popover = $compile(popoverElement)($popoverScope);
-          $document.find('body').append($popover);
-        };
-
-        var updateContent = function() {
-          angular.extend($popoverScope, defaultOptions, scope.options);
-        };
-
-        //TODO adjust position, when different `placement`
-        var updatePosition = function() {
-          $popoverScope.position = $position.offset(element);
-          $popoverScope.position.top = $popoverScope.position.top - $popover.prop('offsetHeight');
-          $popoverScope.position.left = $popoverScope.position.left - ($popover.prop('offsetWidth') - $position.position(element).width) / 2;
-        };
-
-        //when document clicked
-        var documentClicked = function(event) {
-          if ($popoverScope.isOpened && event.target !== element[0]) {
-            $popoverScope.isOpened = false;
-            element.removeAttr('disabled');
-            if (!$popoverScope.$$phase) {
-              $popoverScope.$apply();
-            }
-            element.removeAttr('disabled');
-          }
-        };
-
-        //when clicked
-        var elementClicked = function(e) {
-          if (!$popover) {
-            generatePopoverDom();
-          }
-          e.preventDefault();
-          $popoverScope.$apply(function() {
-            $popoverScope.isOpened = true;
-          });
-        };
-
-        $popoverScope.$watch('isOpened', function(value) {
-          if (value) {
-            updateContent();
-            $timeout(function() {
-              updatePosition();
-            });
-            $document.bind('click', documentClicked);
-            if (ifElementClickBind) {
-              element.unbind('click', elementClicked);
-            }
-            ifDocumentClickedBind = true;
-          } else {
-            if (ifDocumentClickedBind) {
-              $document.unbind('click', documentClicked);
-            }
-            element.bind('click', elementClicked);
-            ifElementClickBind = true;
-          }
-        });
-
-        /*confirm and cancel handler*/
-        //TODO retrieve a promise from outer `confirm`
-        $popoverScope.confirm = function () {
-          // $timeout(function () {
-            $popoverScope.isOpened = false;
-            scope.confirm();
-            element.removeAttr("disabled");
-          // });
-        };
-        $popoverScope.cancel = function () {
-          $popoverScope.isOpened = false;
-          scope.cancel();
-          element.removeAttr("disabled");
-        };
-
-        /* destroy pop when ele destroyed*/
-        scope.$on('$destroy', function() {
-          $popover.remove();
-          $popoverScope.$destroy();
-        });
-      }
-    };
-  }])
-  .directive('popoverConfirmWrapper', function() {
-    return {
-      restrict: 'EA',
-      replace: true,
-      templateUrl: 'popoverConfirm/template/wrapper.html',
-      link: function(scope, element, attrs) {
-        element.bind('click', function(event) {
-          event.preventDefault();
-          event.stopPropagation();
-        });
-      }
-    };
-  });
 angular.module('ui.yt.toaster', [])
   .factory('$toaster', ['$compile', '$document', '$rootScope', '$timeout', function ($compile, $document, $rootScope, $timeout) {
     var id = 0;
@@ -783,27 +805,6 @@ angular.module('ui.yt.toaster', [])
       '</div>'
     };
   });
-angular.module('ui.yt.focusOnce', [])
-  .directive('focusOnce', [
-    '$timeout',
-    '$parse',
-    function($timeout, $parse) {
-      return {
-        restrict: 'A',
-        link: function(scope, element, attrs) {
-          var model = $parse(attrs.focusOnce);
-          var unwatch = scope.$watch(model, function(value) {
-            if (value === true) {
-              $timeout(function() {
-                element[0].focus();
-                unwatch();
-              });
-            }
-          });
-        }
-      };
-    }
-  ]);
 (function(module) {
 try { module = angular.module("alert/template/wrapper.html"); }
 catch(err) { module = angular.module("alert/template/wrapper.html", []); }
@@ -829,6 +830,25 @@ module.run(["$templateCache", function($templateCache) {
 })();
 
 (function(module) {
+try { module = angular.module("dropdownlist/template/dropdown.html"); }
+catch(err) { module = angular.module("dropdownlist/template/dropdown.html", []); }
+module.run(["$templateCache", function($templateCache) {
+  $templateCache.put("dropdownlist/template/dropdown.html",
+    "\n" +
+    "\n" +
+    "<div class=\"dropdown btn-group w_100p\">\n" +
+    "  <button class=\"dropdown-toggle btn btn-default btn-full-width\" ng-disabled=\"dropdownDisabled\">\n" +
+    "    <span class=\"col-md-11 dropdown-text\">{{curText}}</span>\n" +
+    "    <span class=\"caret\"></span>\n" +
+    "  </button>\n" +
+    "  <ul class=\"dropdown-menu\">\n" +
+    "  </ul>\n" +
+    "</div>\n" +
+    "");
+}]);
+})();
+
+(function(module) {
 try { module = angular.module("confirm/template/wrapper.html"); }
 catch(err) { module = angular.module("confirm/template/wrapper.html", []); }
 module.run(["$templateCache", function($templateCache) {
@@ -850,25 +870,6 @@ module.run(["$templateCache", function($templateCache) {
     "    </div>\n" +
     "  </div>\n" +
     "</div>");
-}]);
-})();
-
-(function(module) {
-try { module = angular.module("dropdownlist/template/dropdown.html"); }
-catch(err) { module = angular.module("dropdownlist/template/dropdown.html", []); }
-module.run(["$templateCache", function($templateCache) {
-  $templateCache.put("dropdownlist/template/dropdown.html",
-    "\n" +
-    "\n" +
-    "<div class=\"dropdown btn-group w_100p\">\n" +
-    "  <button class=\"dropdown-toggle btn btn-default btn-full-width\" ng-disabled=\"dropdownDisabled\">\n" +
-    "    <span class=\"col-md-11 dropdown-text\">{{curText}}</span>\n" +
-    "    <span class=\"caret\"></span>\n" +
-    "  </button>\n" +
-    "  <ul class=\"dropdown-menu\">\n" +
-    "  </ul>\n" +
-    "</div>\n" +
-    "");
 }]);
 })();
 

@@ -6,7 +6,7 @@ var rename = require('gulp-rename');
 
 /*generate templateCache from tpl*/
 gulp.task('html2js', function() {
-  return gulp.src('src/**/*.html')
+  return gulp.src('src/*/template/*.html')
     .pipe(foreach(function(stream, file) {
       return stream
         .pipe(html2js({

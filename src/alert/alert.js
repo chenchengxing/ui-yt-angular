@@ -2,13 +2,14 @@ angular.module('ui.yt.alert', [])
   .factory('$alert', ['$document', '$rootScope', '$compile', '$q', function($document, $rootScope, $compile, $q) {
     var mask = angular.element('<div class="modal-backdrop fade in" />');
     mask.css({
-      'z-index': 1000
+      'z-index': 1035
     });
     var alertCount = 0;
     var defaultOptions = {
       title: 'Alert',
       okText: 'OK'
     };
+    //ccx
     var alertDialog;
     var scope;
     var defer;
