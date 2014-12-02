@@ -33,25 +33,29 @@ angular.module('ui.yt.dropdownlist', [])
         });
         var model = $parse(attrs.ngModel);
         //watch model change, update cur text
-        scope.$parent.$watch(attrs.ngModel, function (newValue) {
+        scope.$parent.$watch(attrs.ngModel, function (newValue, oldValue) {
+          if (newValue === oldValue) {
+            return;
+          }
           if (newValue) {
             var index = getItemIndex(newValue, $parse(repeatArray)(scope.$parent), asString);
             if (index !== -1) {
               // trick to delay dom query
-              // $timeout(function () {
-              //   var aForIndex = element.find('li').eq(index).find('a')[0];
-              //   scope.curText = aForIndex.textContent || aForIndex.innerText;
-              // });
+              $timeout(function () {
+                var aForIndex = element.find('li').eq(index).find('a')[0];
+                scope.curText = aForIndex.textContent || aForIndex.innerText;
+              });
               // finally change to get value from dom
-              if (!asString) {
-                scope.curText = $parse(repeatArray)(scope.$parent)[index];
-              } else {
-                scope.curText = getPathValue($parse(repeatArray)(scope.$parent)[index], asString);
-              }
+              // if (!asString) {
+              //   scope.curText = $parse(repeatArray)(scope.$parent)[index];
+              // } else {
+              //   scope.curText = getPathValue($parse(repeatArray)(scope.$parent)[index], asString);
+              // }
             } else {
               scope.curText = '';
             }
           }
+
         });
         var getItemIndex = function (value, array, keyPath) {
           if (!value || !array || !array.length) {
@@ -89,6 +93,9 @@ angular.module('ui.yt.dropdownlist', [])
             var value = $parse(asString)(angular.element($event.target).scope());
             model.assign(scope.$parent, value);
           }
+          if (attrs.ngChange) {
+            scope.$parent.$eval(attrs.ngChange);
+          }
           //http://stackoverflow.com/questions/18326689/javascript-textcontent-is-not-working-in-ie8-or-ie7
           // scope.curText = $event.target.textContent || $event.target.innerText;
         };
@@ -108,6 +115,8 @@ angular.module('ui.yt.dropdownlist', [])
       scope: true,
       replace: true,
       transclude: true,
+      terminal: true,
+      priority: 1000,
       templateUrl: 'dropdownlist/template/dropdown.html',
       compile: compile
      //  ,

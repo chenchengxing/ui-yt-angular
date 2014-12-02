@@ -38,18 +38,23 @@
     <pre>{{engineer.currentActivity | json}}</pre>
     <a class="btn btn-primary" ng-click="pop()">toast</a>
     <!-- <div dropdownlist="list" model="cur" value="id">{{item.text}}</div> -->
-    <div dropdownlist>{{item.text}}</div>
-    <div dropdownlist="item in list" ng-model="c">{{item.text}}</div>
-    <div dropdownlist="item.id as item in list" ng-model="cur">{{item.text}}</div>
+    <!-- <div dropdownlist>{{item.text}}</div>
+    <div dropdownlist="item in list" ng-model="c">{{item.text}}</div> -->
+    <div dropdownlist="item.id as item in list" ng-model="cur" ng-change="changeeee()">{{item.text}}</div>
     <pre>{{cur | json}}</pre>
     <select ng-model="myColor" ng-options="color.name for color in colors">
       <option value="">-- choose color --</option>
     </select>
   </div>
   <script src="angular.js"></script>
+  <script src="ui-bootstrap.js"></script>
   <script src="ui-yt.js"></script>
   <script>
-  angular.module('app', ['ui.yt']).controller('Ctrl', function ($scope, $timeout, $busySpin, $toaster, $alert, $confirm) {
+  angular.module('app', ['ui.bootstrap' ,'ui.yt']).controller('Ctrl', function ($scope, $timeout, $busySpin, $toaster, $alert, $confirm, MSIE) {
+    console.log(MSIE);
+    $scope.changeeee = function () {
+      console.log(1)
+    }
     $scope.colors = [
       {name:'black', shade:'dark'},
       {name:'white', shade:'light'},

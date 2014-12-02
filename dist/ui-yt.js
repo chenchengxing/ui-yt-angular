@@ -8,7 +8,8 @@ angular.module('ui.yt', [
   'ui.yt.toaster',
   'ui.yt.alert',
   'ui.yt.confirm',
-  'ui.yt.dropdownlist'
+  'ui.yt.dropdownlist',
+  'ui.yt.msie'
 ]);
 angular.module('ui.yt.template', [
   'popoverConfirm/template/wrapper.html',
@@ -20,13 +21,14 @@ angular.module('ui.yt.alert', [])
   .factory('$alert', ['$document', '$rootScope', '$compile', '$q', function($document, $rootScope, $compile, $q) {
     var mask = angular.element('<div class="modal-backdrop fade in" />');
     mask.css({
-      'z-index': 1000
+      'z-index': 1035
     });
     var alertCount = 0;
     var defaultOptions = {
       title: 'Alert',
       okText: 'OK'
     };
+    //ccx
     var alertDialog;
     var scope;
     var defer;
@@ -63,7 +65,7 @@ angular.module('ui.yt.alert', [])
     return {
       restrict: 'E',
       replace: true,
-      templateUrl: 'alert/template/wrapper.html',
+      templateUrl: 'alert/template/wrapper.html'
     };
   });
 angular.module('ui.yt.busySpin', [])
@@ -252,7 +254,7 @@ angular.module('ui.yt.confirm', [])
     return {
       restrict: 'E',
       replace: true,
-      templateUrl: 'confirm/template/wrapper.html',
+      templateUrl: 'confirm/template/wrapper.html'
     };
   });
 angular.module('ui.yt.dropdownlist', [])
@@ -290,25 +292,29 @@ angular.module('ui.yt.dropdownlist', [])
         });
         var model = $parse(attrs.ngModel);
         //watch model change, update cur text
-        scope.$parent.$watch(attrs.ngModel, function (newValue) {
+        scope.$parent.$watch(attrs.ngModel, function (newValue, oldValue) {
+          if (newValue === oldValue) {
+            return;
+          }
           if (newValue) {
             var index = getItemIndex(newValue, $parse(repeatArray)(scope.$parent), asString);
             if (index !== -1) {
               // trick to delay dom query
-              // $timeout(function () {
-              //   var aForIndex = element.find('li').eq(index).find('a')[0];
-              //   scope.curText = aForIndex.textContent || aForIndex.innerText;
-              // });
+              $timeout(function () {
+                var aForIndex = element.find('li').eq(index).find('a')[0];
+                scope.curText = aForIndex.textContent || aForIndex.innerText;
+              });
               // finally change to get value from dom
-              if (!asString) {
-                scope.curText = $parse(repeatArray)(scope.$parent)[index];
-              } else {
-                scope.curText = getPathValue($parse(repeatArray)(scope.$parent)[index], asString);
-              }
+              // if (!asString) {
+              //   scope.curText = $parse(repeatArray)(scope.$parent)[index];
+              // } else {
+              //   scope.curText = getPathValue($parse(repeatArray)(scope.$parent)[index], asString);
+              // }
             } else {
               scope.curText = '';
             }
           }
+
         });
         var getItemIndex = function (value, array, keyPath) {
           if (!value || !array || !array.length) {
@@ -346,6 +352,9 @@ angular.module('ui.yt.dropdownlist', [])
             var value = $parse(asString)(angular.element($event.target).scope());
             model.assign(scope.$parent, value);
           }
+          if (attrs.ngChange) {
+            scope.$parent.$eval(attrs.ngChange);
+          }
           //http://stackoverflow.com/questions/18326689/javascript-textcontent-is-not-working-in-ie8-or-ie7
           // scope.curText = $event.target.textContent || $event.target.innerText;
         };
@@ -365,6 +374,8 @@ angular.module('ui.yt.dropdownlist', [])
       scope: true,
       replace: true,
       transclude: true,
+      terminal: true,
+      priority: 1000,
       templateUrl: 'dropdownlist/template/dropdown.html',
       compile: compile
      //  ,
@@ -402,6 +413,14 @@ angular.module('ui.yt.focusOnce', [])
       };
     }
   ]);
+angular.module('ui.yt.msie', [])
+  .constant('MSIE', (function() {
+    var msie = ~~((/msie (\d+)/.exec(navigator.userAgent.toLowerCase()) || [])[1]);
+    if (isNaN(msie)) {
+      msie = ~~((/trident\/.*; rv:(\d+)/.exec(navigator.userAgent.toLowerCase()) || [])[1]);
+    }
+    return msie;
+  })());
 angular.module('ui.yt.placeholder', [])
   .directive('placeholder', function() {
     return {
@@ -811,6 +830,25 @@ module.run(["$templateCache", function($templateCache) {
 })();
 
 (function(module) {
+try { module = angular.module("dropdownlist/template/dropdown.html"); }
+catch(err) { module = angular.module("dropdownlist/template/dropdown.html", []); }
+module.run(["$templateCache", function($templateCache) {
+  $templateCache.put("dropdownlist/template/dropdown.html",
+    "\n" +
+    "\n" +
+    "<div class=\"dropdown btn-group w_100p\">\n" +
+    "  <button class=\"dropdown-toggle btn btn-default btn-full-width\" ng-disabled=\"dropdownDisabled\">\n" +
+    "    <span class=\"col-md-11 dropdown-text\">{{curText}}</span>\n" +
+    "    <span class=\"caret\"></span>\n" +
+    "  </button>\n" +
+    "  <ul class=\"dropdown-menu\">\n" +
+    "  </ul>\n" +
+    "</div>\n" +
+    "");
+}]);
+})();
+
+(function(module) {
 try { module = angular.module("confirm/template/wrapper.html"); }
 catch(err) { module = angular.module("confirm/template/wrapper.html", []); }
 module.run(["$templateCache", function($templateCache) {
@@ -832,25 +870,6 @@ module.run(["$templateCache", function($templateCache) {
     "    </div>\n" +
     "  </div>\n" +
     "</div>");
-}]);
-})();
-
-(function(module) {
-try { module = angular.module("dropdownlist/template/dropdown.html"); }
-catch(err) { module = angular.module("dropdownlist/template/dropdown.html", []); }
-module.run(["$templateCache", function($templateCache) {
-  $templateCache.put("dropdownlist/template/dropdown.html",
-    "\n" +
-    "\n" +
-    "<div class=\"dropdown btn-group w_100p\">\n" +
-    "  <button class=\"dropdown-toggle btn btn-default btn-full-width\" ng-disabled=\"dropdownDisabled\">\n" +
-    "    <span class=\"col-md-11 dropdown-text\">{{curText}}</span>\n" +
-    "    <span class=\"caret\"></span>\n" +
-    "  </button>\n" +
-    "  <ul class=\"dropdown-menu\">\n" +
-    "  </ul>\n" +
-    "</div>\n" +
-    "");
 }]);
 })();
 

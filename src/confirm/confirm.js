@@ -55,6 +55,6 @@ angular.module('ui.yt.confirm', [])
     return {
       restrict: 'E',
       replace: true,
-      templateUrl: 'confirm/template/wrapper.html',
+      templateUrl: 'confirm/template/wrapper.html'
     };
   });
