@@ -16,9 +16,10 @@ var fs = require('fs');
 var htmlencode = require('htmlencode').htmlEncode;
 var concat = require('gulp-concat');
 var markdown = require('gulp-markdown');
+var md = require("node-markdown").Markdown;
 
 gulp.task('demoWatch', function () {
-  return gulp.watch('src/**/*.{js,css,html}', ['demoJsMerge', 'demo', 'demoReadme'])
+  return gulp.watch('src/**/*.{js,css,html}', ['demoJsMerge', 'demo'])
 });
 
 gulp.task('demoJsMerge', function () {
@@ -27,27 +28,27 @@ gulp.task('demoJsMerge', function () {
     .pipe(gulp.dest('demo'))
 });
 
-gulp.task('demoReadme', folders(componentsPath, function(component){
-  var readmePath = path.join('src', component, 'docs/readme.md');
-  if (!fs.existsSync(readmePath)) {
-    if (!fs.existsSync(path.dirname(readmePath))){
-      fs.mkdirSync(path.dirname(readmePath));
-    }
-    fs.openSync(readmePath, 'w');
-  }
-  return gulp.src(readmePath)
-    .pipe(markdown())
-    .pipe(rename('readme.tpl.html'))
-    .pipe(gulp.dest(path.join('demo/app/components', component, 'docs')));
-}));
+// gulp.task('demoReadme', folders(componentsPath, function(component){
+//   var readmePath = path.join('src', component, 'docs/readme.md');
+//   if (!fs.existsSync(readmePath)) {
+//     if (!fs.existsSync(path.dirname(readmePath))){
+//       fs.mkdirSync(path.dirname(readmePath));
+//     }
+//     fs.openSync(readmePath, 'w');
+//   }
+//   return gulp.src(readmePath)
+//     .pipe(markdown())
+//     .pipe(rename('readme.tpl.html'))
+//     .pipe(gulp.dest(path.join('demo/app/components', component, 'docs')));
+// }));
 
 gulp.task('demo', folders(componentsPath, function(component){
   //This will loop over all folders inside pathToFolder main, secondary
   //Return stream so gulp-folders can concatenate all of them
   //so you still can use safely use gulp multitasking
   var componentDocsPath = path.join(componentsPath, component, 'docs');
-  var apiHtml = readSync(path.join(componentDocsPath, 'api.html'));
-
+  var apiMd = readSync(path.join(componentDocsPath, 'readme.md'));
+  var apiHtml = md(apiMd);
   var demoHtml = readSync(path.join(componentDocsPath, 'demo.html'));
   var codeHtml = demoHtml && htmlencode(demoHtml);
   var jsHtml = readSync(path.join(componentDocsPath, 'demo.js'));
