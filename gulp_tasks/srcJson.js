@@ -1,7 +1,5 @@
 var gulp = require('gulp');
 var path = require('path');
-var folders = require('gulp-folders');
-var foreach = require('gulp-foreach');
 var fs = require('fs');
 var file = require('gulp-file');
 var minimatch = require("minimatch")
@@ -16,16 +14,7 @@ gulp.task('srcJson', function () {
 
     var componentPath = 'src/' + component;
     var tplPath = componentPath + '/template';
-    // var componentJs = readContentsSync(componentPath + '/');
 
-
-    // var allJs = componentJs.concat(tplJs)
-    //             .filter(minimatch.filter("*.js", {matchBase: true}));
-
-    // var contents = '';
-    // for (var j = 0, jlen = allJs.length; j < jlen; j++) {
-    //   contents = contents + readContentsSync(allJs[j]);
-    // }
     var componentName = 'ui.yt.' + component;
     allJs[componentName] = readContentsSync(componentPath + '/' + component + '.js');
 

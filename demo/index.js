@@ -5,10 +5,12 @@ angular.module('ui.yt.demo', []);
 angular.module('app', ['ui.router', 'ui.yt.demo', 'ui.yt', 'ui.bootstrap', 'modalBuild'])
   .constant('COMPONENTS', [
     {
-      name: 'alert'
+      name: 'alert',
+      desc: '模态警告框'
     },
     {
-      name: 'busySpin'
+      name: 'busySpin',
+      desc: '菊花转转转~'
     },
     {
       name: 'checklist'
@@ -38,7 +40,7 @@ angular.module('app', ['ui.router', 'ui.yt.demo', 'ui.yt', 'ui.bootstrap', 'moda
         'body': {
           templateUrl: 'demo/app/home/home.tpl.html',
           controller: function($scope, COMPONENTS) {
-            $scope.list = COMPONENTS;
+            $scope.components = COMPONENTS;
           }
         },
         'hint@': {
@@ -48,6 +50,14 @@ angular.module('app', ['ui.router', 'ui.yt.demo', 'ui.yt', 'ui.bootstrap', 'moda
         },
         'docHeader@': {
           templateUrl: 'demo/app/home/docHeader.tpl.html'
+          // controller: function ($scope, COMPONENTS) {
+          //   $scope.components = COMPONENTS;
+          // }
+        },
+        'readme@': {
+          templateUrl: function($stateParams) {
+            return 'demo/app/home/readme.tpl.html';
+          }
         }
       },
     });
@@ -63,38 +73,30 @@ angular.module('app', ['ui.router', 'ui.yt.demo', 'ui.yt', 'ui.bootstrap', 'moda
           template: function($stateParams) {
             return '<a svg-font="' + $stateParams.id + '"></a>';
           }
-        },
-        'readme@': {
-          templateUrl: function($stateParams) {
-            return 'demo/app/components/' + $stateParams.id + '/docs/readme.tpl.html';
-          }
         }
       }
     });
   })
-  .controller('Ctrl', function($scope, $http, $modal) {
-    $scope.home = 'home';
-    $scope.hmoe = 'hmoe';
-    $scope.ohem = 'ohem';
-    $scope.tabs = [
-      { title:'html', content:'Dynamic content 1' },
-      { title:'javascript', content:'Dynamic content 2', disabled: true }
-    ];
+  .controller('Ctrl', function($scope, $http, $modal, $window, COMPONENTS) {
 
-    $scope.download = function () {
-
+    $scope.toggleSelected = function (item) {
+      item.selected = !item.selected;
     };
 
-    $scope.openCreate = function () {
-      var modalInstance = $modal.open({
-        templateUrl: 'modalBuild.html',
-        controller: CtrlModalBuild,
-        size: 'lg',
+    $scope.components = COMPONENTS;
+
+    $scope.download = function () {
+      $window.location.assign('dist/ui-yt.js');
+    };
+
+    $scope.createBuild = function () {
+      var selectedComponents = COMPONENTS.filter(function (ele, index, array) {
+        return ele.selected;
       });
 
-      modalInstance.result.then(function (selectedComponents) {
+      if (selectedComponents.length) {
         createBuild(selectedComponents);
-      });
+      }
     };
 
     function createBuild (components) {
@@ -121,21 +123,6 @@ angular.module('app', ['ui.router', 'ui.yt.demo', 'ui.yt', 'ui.bootstrap', 'moda
 
         downloadFile('ui-yt.js', content);
       });
-
-    }
-
-    function CtrlModalBuild($scope, $modalInstance, COMPONENTS) {
-      $scope.components = angular.copy(COMPONENTS);
-      $scope.download = function () {
-        var selectedComponents = $scope.components.filter(function (ele, index, array) {
-          return ele.selected;
-        });
-        $modalInstance.close(selectedComponents);
-      };
-
-      $scope.cancel = function () {
-        $modalInstance.dismiss('cancel');
-      }
     }
 
     function downloadFile(fileName, content){

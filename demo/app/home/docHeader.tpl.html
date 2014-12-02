@@ -1,4 +1,9 @@
 <div class="container">
   <button class="btn btn-primary btn-lg btn-outline-inverse" ng-click="download()">Download</button>
-  <button class="btn btn-primary btn-lg btn-outline-inverse" ng-click="openCreate()">Create a Build</button>
+  <div class="create-build" ng-if="(components | filter:{selected: true}).length">
+    <span class="badge pull-right">{{(components | filter:{selected: true}).length}}</span>
+    <button class="btn btn-primary btn-lg btn-outline-inverse" ng-click="createBuild()">
+      Create a Build
+    </button>
+  </div>
 </div>

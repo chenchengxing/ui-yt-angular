@@ -1,20 +1,19 @@
 <div class="container">
   <div class="row">
-    <div class="col-sm-9 clearfix">
-      <ul class="list-group">
-        <li class="list-group-item" ng-repeat="item in list">
-          <!-- <button class="pull-right btn btn-link" ng-click="addToDownloads()"><span class="glyphicon glyphicon-shopping-cart"></span></button> -->
-          <h4>
-            <a ui-sref="component({id: item.name})">{{item.name}}</a>
-          </h4>
-          <div class="pt_10 pl_20" >
-            <p ng-repeat="p in item.desc">{{p}}</p>
-          </div>
-        </li>
-      </ul>
-    </div>
-    <div class="col-sm-3">
-      这里写Change log
+    <div class="col-sm-3" ng-repeat="item in components">
+      <div class="thumbnail" ng-class="{'selected': item.selected}">
+        <!-- <img data-src="holder.js/300x300" alt="..."> -->
+        <div class="caption">
+          <h3>{{item.name}}</h3>
+          <p class="desc">{{item.desc}}</p>
+          <p class="component-btn">
+            <a href="#" class="btn btn-primary" ui-sref="component({id: item.name})" role="button">take a look</a>
+            <a class="btn btn-default" ng-click="toggleSelected(item)">
+              <span class="glyphicon" ng-class="{'glyphicon-trash' : item.selected, 'glyphicon-shopping-cart': !item.selected}"></span>
+            </a>
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 </div>

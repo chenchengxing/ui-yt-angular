@@ -9,6 +9,36 @@ a:hover path {
   /*stroke: #fff;*/
 }
 
+.main-body .thumbnail {
+  height: 200px;
+}
+.main-body .thumbnail.selected {
+  background: #f0ad4e;
+}
+.main-body .thumbnail.selected .caption h3,
+.main-body .thumbnail.selected .caption .desc {
+  color: #fff;
+}
+
+.main-body .thumbnail .desc{
+  height: 80px;
+  overflow: hidden;
+}
+
+.main-body .thumbnail .caption h3 {
+  margin-top: 0;
+}
+
+.main-body .thumbnail .component-btn {
+  position: absolute;
+  bottom: 20px;
+  right: 30px;
+  background-color: right;
+  display: none;
+}
+.main-body .thumbnail:hover .component-btn {
+  display: block;
+}
 /*header*/
 .docs-header {
   position: relative;
@@ -19,6 +49,14 @@ a:hover path {
   background-color: #f0ad4e;
   margin-bottom: 40px;
   font-size: 24px;
+}
+.create-build {
+  display: inline-block;
+}
+.create-build .badge {
+  background: #d9534f;
+  position: relative;
+  right: 20px;
 }
 
 .btn-outline-inverse {
