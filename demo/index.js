@@ -8,6 +8,9 @@ angular.module('app', ['ui.router', 'ui.yt.demo', 'ui.yt', 'ui.bootstrap', 'moda
       name: 'alert'
     },
     {
+      name: 'alert2'
+    },
+    {
       name: 'busySpin'
     },
     {

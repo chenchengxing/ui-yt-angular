@@ -1,0 +1,1 @@
+angular.module('ui.yt', ['ui.yt.alert','alert/template/wrapper.html','ui.yt.busySpin','ui.yt.checklist','ui.yt.confirm','confirm/template/wrapper.html','ui.yt.dropdownlist','dropdownlist/template/dropdown.html','ui.yt.focusOnce','ui.yt.msie','ui.yt.placeholder','ui.yt.popoverConfirm','popoverConfirm/template/wrapper.html','ui.yt.position','ui.yt.toaster']);
