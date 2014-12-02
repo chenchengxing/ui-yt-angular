@@ -3,12 +3,17 @@ var capital = function (input) {
     }
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 angular.module('ui.bootstrap.demo', []);
 angular.module('app', ['ui.bootstrap', 'ui.router', 'ui.bootstrap.demo', 'ui.yt', 'modalBuild'])
 =======
 angular.module('ui.yt.demo', []);
 angular.module('app', ['ui.router', 'ui.yt.demo', 'ui.yt', 'ui.bootstrap'])
 >>>>>>> FETCH_HEAD
+=======
+angular.module('ui.yt.demo', []);
+angular.module('app', ['ui.router', 'ui.yt.demo', 'ui.yt', 'ui.bootstrap'])
+>>>>>>> 8e25d866859f79ead576b4421b0c159b7d4f75b7
 =======
 angular.module('ui.yt.demo', []);
 angular.module('app', ['ui.router', 'ui.yt.demo', 'ui.yt', 'ui.bootstrap'])
