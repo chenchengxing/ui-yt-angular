@@ -2,7 +2,7 @@ var capital = function (input) {
       return input.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
     }
 angular.module('ui.bootstrap.demo', []);
-angular.module('app', ['ui.bootstrap', 'ui.router', 'ui.bootstrap.demo', 'ui.yt'])
+angular.module('app', ['ui.bootstrap', 'ui.router', 'ui.bootstrap.demo', 'ui.yt', 'modalBuild'])
   .constant('COMPONENTS', [
     {
       name: 'accordion',
@@ -78,9 +78,8 @@ angular.module('app', ['ui.bootstrap', 'ui.router', 'ui.bootstrap.demo', 'ui.yt'
         }
       }
     });
-
   })
-  .controller('Ctrl', function($scope) {
+  .controller('Ctrl', function($scope, $http, $modal) {
     $scope.home = 'home';
     $scope.hmoe = 'hmoe';
     $scope.ohem = 'ohem';
@@ -88,6 +87,73 @@ angular.module('app', ['ui.bootstrap', 'ui.router', 'ui.bootstrap.demo', 'ui.yt'
       { title:'html', content:'Dynamic content 1' },
       { title:'javascript', content:'Dynamic content 2', disabled: true }
     ];
+
+    $scope.download = function () {
+
+    };
+
+    $scope.openCreate = function () {
+      var modalInstance = $modal.open({
+        templateUrl: 'modalBuild.html',
+        controller: CtrlModalBuild,
+        size: 'lg',
+      });
+
+      modalInstance.result.then(function (selectedComponents) {
+        createBuild(selectedComponents);
+      });
+    };
+
+    function createBuild (components) {
+      console.log(components);
+
+      $http.get('dist/componentsSrc.json').success(function (data) {
+        var content = '';
+        var moduleNames = [];
+        for (var i = 0, iLen = components.length; i < iLen; i++) {
+          var component = data[components[i].name];
+          for (var moduleName in component) {
+            moduleNames.push(moduleName);
+            content = content + '\n' + component[moduleName];
+          }
+        }
+        console.log(moduleNames);
+        console.log(content);
+
+        var header = 'angular.module(\'ui.yt\', [\'';
+        var modules = moduleNames.join('\',\'');
+        header = header + modules + '\']);';
+
+        content = header + '\n\n' + content;
+
+        downloadFile('ui-yt.js', content);
+      });
+
+    }
+
+    function CtrlModalBuild($scope, $modalInstance, COMPONENTS) {
+      $scope.components = angular.copy(COMPONENTS);
+      $scope.download = function () {
+        var selectedComponents = $scope.components.filter(function (ele, index, array) {
+          return ele.selected;
+        });
+        $modalInstance.close(selectedComponents);
+      };
+
+      $scope.cancel = function () {
+        $modalInstance.dismiss('cancel');
+      }
+    }
+
+    function downloadFile(fileName, content){
+      var aLink = document.createElement('a');
+      var blob = new Blob([content]);
+      var evt = document.createEvent("HTMLEvents");
+      evt.initEvent("click", false, false);
+      aLink.download = fileName;
+      aLink.href = URL.createObjectURL(blob);
+      aLink.dispatchEvent(evt);
+    }
   })
   .directive('svgFont', function() {
     var pathMap = {
@@ -173,106 +239,21 @@ angular.module('app', ['ui.bootstrap', 'ui.router', 'ui.bootstrap.demo', 'ui.yt'
         tl.play();
       }
     }
-  })
-  // .directive('cloud', function($timeout) {
-  //   return {
-  //     link: function(scope, element, attrs) {
-  //       $timeout(function () {
-  //         generate([
-  //           // "ccx"
-  //         ])
-  //       }, 2000)
-  //       var fill = d3.scale.category20();
-  //       var layout = d3.layout.cloud().size([300, 300]);
-  //       var vis = d3.select(element[0]).append("svg")
-  //           .attr("width", 300)
-  //           .attr("height", 300);
-  //           vis = vis.append("g")
-  //           .attr("transform", "translate(150,150)");
-  //       generate([
-  //           "Hello", "world", "normally", "you", "want", "more", "words",
-  //           "than", "this"
-  //         ])
-  //       function generate (words) {
-  //         layout.stop()
-  //         .words(words.map(function(d) {
-  //           return {
-  //             text: d,
-  //             size: 10 + Math.random() * 90,
-  //             state: 'route' + d
-  //           };
-  //         }))
-  //         .padding(5)
-  //         .rotate(function() {
-  //           return ~~(Math.random() * 2) * 90;
-  //         })
-  //         .font("Impact")
-  //         .fontSize(function(d) {
-  //           return d.size;
-  //         })
-  //         .on("end", draw)
-  //         .start();
-  //       }
+  });
 
-
-//       function draw(words) {
-//           vis
-//           .selectAll("text")
-//           .data(words)
-//           .enter().append("text")
-//           .on('click', function (d) {
-//             console.log(d.state);
-//           })
-//           .style("font-size", function(d) {
-//             return d.size + "px";
-//           })
-//           .style("font-family", "Impact")
-//           .style("fill", function(d, i) {
-//             return fill(i);
-//           })
-//           .attr("text-anchor", "middle")
-//           .attr("transform", function(d) {
-//             return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
-//           })
-//           .text(function(d) {
-//             return d.text;
-//           });
-//       }
-//     }
-//   }
-// })
-
-
-// $('path').css({'stroke-dasharray': 0,
-// 'stroke-dashoffset': 0})
-
-// $.each($('path'), function(i, item) {
-//   var pathLength = item.getTotalLength();
-//   $(item).css({
-//     'stroke-dasharray': pathLength + ' ' + pathLength,
-//     'stroke-dashoffset': pathLength
-//   });
-// });
-
-// $.each($('path'), function(i, item) {
-//   TweenMax.to(item, 1, {
-//     'stroke-dashoffset': 0
-//   })
-// });
-
-// setTimeout(function () {
-//   // body...
-//   var offset = 0;
-//   $.each($('text'), function (i, item) {
-//     // $(item).attr({
-//     //   transform: 'translate(' + offset + ', 0)'
-//     // });
-//     TweenMax.to(item, 1, {
-//       attr: {
-//         // transform: 'translate(' + offset + ', 0)'
-//         x: offset
-//       }
-//     });
-//     offset += 20;
-//   })
-// }, 1000)
+angular.module('modalBuild', []).run(['$templateCache', function($templateCache) {
+  $templateCache.put('modalBuild.html',
+    '<div class="modal-header">' +
+        '<h3 class="modal-title">Create a Build</h3>' +
+    '</div>' +
+    '<div class="modal-body">' +
+        '<div class="list-group">' +
+          '<a class="list-group-item" ng-class="{\'active\': component.selected}" ng-repeat="component in components" ng-click="component.selected = true;">{{component.name}}</a>' +
+        '</div>' +
+    '</div>' +
+    '<div class="modal-footer">' +
+        '<button class="btn btn-primary" ng-click="download()">Download</button>' +
+        '<button class="btn btn-warning" ng-click="cancel()">Cancel</button>' +
+    '</div>'
+  );
+}]);
