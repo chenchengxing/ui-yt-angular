@@ -42,7 +42,7 @@ gulp.task('create', function (cb) {
       .pipe(rename(name + '.js'))
       .pipe(gulp.dest(componentPath));
 
-    // create src/alert/docs/demo.html, demo.js, readme.md
+    // create src/alert/docs/demo.html, demo.js, readme.md, oneWordDescription.info
     var demoJsPipe = gulp.src('misc/create/demo.tpl.js')
       .pipe(replace(/\{\{name\}\}/g, name))
       .pipe(rename('demo.js'))
@@ -55,6 +55,7 @@ gulp.task('create', function (cb) {
       .pipe(replace(/\{\{name\}\}/g, name))
       .pipe(rename('readme.md'))
       .pipe(gulp.dest(docsPath));
+    touch.sync(path.join(docsPath, 'oneWordDescription.info'));
     // touch.sync(path.join(docsPath, 'demo.js'));
     // touch.sync(path.join(docsPath, 'demo.html'));
     // touch.sync(path.join(docsPath, 'readme.md'));

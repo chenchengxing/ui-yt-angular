@@ -1,6 +1,6 @@
 <div class="container mb_20">
   <div class="row">
-    <div class="col-md-6"><div ng-controller="$alertDemoCtrl">
+    <div class="col-md-6"><div ng-controller="alertDemoCtrl">
   <a class="btn btn-primary" ng-click="showAlert()">ALERT</a>
 </div></div>
     <div class="col-md-6"><p>The <strong>alert service</strong> builds on top of the collapse directive to provide a list of items, with collapsible bodies that are collapsed or expanded by clicking on the item's header.</p>
@@ -16,13 +16,13 @@
     <tab>
       <tab-heading>html</tab-heading>
       <pre>
-        <code><br>&lt;div ng-controller=&quot;$alertDemoCtrl&quot;&gt;&#13;&#10;  &lt;a class=&quot;btn btn-primary&quot; ng-click=&quot;showAlert()&quot;&gt;ALERT&lt;/a&gt;&#13;&#10;&lt;/div&gt;</code>
+        <code><br>&lt;div ng-controller=&quot;alertDemoCtrl&quot;&gt;&#10;  &lt;a class=&quot;btn btn-primary&quot; ng-click=&quot;showAlert()&quot;&gt;ALERT&lt;/a&gt;&#10;&lt;/div&gt;</code>
       </pre>
     </tab>
     <tab>
       <tab-heading>javascript</tab-heading>
       <pre>
-        <code><br>angular.module('ui.yt.demo').controller('$alertDemoCtrl', function ($scope, $alert) {
+        <code><br>angular.module('ui.yt.demo').controller('alertDemoCtrl', function ($scope, $alert) {
   $scope.showAlert = function (argument) {
     $alert.pop();
   };

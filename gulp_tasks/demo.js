@@ -16,10 +16,14 @@ var fs = require('fs');
 var htmlencode = require('htmlencode').htmlEncode;
 var concat = require('gulp-concat');
 var markdown = require('gulp-markdown');
-var md = require("node-markdown").Markdown;
+var md = require('node-markdown').Markdown;
+var _ = require('lodash');
+var file = require('gulp-file');
+var clean = require('gulp-clean');
+
 
 gulp.task('demoWatch', function () {
-  return gulp.watch('src/**/*.{js,css,html}', ['demoJsMerge', 'demo'])
+  return gulp.watch('src/**/*.{js,css,html}', ['demoJsMerge', 'demo', 'demoOneWordDescription'])
 });
 
 gulp.task('demoJsMerge', function () {
@@ -27,20 +31,27 @@ gulp.task('demoJsMerge', function () {
     .pipe(concat('demo.js'))
     .pipe(gulp.dest('demo'))
 });
-
-// gulp.task('demoReadme', folders(componentsPath, function(component){
-//   var readmePath = path.join('src', component, 'docs/readme.md');
-//   if (!fs.existsSync(readmePath)) {
-//     if (!fs.existsSync(path.dirname(readmePath))){
-//       fs.mkdirSync(path.dirname(readmePath));
-//     }
-//     fs.openSync(readmePath, 'w');
-//   }
-//   return gulp.src(readmePath)
-//     .pipe(markdown())
-//     .pipe(rename('readme.tpl.html'))
-//     .pipe(gulp.dest(path.join('demo/app/components', component, 'docs')));
-// }));
+/**
+  read name from docs/oneWordDescription and generate CONSTANTS
+*/
+gulp.task('demoOneWordDescription', ['demoOneWordDescriptionClean'], function () {
+  var components = fs.readdirSync('src');
+  var componentConstant = [];
+  _.forEach(components, function (component) {
+    var oneWordDescription = readContentsSync(path.join('src', component, 'docs', 'oneWordDescription.info'));
+    var item = {
+      name: component,
+      desc: oneWordDescription
+    };
+    componentConstant.push(item);
+  });
+  return file('components.js', 'angular.module(\'app\').constant(\'COMPONENTS\',' + JSON.stringify(componentConstant) + ');' , {src: true})
+    .pipe(gulp.dest('demo'));
+});
+gulp.task('demoOneWordDescriptionClean', function () {
+  return gulp.src('demo/components.js', {read: false})
+          .pipe(clean());
+})
 
 gulp.task('demo', folders(componentsPath, function(component){
   //This will loop over all folders inside pathToFolder main, secondary
@@ -70,3 +81,25 @@ function readSync(file) {
     return fs.readFileSync(file, 'utf8');
   }
 }
+
+function readContentsSync(file) {
+  var contents = '';
+  if (fs.existsSync(file)) {
+    contents = fs.readFileSync(file, 'utf8');
+  }
+  return contents;
+}
+
+// gulp.task('demoReadme', folders(componentsPath, function(component){
+//   var readmePath = path.join('src', component, 'docs/readme.md');
+//   if (!fs.existsSync(readmePath)) {
+//     if (!fs.existsSync(path.dirname(readmePath))){
+//       fs.mkdirSync(path.dirname(readmePath));
+//     }
+//     fs.openSync(readmePath, 'w');
+//   }
+//   return gulp.src(readmePath)
+//     .pipe(markdown())
+//     .pipe(rename('readme.tpl.html'))
+//     .pipe(gulp.dest(path.join('demo/app/components', component, 'docs')));
+// }));
