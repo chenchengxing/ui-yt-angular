@@ -63,11 +63,6 @@ angular.module('app', ['ui.router', 'ui.yt.demo', 'ui.yt', 'ui.bootstrap', 'moda
           template: function($stateParams) {
             return '<a svg-font="' + $stateParams.id + '"></a>';
           }
-        },
-        'readme@': {
-          templateUrl: function($stateParams) {
-            return 'demo/app/components/' + $stateParams.id + '/docs/readme.tpl.html';
-          }
         }
       }
     });

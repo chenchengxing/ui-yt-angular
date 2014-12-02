@@ -15,4 +15,4 @@ var gulp = require('gulp');
 // Require all tasks in gulp/tasks, including subfolders
 requireDir('./gulp_tasks', { recurse: true });
 
-gulp.task('default', ['test', 'webserver', 'watch']);
+gulp.task('default', ['test', 'webserver', 'watch', 'demoWatch']);

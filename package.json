@@ -40,6 +40,8 @@
     "htmlencode": "~0.0.4",
     "gulp-file": "~0.2.0",
     "karma-phantomjs-launcher": "~0.1.4",
-    "gulp-markdown": "~1.0.0"
+    "gulp-markdown": "~1.0.0",
+    "minimatch": "~2.0.1",
+    "node-markdown": "~0.1.1"
   }
 }
