@@ -1,4 +1,38 @@
 angular.module('ui.yt', ['ui.yt.alert','alert/template/wrapper.html','ui.yt.busySpin','ui.yt.checklist','ui.yt.confirm','confirm/template/wrapper.html','ui.yt.dropdownlist','dropdownlist/template/dropdown.html','ui.yt.focusOnce','ui.yt.msie','ui.yt.placeholder','ui.yt.popoverConfirm','popoverConfirm/template/wrapper.html','ui.yt.position','ui.yt.toaster']);
+angular.module('ui.yt.busySpin', [])
+  .factory('$busySpin', ['$compile', '$rootScope', '$document', '$log', function($compile, $rootScope, $document, $log) {
+    var launchSpin = function() {
+      if (!$spin) {
+        generateDom();
+      } else {
+        $log.warn('should not generate spin, if spining');
+      }
+    };
+    var scope = $rootScope.$new();
+    var $spin;
+    var generateDom = function() {
+      var spin = angular.element('<div class="busy-spin" busy-spin-three-bounce />');
+      $spin = $compile(spin)(scope);
+      $document.find('body').append($spin);
+    };
+    var dismiss = function() {
+      $spin.remove();
+    };
+    return {
+      start: launchSpin,
+      dismiss: dismiss
+    };
+  }])
+  .directive('busySpinThreeBounce', function() {
+    return {
+      restrict: 'A',
+      template: '<div class="three-bounce">' +
+        '<div class="bounce1"></div>' +
+        '<div class="bounce2"></div>' +
+        '<div class="bounce3"></div>' +
+        '</div>'
+    };
+  });
 angular.module('ui.yt.alert', [])
   .factory('$alert', ['$document', '$rootScope', '$compile', '$q', function($document, $rootScope, $compile, $q) {
     var mask = angular.element('<div class="modal-backdrop fade in" />');
@@ -48,40 +82,6 @@ angular.module('ui.yt.alert', [])
       restrict: 'E',
       replace: true,
       templateUrl: 'alert/template/wrapper.html'
-    };
-  });
-angular.module('ui.yt.busySpin', [])
-  .factory('$busySpin', ['$compile', '$rootScope', '$document', '$log', function($compile, $rootScope, $document, $log) {
-    var launchSpin = function() {
-      if (!$spin) {
-        generateDom();
-      } else {
-        $log.warn('should not generate spin, if spining');
-      }
-    };
-    var scope = $rootScope.$new();
-    var $spin;
-    var generateDom = function() {
-      var spin = angular.element('<div class="busy-spin" busy-spin-three-bounce />');
-      $spin = $compile(spin)(scope);
-      $document.find('body').append($spin);
-    };
-    var dismiss = function() {
-      $spin.remove();
-    };
-    return {
-      start: launchSpin,
-      dismiss: dismiss
-    };
-  }])
-  .directive('busySpinThreeBounce', function() {
-    return {
-      restrict: 'A',
-      template: '<div class="three-bounce">' +
-        '<div class="bounce1"></div>' +
-        '<div class="bounce2"></div>' +
-        '<div class="bounce3"></div>' +
-        '</div>'
     };
   });
 //shamelessly plagiarize from http://vitalets.github.io/checklist-model/
