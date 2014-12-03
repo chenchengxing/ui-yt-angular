@@ -86,7 +86,7 @@ angular.module('app', ['ui.router', 'ui.yt.demo', 'ui.yt', 'ui.bootstrap', 'moda
     $scope.components = COMPONENTS;
 
     $scope.download = function () {
-      $window.location.assign('dist/ui-yt.js');
+      $window.location.assign('dist/ui-yt.zip');
     };
 
     $scope.createBuild = function () {
