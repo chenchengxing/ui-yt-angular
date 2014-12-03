@@ -3,7 +3,7 @@ var capital = function (input) {
     }
 angular.module('ui.yt.demo', []);
 angular.module('app', ['ui.router', 'ui.yt.demo', 'ui.yt', 'ui.bootstrap', 'modalBuild'])
-  
+
   .config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('home');
     $stateProvider.state('home', {
@@ -39,6 +39,9 @@ angular.module('app', ['ui.router', 'ui.yt.demo', 'ui.yt', 'ui.bootstrap', 'moda
         'body': {
           templateUrl: function($stateParams) {
             return 'demo/app/components/' + $stateParams.id + '/docs/demo.tpl.html';
+          },
+          controller: function ($scope) {
+             $scope.$emit('dataloaded');
           }
         },
         'hint@': {
@@ -50,6 +53,7 @@ angular.module('app', ['ui.router', 'ui.yt.demo', 'ui.yt', 'ui.bootstrap', 'moda
     });
   })
   .controller('Ctrl', function($scope, $http, $modal, $window, COMPONENTS) {
+
 
     $scope.toggleSelected = function (item) {
       item.selected = !item.selected;
@@ -192,7 +196,19 @@ angular.module('app', ['ui.router', 'ui.yt.demo', 'ui.yt', 'ui.bootstrap', 'moda
         tl.play();
       }
     }
-  });
+  })
+  .directive('rainbow', ['$timeout', function ($timeout) {
+    return {
+      restrict: 'A',
+      link: function ($scope, element, attrs) {
+        $timeout(function () {
+          Rainbow.color(element[0].innerHTML, 'javascript', function(highlighted_code) {
+            element.context.innerHTML = highlighted_code;
+          });
+        });
+      }
+    };
+  }]);
 
 angular.module('modalBuild', []).run(['$templateCache', function($templateCache) {
   $templateCache.put('modalBuild.html',

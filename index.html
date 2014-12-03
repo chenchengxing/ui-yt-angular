@@ -2,10 +2,10 @@
 <html lang="en" ng-app="app">
 <head>
     <meta charset="UTF-8">
-    <title>yt-ui-angular</title>
-    <!-- <link rel="stylesheet" href="demo/bootstrap.css"> -->
+    <title>ui-yi-angular</title>
     <link rel="stylesheet" href="demo/vendor/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" href="dist/ui-yt.css">
+    <link rel="stylesheet" href="demo/vendor/rainbow/themes/github.css">
     <link rel="stylesheet" href="demo/app.css">
 </head>
 <body ng-controller="Ctrl">
@@ -20,7 +20,7 @@
                 </nav>
                 <div>
                   <ul class="nav navbar-nav navbar-right">
-                    <li><a svg-font="yt-angular" ui-sref="home"></a></li>
+                    <li><a svg-font="ui-yt-angular" ui-sref="home"></a></li>
                   </ul>
                 </div>
               </div>
@@ -30,12 +30,7 @@
     <div class="docs-header">
       <div ui-view="docHeader"></div>
     </div>
-    <div ui-view="body" class="main-body">
-      <!-- <div class="row">
-        <div ui-view="demo" class="col-md-6"></div>
-        <div ui-view="api" class="col-md-6"></div>
-      </div> -->
-    </div>
+    <div ui-view="body" class="main-body"></div>
 
     <script src="demo/vendor/jquery.js"></script>
     <script src="demo/vendor/angular.min.js"></script>
@@ -46,5 +41,10 @@
     <script src="demo/index.js"></script>
     <script src="demo/demo.js"></script>
     <script src="demo/components.js"></script>
+    <script src="demo/vendor/rainbow/rainbow.min.js"></script>
+    <script src="demo/vendor/rainbow/language/javascript.js"></script>
+    <script src="demo/vendor/rainbow/language/generic.js"></script>
+    <script src="demo/vendor/rainbow/language/html.js"></script>
+    <script src="demo/vendor/rainbow/language/css.js"></script>
 </body>
 </html>

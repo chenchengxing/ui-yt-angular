@@ -28,14 +28,20 @@ You should play with attributes of <code>&lt;input type="checkbox"&gt;</code> ta
   <tabset>
     <tab>
       <tab-heading>html</tab-heading>
-      <pre>
-        <code><br>&lt;div ng-controller=&quot;checklistDemoCtrl&quot;&gt;&#13;&#10;  &lt;label ng-repeat=&quot;role in roles&quot;&gt;&#13;&#10;    &lt;input type=&quot;checkbox&quot; checklist=&quot;user.roles&quot; checklist-value=&quot;role&quot;&gt; {{role.text}}&#13;&#10;  &lt;/label&gt;&#13;&#10;  &lt;button ng-click=&quot;checkAll()&quot; style=&quot;margin-right: 10px&quot;&gt;Check all&lt;/button&gt;&#13;&#10;  &lt;button ng-click=&quot;uncheckAll()&quot; style=&quot;margin-right: 10px&quot;&gt;Uncheck all&lt;/button&gt;&#13;&#10;  &lt;button ng-click=&quot;checkFirst()&quot;&gt;Check first&lt;/button&gt;&#13;&#10;  &lt;div class=&quot;col-xs-12 col-sm-6&quot;&gt;&#13;&#10;    &lt;h3&gt;user.roles  &lt;/h3&gt;&#13;&#10;    &lt;pre&gt;{{user.roles | json}}&lt;/pre&gt;&#13;&#10;  &lt;/div&gt;&#13;&#10;&lt;/div&gt;</code>
-      </pre>
+      <div>
+        <pre>
+          <code data-language="html" rainbow>
+&lt;div ng-controller=&quot;checklistDemoCtrl&quot;&gt;&#13;&#10;  &lt;label ng-repeat=&quot;role in roles&quot;&gt;&#13;&#10;    &lt;input type=&quot;checkbox&quot; checklist=&quot;user.roles&quot; checklist-value=&quot;role&quot;&gt; {{role.text}}&#13;&#10;  &lt;/label&gt;&#13;&#10;  &lt;button ng-click=&quot;checkAll()&quot; style=&quot;margin-right: 10px&quot;&gt;Check all&lt;/button&gt;&#13;&#10;  &lt;button ng-click=&quot;uncheckAll()&quot; style=&quot;margin-right: 10px&quot;&gt;Uncheck all&lt;/button&gt;&#13;&#10;  &lt;button ng-click=&quot;checkFirst()&quot;&gt;Check first&lt;/button&gt;&#13;&#10;  &lt;div class=&quot;col-xs-12 col-sm-6&quot;&gt;&#13;&#10;    &lt;h3&gt;user.roles  &lt;/h3&gt;&#13;&#10;    &lt;pre&gt;{{user.roles | json}}&lt;/pre&gt;&#13;&#10;  &lt;/div&gt;&#13;&#10;&lt;/div&gt;
+          </code>
+        </pre>
+      </div>
     </tab>
     <tab>
       <tab-heading>javascript</tab-heading>
+      <div>
       <pre>
-        <code><br>angular.module('ui.yt.demo').controller('checklistDemoCtrl', function($scope) {
+        <code data-language="javascript" rainbow>
+angular.module('ui.yt.demo').controller('checklistDemoCtrl', function($scope) {
   $scope.roles = [
     {id: 1, text: 'guest'},
     {id: 2, text: 'user'},
@@ -55,14 +61,20 @@ You should play with attributes of <code>&lt;input type="checkbox"&gt;</code> ta
     $scope.user.roles.splice(0, $scope.user.roles.length); 
     $scope.user.roles.push($scope.roles[0]);
   };
-});</code>
+});
+        </code>
       </pre>
+      </div>
     </tab>
     <tab>
       <tab-heading>css</tab-heading>
+      <div>
       <pre>
-        <code><br>/* no css */</code>
+        <code data-language="css" rainbow>
+/* no css */
+        </code>
       </pre>
+      </div>
     </tab>
   </tabset>
 </div>

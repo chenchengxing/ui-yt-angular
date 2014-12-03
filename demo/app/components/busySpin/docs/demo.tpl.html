@@ -22,28 +22,40 @@
   <tabset>
     <tab>
       <tab-heading>html</tab-heading>
-      <pre>
-        <code><br>&lt;div ng-controller=&quot;busySpinDemoCtrl&quot;&gt;&#13;&#10;  &lt;h4&gt;Show spin and dismiss in 3s&lt;/h4&gt;&#13;&#10;  &lt;a class=&quot;btn btn-primary&quot; ng-click=&quot;spin()&quot;&gt;Spin&lt;/a&gt;&#13;&#10;  &lt;hr /&gt;&#13;&#10;&lt;/div&gt;</code>
-      </pre>
+      <div>
+        <pre>
+          <code data-language="html" rainbow>
+&lt;div ng-controller=&quot;busySpinDemoCtrl&quot;&gt;&#13;&#10;  &lt;h4&gt;Show spin and dismiss in 3s&lt;/h4&gt;&#13;&#10;  &lt;a class=&quot;btn btn-primary&quot; ng-click=&quot;spin()&quot;&gt;Spin&lt;/a&gt;&#13;&#10;  &lt;hr /&gt;&#13;&#10;&lt;/div&gt;
+          </code>
+        </pre>
+      </div>
     </tab>
     <tab>
       <tab-heading>javascript</tab-heading>
+      <div>
       <pre>
-        <code><br>angular.module('ui.yt.demo').controller('busySpinDemoCtrl', function ($scope, $busySpin, $timeout) {
+        <code data-language="javascript" rainbow>
+angular.module('ui.yt.demo').controller('busySpinDemoCtrl', function ($scope, $busySpin, $timeout) {
   $scope.spin = function () {
     $busySpin.start();
     $timeout(function () {
       $busySpin.dismiss();
     }, 3000);
   };
-});</code>
+});
+        </code>
       </pre>
+      </div>
     </tab>
     <tab>
       <tab-heading>css</tab-heading>
+      <div>
       <pre>
-        <code><br>/* no css */</code>
+        <code data-language="css" rainbow>
+/* no css */
+        </code>
       </pre>
+      </div>
     </tab>
   </tabset>
 </div>

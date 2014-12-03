@@ -17,6 +17,14 @@ angular.module('ui.yt.demo').controller('alertDemoCtrl', function ($scope, $aler
     });
   };
 });
+angular.module('ui.yt.demo').controller('busySpinDemoCtrl', function ($scope, $busySpin, $timeout) {
+  $scope.spin = function () {
+    $busySpin.start();
+    $timeout(function () {
+      $busySpin.dismiss();
+    }, 3000);
+  };
+});
 angular.module('ui.yt.demo').controller('checklistDemoCtrl', function($scope) {
   $scope.roles = [
     {id: 1, text: 'guest'},
@@ -44,11 +52,3 @@ angular.module('ui.yt.demo').controller('checklistDemoCtrl', function($scope) {
 
 
 
-angular.module('ui.yt.demo').controller('busySpinDemoCtrl', function ($scope, $busySpin, $timeout) {
-  $scope.spin = function () {
-    $busySpin.start();
-    $timeout(function () {
-      $busySpin.dismiss();
-    }, 3000);
-  };
-});
