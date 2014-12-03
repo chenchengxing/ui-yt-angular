@@ -3,35 +3,7 @@ var capital = function (input) {
     }
 angular.module('ui.yt.demo', []);
 angular.module('app', ['ui.router', 'ui.yt.demo', 'ui.yt', 'ui.bootstrap', 'modalBuild'])
-  .constant('COMPONENTS', [
-    {
-      name: 'alert',
-      desc: '模态警告框'
-    },
-    {
-      name: 'busySpin',
-      desc: '菊花转转转~'
-    },
-    {
-      name: 'checklist'
-    },{
-      name: 'confirm'
-    },{
-      name: 'dropdownlist'
-    },{
-      name: 'focusOnce'
-    },{
-      name: 'msie'
-    },{
-      name: 'placeholder'
-    },{
-      name: 'popoverConfirm'
-    },{
-      name: 'position'
-    },{
-      name: 'toaster'
-    }
-  ])
+  
   .config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('home');
     $stateProvider.state('home', {
