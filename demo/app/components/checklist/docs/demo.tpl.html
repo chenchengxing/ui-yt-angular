@@ -1,7 +1,26 @@
 <div class="container mb_20">
   <div class="row">
-    <div class="col-md-6">no demo</div>
-    <div class="col-md-6"><!-- no apiHtml --></div>
+    <div class="col-md-6"><div ng-controller="checklistDemoCtrl">
+  <label ng-repeat="role in roles">
+    <input type="checkbox" checklist="user.roles" checklist-value="role"> {{role.text}}
+  </label>
+  <button ng-click="checkAll()" style="margin-right: 10px">Check all</button>
+  <button ng-click="uncheckAll()" style="margin-right: 10px">Uncheck all</button>
+  <button ng-click="checkFirst()">Check first</button>
+  <div class="col-xs-12 col-sm-6">
+    <h3>user.roles  </h3>
+    <pre>{{user.roles | json}}</pre>
+  </div>
+</div></div>
+    <div class="col-md-6"><p>In Angular one checkbox <code>&lt;input type="checkbox" ng-model="..."&gt;</code> is linked with one model.
+But in practice we usually want one model to store array of checked values from several checkboxes.
+<strong>Checklist-model</strong> solves that task without additional code in controller.
+You should play with attributes of <code>&lt;input type="checkbox"&gt;</code> tag:</p>
+
+<ul>
+<li>set checklist instead of ng-model</li>
+<li>set checklist-value - what should be picked as array item</li>
+</ul></div>
   </div>
 </div>
 
@@ -10,13 +29,33 @@
     <tab>
       <tab-heading>html</tab-heading>
       <pre>
-        <code><br><!-- no demo html --></code>
+        <code><br>&lt;div ng-controller=&quot;checklistDemoCtrl&quot;&gt;&#13;&#10;  &lt;label ng-repeat=&quot;role in roles&quot;&gt;&#13;&#10;    &lt;input type=&quot;checkbox&quot; checklist=&quot;user.roles&quot; checklist-value=&quot;role&quot;&gt; {{role.text}}&#13;&#10;  &lt;/label&gt;&#13;&#10;  &lt;button ng-click=&quot;checkAll()&quot; style=&quot;margin-right: 10px&quot;&gt;Check all&lt;/button&gt;&#13;&#10;  &lt;button ng-click=&quot;uncheckAll()&quot; style=&quot;margin-right: 10px&quot;&gt;Uncheck all&lt;/button&gt;&#13;&#10;  &lt;button ng-click=&quot;checkFirst()&quot;&gt;Check first&lt;/button&gt;&#13;&#10;  &lt;div class=&quot;col-xs-12 col-sm-6&quot;&gt;&#13;&#10;    &lt;h3&gt;user.roles  &lt;/h3&gt;&#13;&#10;    &lt;pre&gt;{{user.roles | json}}&lt;/pre&gt;&#13;&#10;  &lt;/div&gt;&#13;&#10;&lt;/div&gt;</code>
       </pre>
     </tab>
     <tab>
       <tab-heading>javascript</tab-heading>
       <pre>
-        <code><br>// no demo js</code>
+        <code><br>angular.module('ui.yt.demo').controller('checklistDemoCtrl', function($scope) {
+  $scope.roles = [
+    {id: 1, text: 'guest'},
+    {id: 2, text: 'user'},
+    {id: 3, text: 'customer'},
+    {id: 4, text: 'admin'}
+  ];
+  $scope.user = {
+    roles: [$scope.roles[1]]
+  };
+  $scope.checkAll = function() {
+    $scope.user.roles = angular.copy($scope.roles);
+  };
+  $scope.uncheckAll = function() {
+    $scope.user.roles = [];
+  };
+  $scope.checkFirst = function() {
+    $scope.user.roles.splice(0, $scope.user.roles.length); 
+    $scope.user.roles.push($scope.roles[0]);
+  };
+});</code>
       </pre>
     </tab>
     <tab>

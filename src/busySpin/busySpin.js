@@ -16,6 +16,7 @@ angular.module('ui.yt.busySpin', [])
     };
     var dismiss = function() {
       $spin.remove();
+      $spin = null;
     };
     return {
       start: launchSpin,

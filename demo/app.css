@@ -199,3 +199,5 @@ pre .regexp {
 .accordion-toggle {
   cursor: pointer;
 }
+
+.modal-backdrop {height: 984px;}

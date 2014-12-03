@@ -1,0 +1,12 @@
+<div ng-controller="checklistDemoCtrl">
+  <label ng-repeat="role in roles">
+    <input type="checkbox" checklist="user.roles" checklist-value="role"> {{role.text}}
+  </label>
+  <button ng-click="checkAll()" style="margin-right: 10px">Check all</button>
+  <button ng-click="uncheckAll()" style="margin-right: 10px">Uncheck all</button>
+  <button ng-click="checkFirst()">Check first</button>
+  <div class="col-xs-12 col-sm-6">
+    <h3>user.roles  </h3>
+    <pre>{{user.roles | json}}</pre>
+  </div>
+</div>

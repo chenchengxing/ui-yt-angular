@@ -1,5 +1,12 @@
-The **alert service** builds on top of the collapse directive to provide a list of items, with collapsible bodies that are collapsed or expanded by clicking on the item's header.
+The **$alert service** is substitute of `window.alert`.
 
-We can control whether expanding an item will cause the other items to close, using the `close-others` attribute on accordion.
+**$alert** indicates strong warning to user. User must confirm by click ok button or close button.
 
-The body of each accordion group is transcluded in to the body of the collapsible element.
+## $alert options
+All options can be provided by an object passing into $alert, like `$alert({title: 'hint', body: 'good'})` :
+
+* `title` (default: 'Alert'): title of alert.
+* `body`: body of alert.
+
+The `$alert` method return a promise, which will be resolved when the alert 
+dismisses.
