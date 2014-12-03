@@ -1,0 +1,3 @@
+angular.module('ui.yt.demo').controller('placeholderDemoCtrl', function ($scope) {
+  // body...
+});

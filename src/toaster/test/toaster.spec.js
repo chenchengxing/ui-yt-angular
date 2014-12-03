@@ -14,36 +14,37 @@ describe('toaster', function() {
     $('.toaster-container').remove();
   });
   it('should generate container', function() {
-    $toaster.pop();
+    $toaster();
     $rootScope.$digest();
     expect($('.toaster-container').length).toBe(1);
   });
   it('should have a toaster', function() {
-    $toaster.pop();
+    $toaster();
     $rootScope.$digest();
     expect($('.toaster-container').find('.toaster').length).toBe(1);
   });
   it('should have mutiple toasters', function() {
-    $toaster.pop();
-    $toaster.pop();
+    $toaster();
+    $toaster();
     $rootScope.$digest();
     expect($('.toaster-container').find('.toaster').length).toBe(2);
   });
   it('should clear all toasters', function() {
-    $toaster.pop();
-    $toaster.pop();
+    $toaster();
+    $toaster();
     $rootScope.$digest();
     expect($('.toaster-container').find('.toaster').length).toBe(2);
     $toaster.clear();
     $rootScope.$digest();
-    expect($('.toaster-container').length).toBe(0);
+    expect($('.toaster-container').length).toBe(1);
+    expect($('.toaster-container').find('.toaster').length).toBe(0);
   });
   it('should place the correct title and body', function() {
-    $toaster.pop({
+    $toaster({
       title: 'title1',
       body: 'body1'
     });
-    $toaster.pop({
+    $toaster({
       title: 'title2',
       body: 'body2'
     });
@@ -56,7 +57,7 @@ describe('toaster', function() {
     expect(toasters.eq(1).find('.toaster-body').text()).toBe('body2');
   });
   it('should dismiss after seconds', function() {
-    $toaster.pop({
+    $toaster({
       title: 'title1',
       body: 'body1'
     });
@@ -66,7 +67,7 @@ describe('toaster', function() {
     expect($('.toaster-container').find('.toaster').length).toBe(0);
   });
   it('should pass in a timeout milli-second', function() {
-    $toaster.pop({
+    $toaster({
       title: 'title1',
       body: 'body1',
       timeout: 5000
@@ -79,17 +80,17 @@ describe('toaster', function() {
     expect($('.toaster-container').find('.toaster').length).toBe(0);
   });
   it('should have different type', function() {
-    $toaster.pop();
-    $toaster.pop({
+    $toaster();
+    $toaster({
       type: 'warning'
     });
-    $toaster.pop({
+    $toaster({
       type: 'error'
     });
-    $toaster.pop({
+    $toaster({
       type: 'wait'
     });
-    $toaster.pop({
+    $toaster({
       type: 'note'
     });
     $rootScope.$digest();

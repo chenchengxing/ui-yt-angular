@@ -1,0 +1,20 @@
+<div ng-controller="confirmDemoCtrl">
+  <h4>No Content And Default Title</h4>
+  <a class="btn btn-primary" ng-click="confirm1()">confirm</a>
+  <hr />
+  <h4>With Content And Title</h4>
+  <form class="form-horizontal">
+    <div class="col-md-4">
+      <input type="text" ng-model="t2.title" placeholder="title" class="form-control" />
+    </div>
+    <div class="col-md-4">
+      <input type="text" ng-model="t2.body" placeholder="body" class="form-control" />
+    </div>
+    <a class="btn btn-primary" ng-click="confirm2()">confirm</a>
+  </form>
+  <hr />
+  <h4>Confirm With Promise</h4>
+  <h5 ng-if="cb">callback count: {{cb}}</h5>
+  <a class="btn btn-primary" ng-click="confirm3()">confirm</a>
+  <hr />
+</div>

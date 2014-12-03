@@ -198,7 +198,7 @@ angular.module('ui.yt.confirm', [])
     var confirmDialog;
     var scope;
     var defer;
-    var pop = function(options) {
+    var confirm = function(options) {
       if (confirmCount === 0) {
         defer = $q.defer();
         scope = $rootScope.$new();
@@ -232,9 +232,7 @@ angular.module('ui.yt.confirm', [])
       defer.resolve(resolveType);
       confirmCount--;
     };
-    return {
-      pop: pop
-    };
+    return confirm;
   }])
   .directive('confirmWrapper', function() {
     return {
@@ -744,7 +742,8 @@ angular.module('ui.yt.toaster', [])
       $container = $compile(container)(scope);
       $document.find('body').append($container);
     };
-    var pop = function (toastOptions) {
+    var toaster = function (toastOptions) {
+      toastOptions = angular.copy(toastOptions);
       toastOptions = toastOptions || {};
       angular.extend(toastOptions, {
         timeout: 3000,
@@ -770,13 +769,11 @@ angular.module('ui.yt.toaster', [])
         }
       }
     };
-    var clearAll = function () {
-      $container.remove();
+    toaster.clear = function () {
+      // $container.remove();
+      scope.toasters.splice(0, scope.toasters.length);
     };
-    return {
-      pop: pop,
-      clear: clearAll
-    };
+    return toaster;
   }])
   .directive('toasterWrapper', function() {
     return {

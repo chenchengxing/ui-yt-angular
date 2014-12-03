@@ -1,7 +1,40 @@
 <div class="container mb_20">
   <div class="row">
-    <div class="col-md-6">no demo</div>
-    <div class="col-md-6"><!-- no apiHtml --></div>
+    <div class="col-md-6"><div ng-controller="confirmDemoCtrl">
+  <h4>No Content And Default Title</h4>
+  <a class="btn btn-primary" ng-click="confirm1()">confirm</a>
+  <hr />
+  <h4>With Content And Title</h4>
+  <form class="form-horizontal">
+    <div class="col-md-4">
+      <input type="text" ng-model="t2.title" placeholder="title" class="form-control" />
+    </div>
+    <div class="col-md-4">
+      <input type="text" ng-model="t2.body" placeholder="body" class="form-control" />
+    </div>
+    <a class="btn btn-primary" ng-click="confirm2()">confirm</a>
+  </form>
+  <hr />
+  <h4>Confirm With Promise</h4>
+  <h5 ng-if="cb">callback count: {{cb}}</h5>
+  <a class="btn btn-primary" ng-click="confirm3()">confirm</a>
+  <hr />
+</div></div>
+    <div class="col-md-6"><p>The <strong>$confirm service</strong>.</p>
+
+<p><strong>$confirm</strong> indicates strong warning to user. User must confirm by click ok button or close button.</p>
+
+<h2>$confirm options</h2>
+
+<p>All options can be provided by an object passing into $confirm, like <code>$confirm({title: 'hint', body: 'good'})</code> :</p>
+
+<ul>
+<li><code>title</code> (default: 'confirm'): title of confirm.</li>
+<li><code>body</code>: body of confirm.</li>
+</ul>
+
+<p>The <code>$confirm</code> method return a promise, which will be resolved when the confirm 
+dismisses.</p></div>
   </div>
 </div>
 
@@ -12,7 +45,7 @@
       <div>
         <pre>
           <code data-language="html" rainbow>
-<!-- no demo html -->
+&lt;div ng-controller=&quot;confirmDemoCtrl&quot;&gt;&#13;&#10;  &lt;h4&gt;No Content And Default Title&lt;/h4&gt;&#13;&#10;  &lt;a class=&quot;btn btn-primary&quot; ng-click=&quot;confirm1()&quot;&gt;confirm&lt;/a&gt;&#13;&#10;  &lt;hr /&gt;&#13;&#10;  &lt;h4&gt;With Content And Title&lt;/h4&gt;&#13;&#10;  &lt;form class=&quot;form-horizontal&quot;&gt;&#13;&#10;    &lt;div class=&quot;col-md-4&quot;&gt;&#13;&#10;      &lt;input type=&quot;text&quot; ng-model=&quot;t2.title&quot; placeholder=&quot;title&quot; class=&quot;form-control&quot; /&gt;&#13;&#10;    &lt;/div&gt;&#13;&#10;    &lt;div class=&quot;col-md-4&quot;&gt;&#13;&#10;      &lt;input type=&quot;text&quot; ng-model=&quot;t2.body&quot; placeholder=&quot;body&quot; class=&quot;form-control&quot; /&gt;&#13;&#10;    &lt;/div&gt;&#13;&#10;    &lt;a class=&quot;btn btn-primary&quot; ng-click=&quot;confirm2()&quot;&gt;confirm&lt;/a&gt;&#13;&#10;  &lt;/form&gt;&#13;&#10;  &lt;hr /&gt;&#13;&#10;  &lt;h4&gt;Confirm With Promise&lt;/h4&gt;&#13;&#10;  &lt;h5 ng-if=&quot;cb&quot;&gt;callback count: {{cb}}&lt;/h5&gt;&#13;&#10;  &lt;a class=&quot;btn btn-primary&quot; ng-click=&quot;confirm3()&quot;&gt;confirm&lt;/a&gt;&#13;&#10;  &lt;hr /&gt;&#13;&#10;&lt;/div&gt;
           </code>
         </pre>
       </div>
@@ -22,7 +55,24 @@
       <div>
       <pre>
         <code data-language="javascript" rainbow>
-// no demo js
+angular.module('ui.yt.demo').controller('confirmDemoCtrl', function ($scope, $confirm, $log) {
+  $scope.confirm1 = function () {
+    $confirm();
+  };
+  $scope.confirm2 = function () {
+    $confirm({
+      title: $scope.t2.title,
+      body: $scope.t2.body
+    });
+  };
+  $scope.confirm3 = function () {
+    var promise = $confirm();
+    promise.then(function (result) {
+      $scope.cb = result;
+      $log.info('$confirm dismissed');
+    });
+  };
+});
         </code>
       </pre>
       </div>

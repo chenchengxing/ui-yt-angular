@@ -1,7 +1,36 @@
 <div class="container mb_20">
   <div class="row">
-    <div class="col-md-6">no demo</div>
-    <div class="col-md-6"><!-- no apiHtml --></div>
+    <div class="col-md-6"><div ng-controller="dropdownlistDemoCtrl">
+  <div class="col-md-6">
+    <div dropdownlist="item in list" ng-model="cur">{{item.text}}</div>
+  </div>
+  <div class="col-md-6">
+  <h3>model: cur  </h3>
+  <pre>
+{{cur | json}}
+  </pre>
+    
+  </div>
+  <hr />
+</div></div>
+    <div class="col-md-6"><p><em>* dropdownlist *</em> as a all in all dropdown select.</p>
+
+<p>All you need to specify is what's your required model, what's your select list, and what you gonna display.</p>
+
+<h2>api</h2>
+
+<ul>
+<li><code>dropdownlist</code> attr: expression, specify like <code>item in list</code></li>
+<li><code>ng-model</code> attr: expression.</li>
+<li>dropdownlist's innerHTML,like {{item.text}} will decide what to show. You're free to use filters. The default is to display whole item info.</li>
+</ul>
+
+<h2>roadmap</h2>
+
+<ul>
+<li>disabled</li>
+<li>click event</li>
+</ul></div>
   </div>
 </div>
 
@@ -12,7 +41,7 @@
       <div>
         <pre>
           <code data-language="html" rainbow>
-<!-- no demo html -->
+&lt;div ng-controller=&quot;dropdownlistDemoCtrl&quot;&gt;&#13;&#10;  &lt;div class=&quot;col-md-6&quot;&gt;&#13;&#10;    &lt;div dropdownlist=&quot;item in list&quot; ng-model=&quot;cur&quot;&gt;{{item.text}}&lt;/div&gt;&#13;&#10;  &lt;/div&gt;&#13;&#10;  &lt;div class=&quot;col-md-6&quot;&gt;&#13;&#10;  &lt;h3&gt;model: cur  &lt;/h3&gt;&#13;&#10;  &lt;pre&gt;&#13;&#10;{{cur | json}}&#13;&#10;  &lt;/pre&gt;&#13;&#10;    &#13;&#10;  &lt;/div&gt;&#13;&#10;  &lt;hr /&gt;&#13;&#10;&lt;/div&gt;
           </code>
         </pre>
       </div>
@@ -22,7 +51,18 @@
       <div>
       <pre>
         <code data-language="javascript" rainbow>
-// no demo js
+angular.module('ui.yt.demo').controller('dropdownlistDemoCtrl', function($scope) {
+  $scope.list = [{
+    id: 1,
+    text: '1'
+  },{
+    id: 2,
+    text: '2'
+  },{
+    id: 3,
+    text: '3'
+  },];
+});
         </code>
       </pre>
       </div>

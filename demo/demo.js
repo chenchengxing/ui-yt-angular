@@ -46,9 +46,62 @@ angular.module('ui.yt.demo').controller('checklistDemoCtrl', function($scope) {
     $scope.user.roles.push($scope.roles[0]);
   };
 });
-
-
-
-
-
-
+angular.module('ui.yt.demo').controller('confirmDemoCtrl', function ($scope, $confirm, $log) {
+  $scope.confirm1 = function () {
+    $confirm();
+  };
+  $scope.confirm2 = function () {
+    $confirm({
+      title: $scope.t2.title,
+      body: $scope.t2.body
+    });
+  };
+  $scope.confirm3 = function () {
+    var promise = $confirm();
+    promise.then(function (result) {
+      $scope.cb = result;
+      $log.info('$confirm dismissed');
+    });
+  };
+});
+angular.module('ui.yt.demo').controller('dropdownlistDemoCtrl', function($scope) {
+  $scope.list = [{
+    id: 1,
+    text: '1'
+  },{
+    id: 2,
+    text: '2'
+  },{
+    id: 3,
+    text: '3'
+  },];
+});
+angular.module('ui.yt.demo').controller('focusOnceCtrl', function ($scope) {
+  $scope.triggerText = 'Trigger';
+  $scope.click = function () {
+    $scope.trigger = true;
+    $scope.triggerText = 'TriggerAgain';
+  };
+});
+angular.module('ui.yt.demo').controller('msieDemoCtrl', function ($scope, MSIE) {
+  $scope.ieVersion = MSIE;
+});
+angular.module('ui.yt.demo').controller('placeholderDemoCtrl', function ($scope) {
+  // body...
+});
+angular.module('ui.yt.demo').controller('popoverConfirmDemoCtrl', function ($scope) {
+  $scope.confirm = function () {
+    $scope.result = 'confirmed';
+  };
+  $scope.cancel = function () {
+    $scope.result = 'canceled';
+  };
+});
+angular.module('ui.yt.demo').controller('toasterDemoCtrl', function ($scope, $toaster) {
+  $scope.click = function () {
+    $toaster($scope.option);
+  };
+  $scope.clear = function () {
+    $toaster.clear();
+  };
+});

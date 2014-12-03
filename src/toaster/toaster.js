@@ -9,7 +9,8 @@ angular.module('ui.yt.toaster', [])
       $container = $compile(container)(scope);
       $document.find('body').append($container);
     };
-    var pop = function (toastOptions) {
+    var toaster = function (toastOptions) {
+      toastOptions = angular.copy(toastOptions);
       toastOptions = toastOptions || {};
       angular.extend(toastOptions, {
         timeout: 3000,
@@ -35,13 +36,11 @@ angular.module('ui.yt.toaster', [])
         }
       }
     };
-    var clearAll = function () {
-      $container.remove();
+    toaster.clear = function () {
+      // $container.remove();
+      scope.toasters.splice(0, scope.toasters.length);
     };
-    return {
-      pop: pop,
-      clear: clearAll
-    };
+    return toaster;
   }])
   .directive('toasterWrapper', function() {
     return {

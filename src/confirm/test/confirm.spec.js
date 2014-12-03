@@ -14,13 +14,13 @@ describe('$confirm', function() {
     $('.modal').remove();
   });
   it('should pop', function() {
-    $confirm.pop();
+    $confirm();
     $rootScope.$digest();
     expect($('.modal-backdrop').length).toBe(1);
     expect($('.modal-dialog').length).toBe(1);
   });
   it('should close the pop, if ok clicked', function() {
-    $confirm.pop();
+    $confirm();
     $rootScope.$digest();
     expect($('.modal-backdrop').length).toBe(1);
     $('.modal-dialog').find('.btn-default').click();
@@ -29,7 +29,7 @@ describe('$confirm', function() {
     expect($('.modal').length).toBe(0);
   });
   it('should close the pop, if close clicked', function() {
-    $confirm.pop();
+    $confirm();
     $rootScope.$digest();
     expect($('.modal-backdrop').length).toBe(1);
     $('.modal-dialog').find('.close').click();
@@ -38,11 +38,11 @@ describe('$confirm', function() {
     expect($('.modal').length).toBe(0);
   });
   it('should return a promise', function() {
-    var promise = $confirm.pop();
+    var promise = $confirm();
     expect(typeof(promise.then)).toBe('function');
   });
   it('should trigger promise then function after confirm closed, ', function() {
-    var promise = $confirm.pop();
+    var promise = $confirm();
     $rootScope.$digest();
     var a = {
       thenFn: function (result) {
@@ -56,7 +56,7 @@ describe('$confirm', function() {
     expect(spy.calledWith('ok')).toBe(true);
   });
   it('confirm promise called with ok', function() {
-    var promise = $confirm.pop();
+    var promise = $confirm();
     $rootScope.$digest();
     var a = {
       thenFn: function (result) {
@@ -69,7 +69,7 @@ describe('$confirm', function() {
     expect(spy.calledWith('ok')).toBe(true);
   });
   it('close promise called with cancel', function() {
-    var promise = $confirm.pop();
+    var promise = $confirm();
     $rootScope.$digest();
     var a = {
       thenFn: function (result) {
