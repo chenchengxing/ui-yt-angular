@@ -1,3 +1,20 @@
 <div ng-controller="alertDemoCtrl">
-  <a class="btn btn-primary" ng-click="showAlert()">ALERT</a>
+  <h4>No Content And Default Title</h4>
+  <a class="btn btn-primary" ng-click="alert1()">Alert</a>
+  <hr />
+  <h4>With Content And Title</h4>
+  <form class="form-horizontal">
+    <div class="col-md-4">
+      <input type="text" ng-model="t2.title" placeholder="title" class="form-control" />
+    </div>
+    <div class="col-md-4">
+      <input type="text" ng-model="t2.body" placeholder="body" class="form-control" />
+    </div>
+    <a class="btn btn-primary" ng-click="alert2()">Alert</a>
+  </form>
+  <hr />
+  <h4>Alert With Close Promise</h4>
+  <h5 ng-if="ct">callback count: {{ct}}</h5>
+  <a class="btn btn-primary" ng-click="alert3()">Alert</a>
+  <hr />
 </div>

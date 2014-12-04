@@ -1,7 +1,20 @@
 <div class="container mb_20">
   <div class="row">
-    <div class="col-md-6">no demo</div>
-    <div class="col-md-6"><!-- no apiHtml --></div>
+    <div class="col-md-6"><div ng-controller="busySpinDemoCtrl">
+  <h4>Show spin and dismiss in 3s</h4>
+  <a class="btn btn-primary" ng-click="spin()">Spin</a>
+  <hr />
+</div></div>
+    <div class="col-md-6"><p><strong>$busySpin service</strong> is a service that allows to show busy spinning modal to block ui.You should call <code>$busySpin.dismiss()</code> to free ui again sometime later.</p>
+
+<h2>api</h2>
+
+<p>Methods are bound to <code>$busySpin</code> object:</p>
+
+<ul>
+<li>start: start the spinning</li>
+<li>dismiss: dissmiss the spinning</li>
+</ul></div>
   </div>
 </div>
 
@@ -12,7 +25,7 @@
       <div>
         <pre>
           <code data-language="html" rainbow>
-<!-- no demo html -->
+&lt;div ng-controller=&quot;busySpinDemoCtrl&quot;&gt;&#10;  &lt;h4&gt;Show spin and dismiss in 3s&lt;/h4&gt;&#10;  &lt;a class=&quot;btn btn-primary&quot; ng-click=&quot;spin()&quot;&gt;Spin&lt;/a&gt;&#10;  &lt;hr /&gt;&#10;&lt;/div&gt;
           </code>
         </pre>
       </div>
@@ -22,7 +35,14 @@
       <div>
       <pre>
         <code data-language="javascript" rainbow>
-// no demo js
+angular.module('ui.yt.demo').controller('busySpinDemoCtrl', function ($scope, $busySpin, $timeout) {
+  $scope.spin = function () {
+    $busySpin.start();
+    $timeout(function () {
+      $busySpin.dismiss();
+    }, 3000);
+  };
+});
         </code>
       </pre>
       </div>

@@ -1,0 +1,99 @@
+<div class="container mb_20">
+  <div class="row">
+    <div class="col-md-6"><div ng-controller="AccordionDemoCtrl">
+  <p>
+    <button class="btn btn-default btn-sm" ng-click="status.open = !status.open">Toggle last panel</button>
+    <button class="btn btn-default btn-sm" ng-click="status.isFirstDisabled = ! status.isFirstDisabled">Enable / Disable first panel</button>
+  </p>
+
+  <label class="checkbox">
+    <input type="checkbox" ng-model="oneAtATime">
+    Open only one at a time
+  </label>
+  <accordion close-others="oneAtATime">
+    <accordion-group heading="Static Header, initially expanded" is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled">
+      This content is straight in the template.
+    </accordion-group>
+    <accordion-group heading="{{group.title}}" ng-repeat="group in groups">
+      {{group.content}}
+    </accordion-group>
+    <accordion-group heading="Dynamic Body Content">
+      <p>The body of the accordion group grows to fit the contents</p>
+        <button class="btn btn-default btn-sm" ng-click="addItem()">Add Item</button>
+        <div ng-repeat="item in items">{{item}}</div>
+    </accordion-group>
+    <accordion-group is-open="status.open">
+        <accordion-heading>
+            I can have markup, too! <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+        </accordion-heading>
+        This is just some content to illustrate fancy headings.
+    </accordion-group>
+  </accordion>
+</div></div>
+    <div class="col-md-6"><p>The <strong>accordion directive</strong> builds on top of the collapse directive to provide a list of items, with collapsible bodies that are collapsed or expanded by clicking on the item's header.</p>
+
+<p>We can control whether expanding an item will cause the other items to close, using the <code>close-others</code> attribute on accordion.</p>
+
+<p>The body of each accordion group is transcluded in to the body of the collapsible element.</p></div>
+  </div>
+</div>
+
+<div class="container code">
+  <tabset>
+    <tab>
+      <tab-heading>html</tab-heading>
+      <div>
+        <pre>
+          <code data-language="html" rainbow>
+&lt;div ng-controller=&quot;AccordionDemoCtrl&quot;&gt;&#10;  &lt;p&gt;&#10;    &lt;button class=&quot;btn btn-default btn-sm&quot; ng-click=&quot;status.open = !status.open&quot;&gt;Toggle last panel&lt;/button&gt;&#10;    &lt;button class=&quot;btn btn-default btn-sm&quot; ng-click=&quot;status.isFirstDisabled = ! status.isFirstDisabled&quot;&gt;Enable / Disable first panel&lt;/button&gt;&#10;  &lt;/p&gt;&#10;&#10;  &lt;label class=&quot;checkbox&quot;&gt;&#10;    &lt;input type=&quot;checkbox&quot; ng-model=&quot;oneAtATime&quot;&gt;&#10;    Open only one at a time&#10;  &lt;/label&gt;&#10;  &lt;accordion close-others=&quot;oneAtATime&quot;&gt;&#10;    &lt;accordion-group heading=&quot;Static Header, initially expanded&quot; is-open=&quot;status.isFirstOpen&quot; is-disabled=&quot;status.isFirstDisabled&quot;&gt;&#10;      This content is straight in the template.&#10;    &lt;/accordion-group&gt;&#10;    &lt;accordion-group heading=&quot;{{group.title}}&quot; ng-repeat=&quot;group in groups&quot;&gt;&#10;      {{group.content}}&#10;    &lt;/accordion-group&gt;&#10;    &lt;accordion-group heading=&quot;Dynamic Body Content&quot;&gt;&#10;      &lt;p&gt;The body of the accordion group grows to fit the contents&lt;/p&gt;&#10;        &lt;button class=&quot;btn btn-default btn-sm&quot; ng-click=&quot;addItem()&quot;&gt;Add Item&lt;/button&gt;&#10;        &lt;div ng-repeat=&quot;item in items&quot;&gt;{{item}}&lt;/div&gt;&#10;    &lt;/accordion-group&gt;&#10;    &lt;accordion-group is-open=&quot;status.open&quot;&gt;&#10;        &lt;accordion-heading&gt;&#10;            I can have markup, too! &lt;i class=&quot;pull-right glyphicon&quot; ng-class=&quot;{&#39;glyphicon-chevron-down&#39;: status.open, &#39;glyphicon-chevron-right&#39;: !status.open}&quot;&gt;&lt;/i&gt;&#10;        &lt;/accordion-heading&gt;&#10;        This is just some content to illustrate fancy headings.&#10;    &lt;/accordion-group&gt;&#10;  &lt;/accordion&gt;&#10;&lt;/div&gt;
+          </code>
+        </pre>
+      </div>
+    </tab>
+    <tab>
+      <tab-heading>javascript</tab-heading>
+      <div>
+      <pre>
+        <code data-language="javascript" rainbow>
+angular.module('ui.yt.demo').controller('AccordionDemoCtrl', function ($scope) {
+  $scope.oneAtATime = true;
+
+  $scope.groups = [
+    {
+      title: 'Dynamic Group Header - 1',
+      content: 'Dynamic Group Body - 1'
+    },
+    {
+      title: 'Dynamic Group Header - 2',
+      content: 'Dynamic Group Body - 2'
+    }
+  ];
+
+  $scope.items = ['Item 1', 'Item 2', 'Item 3'];
+
+  $scope.addItem = function() {
+    var newItemNo = $scope.items.length + 1;
+    $scope.items.push('Item ' + newItemNo);
+  };
+
+  $scope.status = {
+    isFirstOpen: true,
+    isFirstDisabled: false
+  };
+});
+        </code>
+      </pre>
+      </div>
+    </tab>
+    <tab>
+      <tab-heading>css</tab-heading>
+      <div>
+      <pre>
+        <code data-language="css" rainbow>
+/* no css */
+        </code>
+      </pre>
+      </div>
+    </tab>
+  </tabset>
+</div>

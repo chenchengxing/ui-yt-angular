@@ -4,7 +4,7 @@
  *                        2)individual component page,where description, apis, demo for component can be found.
  *
  * This build process is way too complicated.
- * 1.first we 
+ * 1.first we
  */
 var gulp = require('gulp');
 var path = require('path');
@@ -22,15 +22,22 @@ var file = require('gulp-file');
 var clean = require('gulp-clean');
 
 
-gulp.task('demoWatch', function () {
-  return gulp.watch('src/**/*.{js,css,html}', ['demoJsMerge', 'demo', 'demoOneWordDescription'])
-});
+// gulp.task('demoWatch', function () {
+//   return gulp.watch('src/**/*.{js,css,html}', ['demoJsMerge', 'demoCssMerge', 'demo', 'demoOneWordDescription'])
+// });
 
 gulp.task('demoJsMerge', function () {
   return gulp.src('src/*/docs/demo.js')
     .pipe(concat('demo.js'))
     .pipe(gulp.dest('demo'))
 });
+
+gulp.task('demoCssMerge', function () {
+  return gulp.src('src/*/docs/demo.css')
+    .pipe(concat('demo.css'))
+    .pipe(gulp.dest('demo'))
+});
+
 /**
   read name from docs/oneWordDescription and generate CONSTANTS
 */
@@ -80,6 +87,7 @@ function readSync(file) {
   if (fs.existsSync(file)) {
     return fs.readFileSync(file, 'utf8');
   }
+  return '';
 }
 
 function readContentsSync(file) {

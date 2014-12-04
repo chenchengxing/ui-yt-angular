@@ -1,1 +1,1 @@
-模态警告框
+The **$alert service** is substitute of `window.alert`.

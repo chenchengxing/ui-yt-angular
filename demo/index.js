@@ -2,7 +2,7 @@ var capital = function (input) {
       return input.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
     }
 angular.module('ui.yt.demo', []);
-angular.module('app', ['ui.router', 'ui.yt.demo', 'ui.yt', 'ui.bootstrap', 'modalBuild'])
+angular.module('app', ['ui.router', 'ui.yt.demo', 'ui.yt'])
 
   .config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('home');
@@ -209,20 +209,3 @@ angular.module('app', ['ui.router', 'ui.yt.demo', 'ui.yt', 'ui.bootstrap', 'moda
       }
     };
   }]);
-
-angular.module('modalBuild', []).run(['$templateCache', function($templateCache) {
-  $templateCache.put('modalBuild.html',
-    '<div class="modal-header">' +
-        '<h3 class="modal-title">Create a Build</h3>' +
-    '</div>' +
-    '<div class="modal-body">' +
-        '<div class="list-group">' +
-          '<a class="list-group-item" ng-class="{\'active\': component.selected}" ng-repeat="component in components" ng-click="component.selected = true;">{{component.name}}</a>' +
-        '</div>' +
-    '</div>' +
-    '<div class="modal-footer">' +
-        '<button class="btn btn-primary" ng-click="download()">Download</button>' +
-        '<button class="btn btn-warning" ng-click="cancel()">Cancel</button>' +
-    '</div>'
-  );
-}]);

@@ -3,3 +3,5 @@ node_modules/
 ui-yt-angular.sublime-project
 ui-yt-angular.sublime-workspace
 bak/
+coverage/
+.idea

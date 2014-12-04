@@ -1,0 +1,62 @@
+<div class="container mb_20">
+  <div class="row">
+    <div class="col-md-6"><div ng-controller="AlertsDemoCtrl">
+  <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+  <button class='btn btn-default' ng-click="addAlert()">Add Alert</button>
+</div>
+</div>
+    <div class="col-md-6"><p>Alert is an AngularJS-version of bootstrap's alert.</p>
+
+<p>This directive can be used to generate alerts from the dynamic model data (using the <code>ng-repeat</code> directive);</p>
+
+<p>The presence of the <code>close</code> attribute determines if a close button is displayed</p></div>
+  </div>
+</div>
+
+<div class="container code">
+  <tabset>
+    <tab>
+      <tab-heading>html</tab-heading>
+      <div>
+        <pre>
+          <code data-language="html" rainbow>
+&lt;div ng-controller=&quot;AlertsDemoCtrl&quot;&gt;&#10;  &lt;alert ng-repeat=&quot;alert in alerts&quot; type=&quot;{{alert.type}}&quot; close=&quot;closeAlert($index)&quot;&gt;{{alert.msg}}&lt;/alert&gt;&#10;  &lt;button class=&#39;btn btn-default&#39; ng-click=&quot;addAlert()&quot;&gt;Add Alert&lt;/button&gt;&#10;&lt;/div&gt;&#10;
+          </code>
+        </pre>
+      </div>
+    </tab>
+    <tab>
+      <tab-heading>javascript</tab-heading>
+      <div>
+      <pre>
+        <code data-language="javascript" rainbow>
+angular.module('ui.yt.demo').controller('AlertsDemoCtrl', function ($scope) {
+  $scope.alerts = [
+    { type: 'danger', msg: 'Oh snap! Change a few things up and try submitting again.' },
+    { type: 'success', msg: 'Well done! You successfully read this important alert message.' }
+  ];
+
+  $scope.addAlert = function() {
+    $scope.alerts.push({msg: 'Another alert!'});
+  };
+
+  $scope.closeAlert = function(index) {
+    $scope.alerts.splice(index, 1);
+  };
+});
+        </code>
+      </pre>
+      </div>
+    </tab>
+    <tab>
+      <tab-heading>css</tab-heading>
+      <div>
+      <pre>
+        <code data-language="css" rainbow>
+/* no css */
+        </code>
+      </pre>
+      </div>
+    </tab>
+  </tabset>
+</div>

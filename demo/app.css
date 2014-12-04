@@ -112,3 +112,5 @@ border-top-right-radius: 0;
 .accordion-toggle {
   cursor: pointer;
 }
+
+.modal-backdrop {height: 984px;}

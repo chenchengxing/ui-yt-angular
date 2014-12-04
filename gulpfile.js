@@ -16,3 +16,4 @@ var gulp = require('gulp');
 requireDir('./gulp_tasks', { recurse: true });
 
 gulp.task('default', ['test', 'webserver', 'watch']);
+gulp.task('basic', ['webserver', 'watch']);

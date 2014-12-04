@@ -1,0 +1,82 @@
+<div class="container mb_20">
+  <div class="row">
+    <div class="col-md-6"><div ng-controller="CarouselDemoCtrl">
+  <div style="height: 305px">
+    <carousel interval="myInterval">
+      <slide ng-repeat="slide in slides" active="slide.active">
+        <img ng-src="{{slide.image}}" style="margin:auto;">
+        <div class="carousel-caption">
+          <h4>Slide {{$index}}</h4>
+          <p>{{slide.text}}</p>
+        </div>
+      </slide>
+    </carousel>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <button type="button" class="btn btn-info" ng-click="addSlide()">Add Slide</button>
+    </div>
+    <div class="col-md-6">
+      Interval, in milliseconds: <input type="number" class="form-control" ng-model="myInterval">
+      <br />Enter a negative number or 0 to stop the interval.
+    </div>
+  </div>
+</div>
+</div>
+    <div class="col-md-6"><p>Carousel creates a carousel similar to bootstrap's image carousel.</p>
+
+<p>The carousel also offers support for touchscreen devices in the form of swiping. To enable swiping, load the <code>ngTouch</code> module as a dependency.</p>
+
+<p>Use a <code>&lt;carousel&gt;</code> element with <code>&lt;slide&gt;</code> elements inside it.  It will automatically cycle through the slides at a given rate, and a current-index variable will be kept in sync with the currently visible slide.</p></div>
+  </div>
+</div>
+
+<div class="container code">
+  <tabset>
+    <tab>
+      <tab-heading>html</tab-heading>
+      <div>
+        <pre>
+          <code data-language="html" rainbow>
+&lt;div ng-controller=&quot;CarouselDemoCtrl&quot;&gt;&#10;  &lt;div style=&quot;height: 305px&quot;&gt;&#10;    &lt;carousel interval=&quot;myInterval&quot;&gt;&#10;      &lt;slide ng-repeat=&quot;slide in slides&quot; active=&quot;slide.active&quot;&gt;&#10;        &lt;img ng-src=&quot;{{slide.image}}&quot; style=&quot;margin:auto;&quot;&gt;&#10;        &lt;div class=&quot;carousel-caption&quot;&gt;&#10;          &lt;h4&gt;Slide {{$index}}&lt;/h4&gt;&#10;          &lt;p&gt;{{slide.text}}&lt;/p&gt;&#10;        &lt;/div&gt;&#10;      &lt;/slide&gt;&#10;    &lt;/carousel&gt;&#10;  &lt;/div&gt;&#10;  &lt;div class=&quot;row&quot;&gt;&#10;    &lt;div class=&quot;col-md-6&quot;&gt;&#10;      &lt;button type=&quot;button&quot; class=&quot;btn btn-info&quot; ng-click=&quot;addSlide()&quot;&gt;Add Slide&lt;/button&gt;&#10;    &lt;/div&gt;&#10;    &lt;div class=&quot;col-md-6&quot;&gt;&#10;      Interval, in milliseconds: &lt;input type=&quot;number&quot; class=&quot;form-control&quot; ng-model=&quot;myInterval&quot;&gt;&#10;      &lt;br /&gt;Enter a negative number or 0 to stop the interval.&#10;    &lt;/div&gt;&#10;  &lt;/div&gt;&#10;&lt;/div&gt;&#10;
+          </code>
+        </pre>
+      </div>
+    </tab>
+    <tab>
+      <tab-heading>javascript</tab-heading>
+      <div>
+      <pre>
+        <code data-language="javascript" rainbow>
+angular.module('ui.yt.demo').controller('CarouselDemoCtrl', function ($scope) {
+  $scope.myInterval = 5000;
+  var slides = $scope.slides = [];
+  $scope.addSlide = function() {
+    var newWidth = 600 + slides.length + 1;
+    slides.push({
+      image: 'http://placekitten.com/' + newWidth + '/300',
+      text: ['More','Extra','Lots of','Surplus'][slides.length % 4] + ' ' +
+        ['Cats', 'Kittys', 'Felines', 'Cutes'][slides.length % 4]
+    });
+  };
+  for (var i=0; i<4; i++) {
+    $scope.addSlide();
+  }
+});
+
+        </code>
+      </pre>
+      </div>
+    </tab>
+    <tab>
+      <tab-heading>css</tab-heading>
+      <div>
+      <pre>
+        <code data-language="css" rainbow>
+/* no css */
+        </code>
+      </pre>
+      </div>
+    </tab>
+  </tabset>
+</div>

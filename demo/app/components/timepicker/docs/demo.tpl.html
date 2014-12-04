@@ -1,0 +1,124 @@
+<div class="container mb_20">
+  <div class="row">
+    <div class="col-md-6"><div ng-controller="TimepickerDemoCtrl">
+
+  <timepicker ng-model="mytime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
+
+  <pre class="alert alert-info">Time is: {{mytime | date:'shortTime' }}</pre>
+
+  <div class="row"> 
+    <div class="col-xs-6">
+        Hours step is:
+      <select class="form-control" ng-model="hstep" ng-options="opt for opt in options.hstep"></select>
+    </div>
+    <div class="col-xs-6">
+        Minutes step is:
+      <select class="form-control" ng-model="mstep" ng-options="opt for opt in options.mstep"></select>
+    </div>
+  </div>
+
+  <hr>
+
+  <button class="btn btn-info" ng-click="toggleMode()">12H / 24H</button>
+  <button class="btn btn-default" ng-click="update()">Set to 14:00</button>
+  <button class="btn btn-danger" ng-click="clear()">Clear</button>
+
+</div>
+</div>
+    <div class="col-md-6"><p>A lightweight &amp; configurable timepicker directive.</p>
+
+<h3>Settings</h3>
+
+<p>All settings can be provided as attributes in the <code>&lt;timepicker&gt;</code> or globally configured through the <code>timepickerConfig</code>.</p>
+
+<ul>
+<li><p><code>ng-model</code> <i class="glyphicon glyphicon-eye-open"></i>
+ :
+ The Date object that provides the time state.</p></li>
+<li><p><code>hour-step</code> <i class="glyphicon glyphicon-eye-open"></i>
+ <em>(Defaults: 1)</em> :
+  Number of hours to increase or decrease when using a button.</p></li>
+<li><p><code>minute-step</code> <i class="glyphicon glyphicon-eye-open"></i>
+ <em>(Defaults: 1)</em> :
+  Number of minutes to increase or decrease when using a button.</p></li>
+<li><p><code>show-meridian</code> <i class="glyphicon glyphicon-eye-open"></i>
+ <em>(Defaults: true)</em> :
+ Whether to display 12H or 24H mode.</p></li>
+<li><p><code>meridians</code>
+ <em>(Defaults: null)</em> :
+  Meridian labels based on locale. To override you must supply an array like ['AM', 'PM'].</p></li>
+<li><p><code>readonly-input</code>
+ <em>(Defaults: false)</em> :
+  Whether user can type inside the hours &amp; minutes input.</p></li>
+<li><p><code>mousewheel</code>
+ <em>(Defaults: true)</em> :
+  Whether user can scroll inside the hours &amp; minutes input to increase or decrease it's values.</p></li>
+</ul></div>
+  </div>
+</div>
+
+<div class="container code">
+  <tabset>
+    <tab>
+      <tab-heading>html</tab-heading>
+      <div>
+        <pre>
+          <code data-language="html" rainbow>
+&lt;div ng-controller=&quot;TimepickerDemoCtrl&quot;&gt;&#10;&#10;  &lt;timepicker ng-model=&quot;mytime&quot; ng-change=&quot;changed()&quot; hour-step=&quot;hstep&quot; minute-step=&quot;mstep&quot; show-meridian=&quot;ismeridian&quot;&gt;&lt;/timepicker&gt;&#10;&#10;  &lt;pre class=&quot;alert alert-info&quot;&gt;Time is: {{mytime | date:&#39;shortTime&#39; }}&lt;/pre&gt;&#10;&#10;  &lt;div class=&quot;row&quot;&gt; &#10;    &lt;div class=&quot;col-xs-6&quot;&gt;&#10;        Hours step is:&#10;      &lt;select class=&quot;form-control&quot; ng-model=&quot;hstep&quot; ng-options=&quot;opt for opt in options.hstep&quot;&gt;&lt;/select&gt;&#10;    &lt;/div&gt;&#10;    &lt;div class=&quot;col-xs-6&quot;&gt;&#10;        Minutes step is:&#10;      &lt;select class=&quot;form-control&quot; ng-model=&quot;mstep&quot; ng-options=&quot;opt for opt in options.mstep&quot;&gt;&lt;/select&gt;&#10;    &lt;/div&gt;&#10;  &lt;/div&gt;&#10;&#10;  &lt;hr&gt;&#10;&#10;  &lt;button class=&quot;btn btn-info&quot; ng-click=&quot;toggleMode()&quot;&gt;12H / 24H&lt;/button&gt;&#10;  &lt;button class=&quot;btn btn-default&quot; ng-click=&quot;update()&quot;&gt;Set to 14:00&lt;/button&gt;&#10;  &lt;button class=&quot;btn btn-danger&quot; ng-click=&quot;clear()&quot;&gt;Clear&lt;/button&gt;&#10;&#10;&lt;/div&gt;&#10;
+          </code>
+        </pre>
+      </div>
+    </tab>
+    <tab>
+      <tab-heading>javascript</tab-heading>
+      <div>
+      <pre>
+        <code data-language="javascript" rainbow>
+angular.module('ui.yt.demo').controller('TimepickerDemoCtrl', function ($scope, $log) {
+  $scope.mytime = new Date();
+
+  $scope.hstep = 1;
+  $scope.mstep = 15;
+
+  $scope.options = {
+    hstep: [1, 2, 3],
+    mstep: [1, 5, 10, 15, 25, 30]
+  };
+
+  $scope.ismeridian = true;
+  $scope.toggleMode = function() {
+    $scope.ismeridian = ! $scope.ismeridian;
+  };
+
+  $scope.update = function() {
+    var d = new Date();
+    d.setHours( 14 );
+    d.setMinutes( 0 );
+    $scope.mytime = d;
+  };
+
+  $scope.changed = function () {
+    $log.log('Time changed to: ' + $scope.mytime);
+  };
+
+  $scope.clear = function() {
+    $scope.mytime = null;
+  };
+});
+
+        </code>
+      </pre>
+      </div>
+    </tab>
+    <tab>
+      <tab-heading>css</tab-heading>
+      <div>
+      <pre>
+        <code data-language="css" rainbow>
+/* no css */
+        </code>
+      </pre>
+      </div>
+    </tab>
+  </tabset>
+</div>

@@ -13,7 +13,7 @@ angular.module('ui.yt.confirm', [])
     var confirmDialog;
     var scope;
     var defer;
-    var pop = function(options) {
+    var confirm = function(options) {
       if (confirmCount === 0) {
         defer = $q.defer();
         scope = $rootScope.$new();
@@ -47,9 +47,7 @@ angular.module('ui.yt.confirm', [])
       defer.resolve(resolveType);
       confirmCount--;
     };
-    return {
-      pop: pop
-    };
+    return confirm;
   }])
   .directive('confirmWrapper', function() {
     return {

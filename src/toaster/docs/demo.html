@@ -1,0 +1,18 @@
+<div ng-controller="toasterDemoCtrl">
+  <form class="form-horizontal clearfix">
+    <div class="col-md-4">
+      <input type="text" ng-model="option.title" placeholder="title" class="form-control" />
+    </div>
+    <div class="col-md-4">
+      <input type="text" ng-model="option.body" placeholder="body" class="form-control" />
+    </div>
+    <div class="col-md-4">
+      <input type="text" ng-model="option.timeout" placeholder="timeout" class="form-control" />
+    </div>
+  </form>
+  <div class="row toasterDemoCtrl-btns">
+    <button class="btn btn-success" ng-click="click()">Toast Me</button>
+    <button class="btn btn-default" ng-click="clear()">Clear All</button>
+  </div>
+  <hr />
+</div>

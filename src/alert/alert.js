@@ -1,6 +1,6 @@
 angular.module('ui.yt.alert', [])
-  .factory('$alert', ['$document', '$rootScope', '$compile', '$q', function($document, $rootScope, $compile, $q) {
-    var mask = angular.element('<div class="modal-backdrop fade in" />');
+  .factory('$alert', ['$document', '$rootScope', '$compile', '$q', '$timeout', function($document, $rootScope, $compile, $q, $timeout) {
+    var mask = angular.element('<div class="modal-backdrop fade" />');
     mask.css({
       'z-index': 1035
     });
@@ -13,7 +13,7 @@ angular.module('ui.yt.alert', [])
     var alertDialog;
     var scope;
     var defer;
-    var pop = function(options) {
+    var alert = function(options) {
       if (alertCount === 0) {
         defer = $q.defer();
         scope = $rootScope.$new();
@@ -22,7 +22,10 @@ angular.module('ui.yt.alert', [])
         alertDialog = $compile(wrapper)(scope);
         $document.find('body').append(alertDialog);
         $document.find('body').append(mask);
-
+        $timeout(function () {
+          alertDialog.addClass('in').css('display', 'block');
+          mask.addClass('in');
+        });
         scope.close = dismiss;
         scope.ok = dismiss;
         alertCount++;
@@ -33,14 +36,14 @@ angular.module('ui.yt.alert', [])
       if (alertCount === 1) {
         alertDialog.remove();
         mask.remove();
+        mask.removeClass('in');
+        alertDialog.removeClass('in');
         scope.$destroy();
         defer.resolve('ok');
         alertCount--;
       }
     };
-    return {
-      pop: pop
-    };
+    return alert;
   }])
   .directive('alertWrapper', function() {
     return {

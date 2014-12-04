@@ -3,7 +3,7 @@ try { module = angular.module("alert/template/wrapper.html"); }
 catch(err) { module = angular.module("alert/template/wrapper.html", []); }
 module.run(["$templateCache", function($templateCache) {
   $templateCache.put("alert/template/wrapper.html",
-    "<div class=\"modal fade in\" style=\"display: block\">\n" +
+    "<div class=\"modal fade\">\n" +
     "  <div class=\"modal-dialog\">\n" +
     "    <div class=\"modal-content\">\n" +
     "      <div class=\"modal-header\">\n" +

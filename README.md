@@ -1,9 +1,11 @@
-yt-ui-angular
+ui-yi-angular
 =============
 
-yt ui for angular
+## yt ui for angular
 
-trying to write some angular ui
+Trying to write some [AngularJS](http://angularjs.org/) ui with [Bootstrap](http://getbootstrap.com)
+
+It is base on [UI Bootstrap](http://angular-ui.github.io/bootstrap/)
 
 ## Installation
 
@@ -28,7 +30,7 @@ angular.module('myModule', ['ui.yt']);
 
 ### popoverConfirm
 `directive` quick confirm preventing from a slip
-    
+
 ### toaster
 `service` toast
 

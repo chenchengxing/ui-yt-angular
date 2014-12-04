@@ -5,7 +5,7 @@
  * Version: 0.12.0-SNAPSHOT - 2014-10-19
  * License: MIT
  */
-angular.module("ui.bootstrap", ["ui.bootstrap.tpls", "ui.bootstrap.transition","ui.bootstrap.collapse","ui.bootstrap.accordion","ui.bootstrap.alert","ui.bootstrap.bindHtml","ui.bootstrap.buttons","ui.bootstrap.carousel","ui.bootstrap.dateparser","ui.bootstrap.position","ui.bootstrap.datepicker","ui.bootstrap.dropdown","ui.bootstrap.modal","ui.bootstrap.pagination","ui.bootstrap.tooltip","ui.bootstrap.popover","ui.bootstrap.progressbar","ui.bootstrap.rating","ui.bootstrap.tabs","ui.bootstrap.timepicker","ui.bootstrap.typeahead"]);
+angular.module("ui.bootstrap", ["ui.bootstrap.tpls", "ui.bootstrap.transition","ui.bootstrap.collapse","ui.bootstrap.accordion","ui.bootstrap.alert","ui.bootstrap.bindHtml","ui.bootstrap.buttons","ui.bootstrap.carousel","ui.bootstrap.dateparser","ui.bootstrap.position","ui.bootstrap.datepicker","ui.bootstrap.dropdown","ui.bootstrap.pagination","ui.bootstrap.tooltip","ui.bootstrap.popover","ui.bootstrap.progressbar","ui.bootstrap.rating","ui.bootstrap.tabs","ui.bootstrap.timepicker","ui.bootstrap.typeahead"]);
 angular.module("ui.bootstrap.tpls", ["template/accordion/accordion-group.html","template/accordion/accordion.html","template/alert/alert.html","template/carousel/carousel.html","template/carousel/slide.html","template/datepicker/datepicker.html","template/datepicker/day.html","template/datepicker/month.html","template/datepicker/popup.html","template/datepicker/year.html","template/modal/backdrop.html","template/modal/window.html","template/pagination/pager.html","template/pagination/pagination.html","template/tooltip/tooltip-html-unsafe-popup.html","template/tooltip/tooltip-popup.html","template/popover/popover.html","template/progressbar/bar.html","template/progressbar/progress.html","template/progressbar/progressbar.html","template/rating/rating.html","template/tabs/tab.html","template/tabs/tabset.html","template/timepicker/timepicker.html","template/typeahead/typeahead-match.html","template/typeahead/typeahead-popup.html"]);
 angular.module('ui.bootstrap.transition', [])
 
@@ -211,91 +211,91 @@ angular.module('ui.bootstrap.accordion', ['ui.bootstrap.collapse'])
 
 // The accordion directive simply sets up the directive controller
 // and adds an accordion CSS class to itself element.
-.directive('accordion', function () {
-  return {
-    restrict:'EA',
-    controller:'AccordionController',
-    transclude: true,
-    replace: false,
-    templateUrl: 'template/accordion/accordion.html'
-  };
-})
+// .directive('accordion', function () {
+//   return {
+//     restrict:'EA',
+//     controller:'AccordionController',
+//     transclude: true,
+//     replace: false,
+//     templateUrl: 'template/accordion/accordion.html'
+//   };
+// })
 
-// The accordion-group directive indicates a block of html that will expand and collapse in an accordion
-.directive('accordionGroup', function() {
-  return {
-    require:'^accordion',         // We need this directive to be inside an accordion
-    restrict:'EA',
-    transclude:true,              // It transcludes the contents of the directive into the template
-    replace: true,                // The element containing the directive will be replaced with the template
-    templateUrl:'template/accordion/accordion-group.html',
-    scope: {
-      heading: '@',               // Interpolate the heading attribute onto this scope
-      isOpen: '=?',
-      isDisabled: '=?'
-    },
-    controller: function() {
-      this.setHeading = function(element) {
-        this.heading = element;
-      };
-    },
-    link: function(scope, element, attrs, accordionCtrl) {
-      accordionCtrl.addGroup(scope);
+// // The accordion-group directive indicates a block of html that will expand and collapse in an accordion
+// .directive('accordionGroup', function() {
+//   return {
+//     require:'^accordion',         // We need this directive to be inside an accordion
+//     restrict:'EA',
+//     transclude:true,              // It transcludes the contents of the directive into the template
+//     replace: true,                // The element containing the directive will be replaced with the template
+//     templateUrl:'template/accordion/accordion-group.html',
+//     scope: {
+//       heading: '@',               // Interpolate the heading attribute onto this scope
+//       isOpen: '=?',
+//       isDisabled: '=?'
+//     },
+//     controller: function() {
+//       this.setHeading = function(element) {
+//         this.heading = element;
+//       };
+//     },
+//     link: function(scope, element, attrs, accordionCtrl) {
+//       accordionCtrl.addGroup(scope);
 
-      scope.$watch('isOpen', function(value) {
-        if ( value ) {
-          accordionCtrl.closeOthers(scope);
-        }
-      });
+//       scope.$watch('isOpen', function(value) {
+//         if ( value ) {
+//           accordionCtrl.closeOthers(scope);
+//         }
+//       });
 
-      scope.toggleOpen = function() {
-        if ( !scope.isDisabled ) {
-          scope.isOpen = !scope.isOpen;
-        }
-      };
-    }
-  };
-})
+//       scope.toggleOpen = function() {
+//         if ( !scope.isDisabled ) {
+//           scope.isOpen = !scope.isOpen;
+//         }
+//       };
+//     }
+//   };
+// })
 
-// Use accordion-heading below an accordion-group to provide a heading containing HTML
-// <accordion-group>
-//   <accordion-heading>Heading containing HTML - <img src="..."></accordion-heading>
-// </accordion-group>
-.directive('accordionHeading', function() {
-  return {
-    restrict: 'EA',
-    transclude: true,   // Grab the contents to be used as the heading
-    template: '',       // In effect remove this element!
-    replace: true,
-    require: '^accordionGroup',
-    link: function(scope, element, attr, accordionGroupCtrl, transclude) {
-      // Pass the heading to the accordion-group controller
-      // so that it can be transcluded into the right place in the template
-      // [The second parameter to transclude causes the elements to be cloned so that they work in ng-repeat]
-      accordionGroupCtrl.setHeading(transclude(scope, function() {}));
-    }
-  };
-})
+// // Use accordion-heading below an accordion-group to provide a heading containing HTML
+// // <accordion-group>
+// //   <accordion-heading>Heading containing HTML - <img src="..."></accordion-heading>
+// // </accordion-group>
+// .directive('accordionHeading', function() {
+//   return {
+//     restrict: 'EA',
+//     transclude: true,   // Grab the contents to be used as the heading
+//     template: '',       // In effect remove this element!
+//     replace: true,
+//     require: '^accordionGroup',
+//     link: function(scope, element, attr, accordionGroupCtrl, transclude) {
+//       // Pass the heading to the accordion-group controller
+//       // so that it can be transcluded into the right place in the template
+//       // [The second parameter to transclude causes the elements to be cloned so that they work in ng-repeat]
+//       accordionGroupCtrl.setHeading(transclude(scope, function() {}));
+//     }
+//   };
+// })
 
-// Use in the accordion-group template to indicate where you want the heading to be transcluded
-// You must provide the property on the accordion-group controller that will hold the transcluded element
-// <div class="accordion-group">
-//   <div class="accordion-heading" ><a ... accordion-transclude="heading">...</a></div>
-//   ...
-// </div>
-.directive('accordionTransclude', function() {
-  return {
-    require: '^accordionGroup',
-    link: function(scope, element, attr, controller) {
-      scope.$watch(function() { return controller[attr.accordionTransclude]; }, function(heading) {
-        if ( heading ) {
-          element.html('');
-          element.append(heading);
-        }
-      });
-    }
-  };
-});
+// // Use in the accordion-group template to indicate where you want the heading to be transcluded
+// // You must provide the property on the accordion-group controller that will hold the transcluded element
+// // <div class="accordion-group">
+// //   <div class="accordion-heading" ><a ... accordion-transclude="heading">...</a></div>
+// //   ...
+// // </div>
+// .directive('accordionTransclude', function() {
+//   return {
+//     require: '^accordionGroup',
+//     link: function(scope, element, attr, controller) {
+//       scope.$watch(function() { return controller[attr.accordionTransclude]; }, function(heading) {
+//         if ( heading ) {
+//           element.html('');
+//           element.append(heading);
+//         }
+//       });
+//     }
+//   };
+// });
 
 angular.module('ui.bootstrap.alert', [])
 
@@ -1778,421 +1778,421 @@ angular.module('ui.bootstrap.dropdown', [])
   };
 });
 
-angular.module('ui.bootstrap.modal', ['ui.bootstrap.transition'])
+// angular.module, ['ui.bootstrap.transition'])
 
-/**
- * A helper, internal data structure that acts as a map but also allows getting / removing
- * elements in the LIFO order
- */
-  .factory('$$stackedMap', function () {
-    return {
-      createNew: function () {
-        var stack = [];
+// /**
+//  * A helper, internal data structure that acts as a map but also allows getting / removing
+//  * elements in the LIFO order
+//  */
+//   .factory('$$stackedMap', function () {
+//     return {
+//       createNew: function () {
+//         var stack = [];
 
-        return {
-          add: function (key, value) {
-            stack.push({
-              key: key,
-              value: value
-            });
-          },
-          get: function (key) {
-            for (var i = 0; i < stack.length; i++) {
-              if (key == stack[i].key) {
-                return stack[i];
-              }
-            }
-          },
-          keys: function() {
-            var keys = [];
-            for (var i = 0; i < stack.length; i++) {
-              keys.push(stack[i].key);
-            }
-            return keys;
-          },
-          top: function () {
-            return stack[stack.length - 1];
-          },
-          remove: function (key) {
-            var idx = -1;
-            for (var i = 0; i < stack.length; i++) {
-              if (key == stack[i].key) {
-                idx = i;
-                break;
-              }
-            }
-            return stack.splice(idx, 1)[0];
-          },
-          removeTop: function () {
-            return stack.splice(stack.length - 1, 1)[0];
-          },
-          length: function () {
-            return stack.length;
-          }
-        };
-      }
-    };
-  })
+//         return {
+//           add: function (key, value) {
+//             stack.push({
+//               key: key,
+//               value: value
+//             });
+//           },
+//           get: function (key) {
+//             for (var i = 0; i < stack.length; i++) {
+//               if (key == stack[i].key) {
+//                 return stack[i];
+//               }
+//             }
+//           },
+//           keys: function() {
+//             var keys = [];
+//             for (var i = 0; i < stack.length; i++) {
+//               keys.push(stack[i].key);
+//             }
+//             return keys;
+//           },
+//           top: function () {
+//             return stack[stack.length - 1];
+//           },
+//           remove: function (key) {
+//             var idx = -1;
+//             for (var i = 0; i < stack.length; i++) {
+//               if (key == stack[i].key) {
+//                 idx = i;
+//                 break;
+//               }
+//             }
+//             return stack.splice(idx, 1)[0];
+//           },
+//           removeTop: function () {
+//             return stack.splice(stack.length - 1, 1)[0];
+//           },
+//           length: function () {
+//             return stack.length;
+//           }
+//         };
+//       }
+//     };
+//   })
 
-/**
- * A helper directive for the $modal service. It creates a backdrop element.
- */
-  .directive('modalBackdrop', ['$timeout', function ($timeout) {
-    return {
-      restrict: 'EA',
-      replace: true,
-      templateUrl: 'template/modal/backdrop.html',
-      link: function (scope, element, attrs) {
-        scope.backdropClass = attrs.backdropClass || '';
+// /**
+//  * A helper directive for the $modal service. It creates a backdrop element.
+//  */
+//   .directive('modalBackdrop', ['$timeout', function ($timeout) {
+//     return {
+//       restrict: 'EA',
+//       replace: true,
+//       templateUrl: 'template/modal/backdrop.html',
+//       link: function (scope, element, attrs) {
+//         scope.backdropClass = attrs.backdropClass || '';
 
-        scope.animate = false;
+//         scope.animate = false;
 
-        //trigger CSS transitions
-        $timeout(function () {
-          scope.animate = true;
-        });
-      }
-    };
-  }])
+//         //trigger CSS transitions
+//         $timeout(function () {
+//           scope.animate = true;
+//         });
+//       }
+//     };
+//   }])
 
-  .directive('modalWindow', ['$modalStack', '$timeout', function ($modalStack, $timeout) {
-    return {
-      restrict: 'EA',
-      scope: {
-        index: '@',
-        animate: '='
-      },
-      replace: true,
-      transclude: true,
-      templateUrl: function(tElement, tAttrs) {
-        return tAttrs.templateUrl || 'template/modal/window.html';
-      },
-      link: function (scope, element, attrs) {
-        element.addClass(attrs.windowClass || '');
-        scope.size = attrs.size;
+//   .directive('modalWindow', ['$modalStack', '$timeout', function ($modalStack, $timeout) {
+//     return {
+//       restrict: 'EA',
+//       scope: {
+//         index: '@',
+//         animate: '='
+//       },
+//       replace: true,
+//       transclude: true,
+//       templateUrl: function(tElement, tAttrs) {
+//         return tAttrs.templateUrl || 'template/modal/window.html';
+//       },
+//       link: function (scope, element, attrs) {
+//         element.addClass(attrs.windowClass || '');
+//         scope.size = attrs.size;
 
-        $timeout(function () {
-          // trigger CSS transitions
-          scope.animate = true;
+//         $timeout(function () {
+//           // trigger CSS transitions
+//           scope.animate = true;
 
-          /**
-           * Auto-focusing of a freshly-opened modal element causes any child elements
-           * with the autofocus attribute to lose focus. This is an issue on touch
-           * based devices which will show and then hide the onscreen keyboard.
-           * Attempts to refocus the autofocus element via JavaScript will not reopen
-           * the onscreen keyboard. Fixed by updated the focusing logic to only autofocus
-           * the modal element if the modal does not contain an autofocus element.
-           */
-          if (!element[0].querySelectorAll('[autofocus]').length) {
-            element[0].focus();
-          }
-        });
+//           *
+//            * Auto-focusing of a freshly-opened modal element causes any child elements
+//            * with the autofocus attribute to lose focus. This is an issue on touch
+//            * based devices which will show and then hide the onscreen keyboard.
+//            * Attempts to refocus the autofocus element via JavaScript will not reopen
+//            * the onscreen keyboard. Fixed by updated the focusing logic to only autofocus
+//            * the modal element if the modal does not contain an autofocus element.
 
-        scope.close = function (evt) {
-          var modal = $modalStack.getTop();
-          if (modal && modal.value.backdrop && modal.value.backdrop != 'static' && (evt.target === evt.currentTarget)) {
-            evt.preventDefault();
-            evt.stopPropagation();
-            $modalStack.dismiss(modal.key, 'backdrop click');
-          }
-        };
-      }
-    };
-  }])
+//           if (!element[0].querySelectorAll('[autofocus]').length) {
+//             element[0].focus();
+//           }
+//         });
 
-  .directive('modalTransclude', function () {
-    return {
-      link: function($scope, $element, $attrs, controller, $transclude) {
-        $transclude($scope.$parent, function(clone) {
-          $element.empty();
-          $element.append(clone);
-        });
-      }
-    };
-  })
+//         scope.close = function (evt) {
+//           var modal = $modalStack.getTop();
+//           if (modal && modal.value.backdrop && modal.value.backdrop != 'static' && (evt.target === evt.currentTarget)) {
+//             evt.preventDefault();
+//             evt.stopPropagation();
+//             $modalStack.dismiss(modal.key, 'backdrop click');
+//           }
+//         };
+//       }
+//     };
+//   }])
 
-  .factory('$modalStack', ['$transition', '$timeout', '$document', '$compile', '$rootScope', '$$stackedMap',
-    function ($transition, $timeout, $document, $compile, $rootScope, $$stackedMap) {
+//   .directive('modalTransclude', function () {
+//     return {
+//       link: function($scope, $element, $attrs, controller, $transclude) {
+//         $transclude($scope.$parent, function(clone) {
+//           $element.empty();
+//           $element.append(clone);
+//         });
+//       }
+//     };
+//   })
 
-      var OPENED_MODAL_CLASS = 'modal-open';
+//   .factory('$modalStack', ['$transition', '$timeout', '$document', '$compile', '$rootScope', '$$stackedMap',
+//     function ($transition, $timeout, $document, $compile, $rootScope, $$stackedMap) {
 
-      var backdropDomEl, backdropScope;
-      var openedWindows = $$stackedMap.createNew();
-      var $modalStack = {};
+//       var OPENED_MODAL_CLASS = 'modal-open';
 
-      function backdropIndex() {
-        var topBackdropIndex = -1;
-        var opened = openedWindows.keys();
-        for (var i = 0; i < opened.length; i++) {
-          if (openedWindows.get(opened[i]).value.backdrop) {
-            topBackdropIndex = i;
-          }
-        }
-        return topBackdropIndex;
-      }
+//       var backdropDomEl, backdropScope;
+//       var openedWindows = $$stackedMap.createNew();
+//       var $modalStack = {};
 
-      $rootScope.$watch(backdropIndex, function(newBackdropIndex){
-        if (backdropScope) {
-          backdropScope.index = newBackdropIndex;
-        }
-      });
+//       function backdropIndex() {
+//         var topBackdropIndex = -1;
+//         var opened = openedWindows.keys();
+//         for (var i = 0; i < opened.length; i++) {
+//           if (openedWindows.get(opened[i]).value.backdrop) {
+//             topBackdropIndex = i;
+//           }
+//         }
+//         return topBackdropIndex;
+//       }
 
-      function removeModalWindow(modalInstance) {
+//       $rootScope.$watch(backdropIndex, function(newBackdropIndex){
+//         if (backdropScope) {
+//           backdropScope.index = newBackdropIndex;
+//         }
+//       });
 
-        var body = $document.find('body').eq(0);
-        var modalWindow = openedWindows.get(modalInstance).value;
+//       function removeModalWindow(modalInstance) {
 
-        //clean up the stack
-        openedWindows.remove(modalInstance);
+//         var body = $document.find('body').eq(0);
+//         var modalWindow = openedWindows.get(modalInstance).value;
 
-        //remove window DOM element
-        removeAfterAnimate(modalWindow.modalDomEl, modalWindow.modalScope, 300, function() {
-          modalWindow.modalScope.$destroy();
-          body.toggleClass(OPENED_MODAL_CLASS, openedWindows.length() > 0);
-          checkRemoveBackdrop();
-        });
-      }
+//         //clean up the stack
+//         openedWindows.remove(modalInstance);
 
-      function checkRemoveBackdrop() {
-          //remove backdrop if no longer needed
-          if (backdropDomEl && backdropIndex() == -1) {
-            var backdropScopeRef = backdropScope;
-            removeAfterAnimate(backdropDomEl, backdropScope, 150, function () {
-              backdropScopeRef.$destroy();
-              backdropScopeRef = null;
-            });
-            backdropDomEl = undefined;
-            backdropScope = undefined;
-          }
-      }
+//         //remove window DOM element
+//         removeAfterAnimate(modalWindow.modalDomEl, modalWindow.modalScope, 300, function() {
+//           modalWindow.modalScope.$destroy();
+//           body.toggleClass(OPENED_MODAL_CLASS, openedWindows.length() > 0);
+//           checkRemoveBackdrop();
+//         });
+//       }
 
-      function removeAfterAnimate(domEl, scope, emulateTime, done) {
-        // Closing animation
-        scope.animate = false;
+//       function checkRemoveBackdrop() {
+//           //remove backdrop if no longer needed
+//           if (backdropDomEl && backdropIndex() == -1) {
+//             var backdropScopeRef = backdropScope;
+//             removeAfterAnimate(backdropDomEl, backdropScope, 150, function () {
+//               backdropScopeRef.$destroy();
+//               backdropScopeRef = null;
+//             });
+//             backdropDomEl = undefined;
+//             backdropScope = undefined;
+//           }
+//       }
 
-        var transitionEndEventName = $transition.transitionEndEventName;
-        if (transitionEndEventName) {
-          // transition out
-          var timeout = $timeout(afterAnimating, emulateTime);
+//       function removeAfterAnimate(domEl, scope, emulateTime, done) {
+//         // Closing animation
+//         scope.animate = false;
 
-          domEl.bind(transitionEndEventName, function () {
-            $timeout.cancel(timeout);
-            afterAnimating();
-            scope.$apply();
-          });
-        } else {
-          // Ensure this call is async
-          $timeout(afterAnimating);
-        }
+//         var transitionEndEventName = $transition.transitionEndEventName;
+//         if (transitionEndEventName) {
+//           // transition out
+//           var timeout = $timeout(afterAnimating, emulateTime);
 
-        function afterAnimating() {
-          if (afterAnimating.done) {
-            return;
-          }
-          afterAnimating.done = true;
+//           domEl.bind(transitionEndEventName, function () {
+//             $timeout.cancel(timeout);
+//             afterAnimating();
+//             scope.$apply();
+//           });
+//         } else {
+//           // Ensure this call is async
+//           $timeout(afterAnimating);
+//         }
 
-          domEl.remove();
-          if (done) {
-            done();
-          }
-        }
-      }
+//         function afterAnimating() {
+//           if (afterAnimating.done) {
+//             return;
+//           }
+//           afterAnimating.done = true;
 
-      $document.bind('keydown', function (evt) {
-        var modal;
+//           domEl.remove();
+//           if (done) {
+//             done();
+//           }
+//         }
+//       }
 
-        if (evt.which === 27) {
-          modal = openedWindows.top();
-          if (modal && modal.value.keyboard) {
-            evt.preventDefault();
-            $rootScope.$apply(function () {
-              $modalStack.dismiss(modal.key, 'escape key press');
-            });
-          }
-        }
-      });
+//       $document.bind('keydown', function (evt) {
+//         var modal;
 
-      $modalStack.open = function (modalInstance, modal) {
+//         if (evt.which === 27) {
+//           modal = openedWindows.top();
+//           if (modal && modal.value.keyboard) {
+//             evt.preventDefault();
+//             $rootScope.$apply(function () {
+//               $modalStack.dismiss(modal.key, 'escape key press');
+//             });
+//           }
+//         }
+//       });
 
-        openedWindows.add(modalInstance, {
-          deferred: modal.deferred,
-          modalScope: modal.scope,
-          backdrop: modal.backdrop,
-          keyboard: modal.keyboard
-        });
+//       $modalStack.open = function (modalInstance, modal) {
 
-        var body = $document.find('body').eq(0),
-            currBackdropIndex = backdropIndex();
+//         openedWindows.add(modalInstance, {
+//           deferred: modal.deferred,
+//           modalScope: modal.scope,
+//           backdrop: modal.backdrop,
+//           keyboard: modal.keyboard
+//         });
 
-        if (currBackdropIndex >= 0 && !backdropDomEl) {
-          backdropScope = $rootScope.$new(true);
-          backdropScope.index = currBackdropIndex;
-          var angularBackgroundDomEl = angular.element('<div modal-backdrop></div>');
-          angularBackgroundDomEl.attr('backdrop-class', modal.backdropClass);
-          backdropDomEl = $compile(angularBackgroundDomEl)(backdropScope);
-          body.append(backdropDomEl);
-        }
+//         var body = $document.find('body').eq(0),
+//             currBackdropIndex = backdropIndex();
 
-        var angularDomEl = angular.element('<div modal-window></div>');
-        angularDomEl.attr({
-          'template-url': modal.windowTemplateUrl,
-          'window-class': modal.windowClass,
-          'size': modal.size,
-          'index': openedWindows.length() - 1,
-          'animate': 'animate'
-        }).html(modal.content);
+//         if (currBackdropIndex >= 0 && !backdropDomEl) {
+//           backdropScope = $rootScope.$new(true);
+//           backdropScope.index = currBackdropIndex;
+//           var angularBackgroundDomEl = angular.element('<div modal-backdrop></div>');
+//           angularBackgroundDomEl.attr('backdrop-class', modal.backdropClass);
+//           backdropDomEl = $compile(angularBackgroundDomEl)(backdropScope);
+//           body.append(backdropDomEl);
+//         }
 
-        var modalDomEl = $compile(angularDomEl)(modal.scope);
-        openedWindows.top().value.modalDomEl = modalDomEl;
-        body.append(modalDomEl);
-        body.addClass(OPENED_MODAL_CLASS);
-      };
+//         var angularDomEl = angular.element('<div modal-window></div>');
+//         angularDomEl.attr({
+//           'template-url': modal.windowTemplateUrl,
+//           'window-class': modal.windowClass,
+//           'size': modal.size,
+//           'index': openedWindows.length() - 1,
+//           'animate': 'animate'
+//         }).html(modal.content);
 
-      $modalStack.close = function (modalInstance, result) {
-        var modalWindow = openedWindows.get(modalInstance);
-        if (modalWindow) {
-          modalWindow.value.deferred.resolve(result);
-          removeModalWindow(modalInstance);
-        }
-      };
+//         var modalDomEl = $compile(angularDomEl)(modal.scope);
+//         openedWindows.top().value.modalDomEl = modalDomEl;
+//         body.append(modalDomEl);
+//         body.addClass(OPENED_MODAL_CLASS);
+//       };
 
-      $modalStack.dismiss = function (modalInstance, reason) {
-        var modalWindow = openedWindows.get(modalInstance);
-        if (modalWindow) {
-          modalWindow.value.deferred.reject(reason);
-          removeModalWindow(modalInstance);
-        }
-      };
+//       $modalStack.close = function (modalInstance, result) {
+//         var modalWindow = openedWindows.get(modalInstance);
+//         if (modalWindow) {
+//           modalWindow.value.deferred.resolve(result);
+//           removeModalWindow(modalInstance);
+//         }
+//       };
 
-      $modalStack.dismissAll = function (reason) {
-        var topModal = this.getTop();
-        while (topModal) {
-          this.dismiss(topModal.key, reason);
-          topModal = this.getTop();
-        }
-      };
+//       $modalStack.dismiss = function (modalInstance, reason) {
+//         var modalWindow = openedWindows.get(modalInstance);
+//         if (modalWindow) {
+//           modalWindow.value.deferred.reject(reason);
+//           removeModalWindow(modalInstance);
+//         }
+//       };
 
-      $modalStack.getTop = function () {
-        return openedWindows.top();
-      };
+//       $modalStack.dismissAll = function (reason) {
+//         var topModal = this.getTop();
+//         while (topModal) {
+//           this.dismiss(topModal.key, reason);
+//           topModal = this.getTop();
+//         }
+//       };
 
-      return $modalStack;
-    }])
+//       $modalStack.getTop = function () {
+//         return openedWindows.top();
+//       };
 
-  .provider('$modal', function () {
+//       return $modalStack;
+//     }])
 
-    var $modalProvider = {
-      options: {
-        backdrop: true, //can be also false or 'static'
-        keyboard: true
-      },
-      $get: ['$injector', '$rootScope', '$q', '$http', '$templateCache', '$controller', '$modalStack',
-        function ($injector, $rootScope, $q, $http, $templateCache, $controller, $modalStack) {
+//   .provider('$modal', function () {
 
-          var $modal = {};
+//     var $modalProvider = {
+//       options: {
+//         backdrop: true, //can be also false or 'static'
+//         keyboard: true
+//       },
+//       $get: ['$injector', '$rootScope', '$q', '$http', '$templateCache', '$controller', '$modalStack',
+//         function ($injector, $rootScope, $q, $http, $templateCache, $controller, $modalStack) {
 
-          function getTemplatePromise(options) {
-            return options.template ? $q.when(options.template) :
-              $http.get(angular.isFunction(options.templateUrl) ? (options.templateUrl)() : options.templateUrl,
-                {cache: $templateCache}).then(function (result) {
-                  return result.data;
-              });
-          }
+//           var $modal = {};
 
-          function getResolvePromises(resolves) {
-            var promisesArr = [];
-            angular.forEach(resolves, function (value) {
-              if (angular.isFunction(value) || angular.isArray(value)) {
-                promisesArr.push($q.when($injector.invoke(value)));
-              }
-            });
-            return promisesArr;
-          }
+//           function getTemplatePromise(options) {
+//             return options.template ? $q.when(options.template) :
+//               $http.get(angular.isFunction(options.templateUrl) ? (options.templateUrl)() : options.templateUrl,
+//                 {cache: $templateCache}).then(function (result) {
+//                   return result.data;
+//               });
+//           }
 
-          $modal.open = function (modalOptions) {
+//           function getResolvePromises(resolves) {
+//             var promisesArr = [];
+//             angular.forEach(resolves, function (value) {
+//               if (angular.isFunction(value) || angular.isArray(value)) {
+//                 promisesArr.push($q.when($injector.invoke(value)));
+//               }
+//             });
+//             return promisesArr;
+//           }
 
-            var modalResultDeferred = $q.defer();
-            var modalOpenedDeferred = $q.defer();
+//           $modal.open = function (modalOptions) {
 
-            //prepare an instance of a modal to be injected into controllers and returned to a caller
-            var modalInstance = {
-              result: modalResultDeferred.promise,
-              opened: modalOpenedDeferred.promise,
-              close: function (result) {
-                $modalStack.close(modalInstance, result);
-              },
-              dismiss: function (reason) {
-                $modalStack.dismiss(modalInstance, reason);
-              }
-            };
+//             var modalResultDeferred = $q.defer();
+//             var modalOpenedDeferred = $q.defer();
 
-            //merge and clean up options
-            modalOptions = angular.extend({}, $modalProvider.options, modalOptions);
-            modalOptions.resolve = modalOptions.resolve || {};
+//             //prepare an instance of a modal to be injected into controllers and returned to a caller
+//             var modalInstance = {
+//               result: modalResultDeferred.promise,
+//               opened: modalOpenedDeferred.promise,
+//               close: function (result) {
+//                 $modalStack.close(modalInstance, result);
+//               },
+//               dismiss: function (reason) {
+//                 $modalStack.dismiss(modalInstance, reason);
+//               }
+//             };
 
-            //verify options
-            if (!modalOptions.template && !modalOptions.templateUrl) {
-              throw new Error('One of template or templateUrl options is required.');
-            }
+//             //merge and clean up options
+//             modalOptions = angular.extend({}, $modalProvider.options, modalOptions);
+//             modalOptions.resolve = modalOptions.resolve || {};
 
-            var templateAndResolvePromise =
-              $q.all([getTemplatePromise(modalOptions)].concat(getResolvePromises(modalOptions.resolve)));
+//             //verify options
+//             if (!modalOptions.template && !modalOptions.templateUrl) {
+//               throw new Error('One of template or templateUrl options is required.');
+//             }
+
+//             var templateAndResolvePromise =
+//               $q.all([getTemplatePromise(modalOptions)].concat(getResolvePromises(modalOptions.resolve)));
 
 
-            templateAndResolvePromise.then(function resolveSuccess(tplAndVars) {
+//             templateAndResolvePromise.then(function resolveSuccess(tplAndVars) {
 
-              var modalScope = (modalOptions.scope || $rootScope).$new();
-              modalScope.$close = modalInstance.close;
-              modalScope.$dismiss = modalInstance.dismiss;
+//               var modalScope = (modalOptions.scope || $rootScope).$new();
+//               modalScope.$close = modalInstance.close;
+//               modalScope.$dismiss = modalInstance.dismiss;
 
-              var ctrlInstance, ctrlLocals = {};
-              var resolveIter = 1;
+//               var ctrlInstance, ctrlLocals = {};
+//               var resolveIter = 1;
 
-              //controllers
-              if (modalOptions.controller) {
-                ctrlLocals.$scope = modalScope;
-                ctrlLocals.$modalInstance = modalInstance;
-                angular.forEach(modalOptions.resolve, function (value, key) {
-                  ctrlLocals[key] = tplAndVars[resolveIter++];
-                });
+//               //controllers
+//               if (modalOptions.controller) {
+//                 ctrlLocals.$scope = modalScope;
+//                 ctrlLocals.$modalInstance = modalInstance;
+//                 angular.forEach(modalOptions.resolve, function (value, key) {
+//                   ctrlLocals[key] = tplAndVars[resolveIter++];
+//                 });
 
-                ctrlInstance = $controller(modalOptions.controller, ctrlLocals);
-                if (modalOptions.controllerAs) {
-                  modalScope[modalOptions.controllerAs] = ctrlInstance;
-                }
-              }
+//                 ctrlInstance = $controller(modalOptions.controller, ctrlLocals);
+//                 if (modalOptions.controllerAs) {
+//                   modalScope[modalOptions.controllerAs] = ctrlInstance;
+//                 }
+//               }
 
-              $modalStack.open(modalInstance, {
-                scope: modalScope,
-                deferred: modalResultDeferred,
-                content: tplAndVars[0],
-                backdrop: modalOptions.backdrop,
-                keyboard: modalOptions.keyboard,
-                backdropClass: modalOptions.backdropClass,
-                windowClass: modalOptions.windowClass,
-                windowTemplateUrl: modalOptions.windowTemplateUrl,
-                size: modalOptions.size
-              });
+//               $modalStack.open(modalInstance, {
+//                 scope: modalScope,
+//                 deferred: modalResultDeferred,
+//                 content: tplAndVars[0],
+//                 backdrop: modalOptions.backdrop,
+//                 keyboard: modalOptions.keyboard,
+//                 backdropClass: modalOptions.backdropClass,
+//                 windowClass: modalOptions.windowClass,
+//                 windowTemplateUrl: modalOptions.windowTemplateUrl,
+//                 size: modalOptions.size
+//               });
 
-            }, function resolveError(reason) {
-              modalResultDeferred.reject(reason);
-            });
+//             }, function resolveError(reason) {
+//               modalResultDeferred.reject(reason);
+//             });
 
-            templateAndResolvePromise.then(function () {
-              modalOpenedDeferred.resolve(true);
-            }, function () {
-              modalOpenedDeferred.reject(false);
-            });
+//             templateAndResolvePromise.then(function () {
+//               modalOpenedDeferred.resolve(true);
+//             }, function () {
+//               modalOpenedDeferred.reject(false);
+//             });
 
-            return modalInstance;
-          };
+//             return modalInstance;
+//           };
 
-          return $modal;
-        }]
-    };
+//           return $modal;
+//         }]
+//     };
 
-    return $modalProvider;
-  });
+//     return $modalProvider;
+//   });
 
 angular.module('ui.bootstrap.pagination', [])
 
@@ -2597,7 +2597,7 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
               // Set the initial positioning.
               tooltip.css({ top: 0, left: 0, display: 'block' });
 
-              // Now we add it to the DOM because need some info about it. But it's not 
+              // Now we add it to the DOM because need some info about it. But it's not
               // visible yet anyway.
               if ( appendToBody ) {
                   $document.find( 'body' ).append( tooltip );
@@ -2625,7 +2625,7 @@ angular.module( 'ui.bootstrap.tooltip', [ 'ui.bootstrap.position', 'ui.bootstrap
               $timeout.cancel( popupTimeout );
               popupTimeout = null;
 
-              // And now we remove it from the DOM. However, if we have animation, we 
+              // And now we remove it from the DOM. However, if we have animation, we
               // need to wait for it to expire beforehand.
               // FIXME: this is a placeholder for a port of the transitions library.
               if ( scope.tt_animation ) {
@@ -3647,7 +3647,7 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.position', 'ui.bootstrap
       //we need to propagate user's query so we can higlight matches
       scope.query = undefined;
 
-      //Declare the timeout promise var outside the function scope so that stacked calls can be cancelled later 
+      //Declare the timeout promise var outside the function scope so that stacked calls can be cancelled later
       var timeoutPromise;
 
       var scheduleSearchWithTimeout = function(inputValue) {

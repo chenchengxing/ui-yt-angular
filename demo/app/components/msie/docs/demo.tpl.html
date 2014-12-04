@@ -1,7 +1,9 @@
 <div class="container mb_20">
   <div class="row">
-    <div class="col-md-6">no demo</div>
-    <div class="col-md-6"><!-- no apiHtml --></div>
+    <div class="col-md-6"><div ng-controller="msieDemoCtrl">
+  ieVersion: {{ieVersion}} (only ie.. of course)
+</div></div>
+    <div class="col-md-6"><p><em>* MSIE *</em> constant</p></div>
   </div>
 </div>
 
@@ -12,7 +14,7 @@
       <div>
         <pre>
           <code data-language="html" rainbow>
-<!-- no demo html -->
+&lt;div ng-controller=&quot;msieDemoCtrl&quot;&gt;&#10;  ieVersion: {{ieVersion}} (only ie.. of course)&#10;&lt;/div&gt;
           </code>
         </pre>
       </div>
@@ -22,7 +24,9 @@
       <div>
       <pre>
         <code data-language="javascript" rainbow>
-// no demo js
+angular.module('ui.yt.demo').controller('msieDemoCtrl', function ($scope, MSIE) {
+  $scope.ieVersion = MSIE;
+});
         </code>
       </pre>
       </div>

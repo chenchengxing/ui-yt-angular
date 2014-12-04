@@ -1,7 +1,18 @@
 <div class="container mb_20">
   <div class="row">
-    <div class="col-md-6">no demo</div>
-    <div class="col-md-6"><!-- no apiHtml --></div>
+    <div class="col-md-6"><div ng-controller="focusOnceCtrl">
+  <form class="form">
+    <input focus-once="trigger" class="form-control" />
+  </form>
+  <a class="btn btn-primary" ng-click="click()">{{triggerText}}</a>
+</div></div>
+    <div class="col-md-6"><p>Sometimes, in form validation, it is neccesary to warn user when missing something. But it is not neccesary to do it again. So <em>* focusOnce *</em> come into living.</p>
+
+<h2>Usage</h2>
+
+<p>markup like this: <code>&lt;input focus-once="trigger" /&gt;</code></p>
+
+<p>when <code>$scope.trigger = true;</code> is run, the input will be focused in. If you reset the trigger value and do it again, nothing happens.</p></div>
   </div>
 </div>
 
@@ -12,7 +23,7 @@
       <div>
         <pre>
           <code data-language="html" rainbow>
-<!-- no demo html -->
+&lt;div ng-controller=&quot;focusOnceCtrl&quot;&gt;&#10;  &lt;form class=&quot;form&quot;&gt;&#10;    &lt;input focus-once=&quot;trigger&quot; class=&quot;form-control&quot; /&gt;&#10;  &lt;/form&gt;&#10;  &lt;a class=&quot;btn btn-primary&quot; ng-click=&quot;click()&quot;&gt;{{triggerText}}&lt;/a&gt;&#10;&lt;/div&gt;
           </code>
         </pre>
       </div>
@@ -22,7 +33,13 @@
       <div>
       <pre>
         <code data-language="javascript" rainbow>
-// no demo js
+angular.module('ui.yt.demo').controller('focusOnceCtrl', function ($scope) {
+  $scope.triggerText = 'Trigger';
+  $scope.click = function () {
+    $scope.trigger = true;
+    $scope.triggerText = 'TriggerAgain';
+  };
+});
         </code>
       </pre>
       </div>
