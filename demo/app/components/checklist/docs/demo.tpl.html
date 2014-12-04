@@ -31,7 +31,7 @@ You should play with attributes of <code>&lt;input type="checkbox"&gt;</code> ta
       <div>
         <pre>
           <code data-language="html" rainbow>
-&lt;div ng-controller=&quot;checklistDemoCtrl&quot;&gt;&#13;&#10;  &lt;label ng-repeat=&quot;role in roles&quot;&gt;&#13;&#10;    &lt;input type=&quot;checkbox&quot; checklist=&quot;user.roles&quot; checklist-value=&quot;role&quot;&gt; {{role.text}}&#13;&#10;  &lt;/label&gt;&#13;&#10;  &lt;button ng-click=&quot;checkAll()&quot; style=&quot;margin-right: 10px&quot;&gt;Check all&lt;/button&gt;&#13;&#10;  &lt;button ng-click=&quot;uncheckAll()&quot; style=&quot;margin-right: 10px&quot;&gt;Uncheck all&lt;/button&gt;&#13;&#10;  &lt;button ng-click=&quot;checkFirst()&quot;&gt;Check first&lt;/button&gt;&#13;&#10;  &lt;div class=&quot;col-xs-12 col-sm-6&quot;&gt;&#13;&#10;    &lt;h3&gt;user.roles  &lt;/h3&gt;&#13;&#10;    &lt;pre&gt;{{user.roles | json}}&lt;/pre&gt;&#13;&#10;  &lt;/div&gt;&#13;&#10;&lt;/div&gt;
+&lt;div ng-controller=&quot;checklistDemoCtrl&quot;&gt;&#10;  &lt;label ng-repeat=&quot;role in roles&quot;&gt;&#10;    &lt;input type=&quot;checkbox&quot; checklist=&quot;user.roles&quot; checklist-value=&quot;role&quot;&gt; {{role.text}}&#10;  &lt;/label&gt;&#10;  &lt;button ng-click=&quot;checkAll()&quot; style=&quot;margin-right: 10px&quot;&gt;Check all&lt;/button&gt;&#10;  &lt;button ng-click=&quot;uncheckAll()&quot; style=&quot;margin-right: 10px&quot;&gt;Uncheck all&lt;/button&gt;&#10;  &lt;button ng-click=&quot;checkFirst()&quot;&gt;Check first&lt;/button&gt;&#10;  &lt;div class=&quot;col-xs-12 col-sm-6&quot;&gt;&#10;    &lt;h3&gt;user.roles  &lt;/h3&gt;&#10;    &lt;pre&gt;{{user.roles | json}}&lt;/pre&gt;&#10;  &lt;/div&gt;&#10;&lt;/div&gt;
           </code>
         </pre>
       </div>
