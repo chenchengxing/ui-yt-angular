@@ -12,7 +12,7 @@
       <input type="text" ng-model="option.timeout" placeholder="timeout" class="form-control" />
     </div>
   </form>
-  <div class="row" style="padding-left: 30px;padding-top: 10px;">
+  <div class="row toasterDemoCtrl-btns">
     <button class="btn btn-success" ng-click="click()">Toast Me</button>
     <button class="btn btn-default" ng-click="clear()">Clear All</button>
   </div>
@@ -42,7 +42,7 @@
       <div>
         <pre>
           <code data-language="html" rainbow>
-&lt;div ng-controller=&quot;toasterDemoCtrl&quot;&gt;&#10;  &lt;form class=&quot;form-horizontal clearfix&quot;&gt;&#10;    &lt;div class=&quot;col-md-4&quot;&gt;&#10;      &lt;input type=&quot;text&quot; ng-model=&quot;option.title&quot; placeholder=&quot;title&quot; class=&quot;form-control&quot; /&gt;&#10;    &lt;/div&gt;&#10;    &lt;div class=&quot;col-md-4&quot;&gt;&#10;      &lt;input type=&quot;text&quot; ng-model=&quot;option.body&quot; placeholder=&quot;body&quot; class=&quot;form-control&quot; /&gt;&#10;    &lt;/div&gt;&#10;    &lt;div class=&quot;col-md-4&quot;&gt;&#10;      &lt;input type=&quot;text&quot; ng-model=&quot;option.timeout&quot; placeholder=&quot;timeout&quot; class=&quot;form-control&quot; /&gt;&#10;    &lt;/div&gt;&#10;  &lt;/form&gt;&#10;  &lt;div class=&quot;row&quot; style=&quot;padding-left: 30px;padding-top: 10px;&quot;&gt;&#10;    &lt;button class=&quot;btn btn-success&quot; ng-click=&quot;click()&quot;&gt;Toast Me&lt;/button&gt;&#10;    &lt;button class=&quot;btn btn-default&quot; ng-click=&quot;clear()&quot;&gt;Clear All&lt;/button&gt;&#10;  &lt;/div&gt;&#10;  &lt;hr /&gt;&#10;&lt;/div&gt;
+&lt;div ng-controller=&quot;toasterDemoCtrl&quot;&gt;&#10;  &lt;form class=&quot;form-horizontal clearfix&quot;&gt;&#10;    &lt;div class=&quot;col-md-4&quot;&gt;&#10;      &lt;input type=&quot;text&quot; ng-model=&quot;option.title&quot; placeholder=&quot;title&quot; class=&quot;form-control&quot; /&gt;&#10;    &lt;/div&gt;&#10;    &lt;div class=&quot;col-md-4&quot;&gt;&#10;      &lt;input type=&quot;text&quot; ng-model=&quot;option.body&quot; placeholder=&quot;body&quot; class=&quot;form-control&quot; /&gt;&#10;    &lt;/div&gt;&#10;    &lt;div class=&quot;col-md-4&quot;&gt;&#10;      &lt;input type=&quot;text&quot; ng-model=&quot;option.timeout&quot; placeholder=&quot;timeout&quot; class=&quot;form-control&quot; /&gt;&#10;    &lt;/div&gt;&#10;  &lt;/form&gt;&#10;  &lt;div class=&quot;row toasterDemoCtrl-btns&quot;&gt;&#10;    &lt;button class=&quot;btn btn-success&quot; ng-click=&quot;click()&quot;&gt;Toast Me&lt;/button&gt;&#10;    &lt;button class=&quot;btn btn-default&quot; ng-click=&quot;clear()&quot;&gt;Clear All&lt;/button&gt;&#10;  &lt;/div&gt;&#10;  &lt;hr /&gt;&#10;&lt;/div&gt;
           </code>
         </pre>
       </div>
@@ -69,7 +69,7 @@ angular.module('ui.yt.demo').controller('toasterDemoCtrl', function ($scope, $to
       <div>
       <pre>
         <code data-language="css" rainbow>
-/* no css */
+.toasterDemoCtrl-btns { padding-left: 30px; padding-top: 10px; }
         </code>
       </pre>
       </div>

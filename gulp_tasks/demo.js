@@ -22,15 +22,22 @@ var file = require('gulp-file');
 var clean = require('gulp-clean');
 
 
-gulp.task('demoWatch', function () {
-  return gulp.watch('src/**/*.{js,css,html}', ['demoJsMerge', 'demo', 'demoOneWordDescription'])
-});
+// gulp.task('demoWatch', function () {
+//   return gulp.watch('src/**/*.{js,css,html}', ['demoJsMerge', 'demoCssMerge', 'demo', 'demoOneWordDescription'])
+// });
 
 gulp.task('demoJsMerge', function () {
   return gulp.src('src/*/docs/demo.js')
     .pipe(concat('demo.js'))
     .pipe(gulp.dest('demo'))
 });
+
+gulp.task('demoCssMerge', function () {
+  return gulp.src('src/*/docs/demo.css')
+    .pipe(concat('demo.css'))
+    .pipe(gulp.dest('demo'))
+});
+
 /**
   read name from docs/oneWordDescription and generate CONSTANTS
 */
