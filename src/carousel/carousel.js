@@ -216,7 +216,7 @@ angular.module('ui.yt.carousel', ['ui.yt.transition'])
     replace: true,
     controller: 'CarouselController',
     require: 'carousel',
-    templateUrl: '/carouseltemplate/carousel.html',
+    templateUrl: 'carousel/template/carousel.html',
     scope: {
       interval: '=',
       noTransition: '=',

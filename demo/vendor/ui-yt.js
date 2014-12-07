@@ -1,135 +1,4 @@
 angular.module('ui.yt', ['ui.yt.accordion','accordion/template/accordion-group.html','accordion/template/accordion.html','ui.yt.alert','alert/template/wrapper.html','ui.yt.alerts','alerts/template/alert.html','ui.yt.bindHtml','ui.yt.busySpin','ui.yt.buttons','ui.yt.carousel','carousel/template/carousel.html','carousel/template/slide.html','ui.yt.checklist','ui.yt.collapse','ui.yt.confirm','confirm/template/wrapper.html','ui.yt.dateparser','ui.yt.datepicker','ui.yt.dropdown','ui.yt.dropdownlist','dropdownlist/template/dropdown.html','ui.yt.focusOnce','ui.yt.modal','modal/template/backdrop.html','modal/template/window.html','ui.yt.msie','ui.yt.pagination','pagination/template/pager.html','pagination/template/pagination.html','ui.yt.placeholder','ui.yt.popover','popover/template/popover.html','ui.yt.popoverConfirm','popoverConfirm/template/wrapper.html','ui.yt.position','ui.yt.progressbar','progressbar/template/bar.html','progressbar/template/progress.html','progressbar/template/progressbar.html','ui.yt.rating','rating/template/rating.html','ui.yt.tabs','tabs/template/tab.html','tabs/template/tabset.html','ui.yt.timepicker','timepicker/template/timepicker.html','ui.yt.toaster','ui.yt.tooltip','tooltip/template/tooltip-html-unsafe-popup.html','tooltip/template/tooltip-popup.html','ui.yt.transition','ui.yt.typeahead','typeahead/template/typeahead-match.html','typeahead/template/typeahead-popup.html']);
-angular.module('ui.yt.accordion', ['ui.yt.collapse'])
-
-.constant('accordionConfig', {
-  closeOthers: true
-})
-
-.controller('AccordionController', ['$scope', '$attrs', 'accordionConfig', function ($scope, $attrs, accordionConfig) {
-
-  // This array keeps track of the accordion groups
-  this.groups = [];
-
-  // Ensure that all the groups in this accordion are closed, unless close-others explicitly says not to
-  this.closeOthers = function(openGroup) {
-    var closeOthers = angular.isDefined($attrs.closeOthers) ? $scope.$eval($attrs.closeOthers) : accordionConfig.closeOthers;
-    if ( closeOthers ) {
-      angular.forEach(this.groups, function (group) {
-        if ( group !== openGroup ) {
-          group.isOpen = false;
-        }
-      });
-    }
-  };
-
-  // This is called from the accordion-group directive to add itself to the accordion
-  this.addGroup = function(groupScope) {
-    var that = this;
-    this.groups.push(groupScope);
-
-    groupScope.$on('$destroy', function (event) {
-      that.removeGroup(groupScope);
-    });
-  };
-
-  // This is called from the accordion-group directive when to remove itself
-  this.removeGroup = function(group) {
-    var index = this.groups.indexOf(group);
-    if ( index !== -1 ) {
-      this.groups.splice(index, 1);
-    }
-  };
-
-}])
-
-// The accordion directive simply sets up the directive controller
-// and adds an accordion CSS class to itself element.
-.directive('accordion', function () {
-  return {
-    restrict:'EA',
-    controller:'AccordionController',
-    transclude: true,
-    replace: false,
-    templateUrl: 'accordion/template/accordion.html'
-  };
-})
-
-// The accordion-group directive indicates a block of html that will expand and collapse in an accordion
-.directive('accordionGroup', function() {
-  return {
-    require:'^accordion',         // We need this directive to be inside an accordion
-    restrict:'EA',
-    transclude:true,              // It transcludes the contents of the directive into the template
-    replace: true,                // The element containing the directive will be replaced with the template
-    templateUrl:'accordion/template/accordion-group.html',
-    scope: {
-      heading: '@',               // Interpolate the heading attribute onto this scope
-      isOpen: '=?',
-      isDisabled: '=?'
-    },
-    controller: function() {
-      this.setHeading = function(element) {
-        this.heading = element;
-      };
-    },
-    link: function(scope, element, attrs, accordionCtrl) {
-      accordionCtrl.addGroup(scope);
-
-      scope.$watch('isOpen', function(value) {
-        if ( value ) {
-          accordionCtrl.closeOthers(scope);
-        }
-      });
-
-      scope.toggleOpen = function() {
-        if ( !scope.isDisabled ) {
-          scope.isOpen = !scope.isOpen;
-        }
-      };
-    }
-  };
-})
-
-// Use accordion-heading below an accordion-group to provide a heading containing HTML
-// <accordion-group>
-//   <accordion-heading>Heading containing HTML - <img src="..."></accordion-heading>
-// </accordion-group>
-.directive('accordionHeading', function() {
-  return {
-    restrict: 'EA',
-    transclude: true,   // Grab the contents to be used as the heading
-    template: '',       // In effect remove this element!
-    replace: true,
-    require: '^accordionGroup',
-    link: function(scope, element, attr, accordionGroupCtrl, transclude) {
-      // Pass the heading to the accordion-group controller
-      // so that it can be transcluded into the right place in the template
-      // [The second parameter to transclude causes the elements to be cloned so that they work in ng-repeat]
-      accordionGroupCtrl.setHeading(transclude(scope, function() {}));
-    }
-  };
-})
-
-// Use in the accordion-group template to indicate where you want the heading to be transcluded
-// You must provide the property on the accordion-group controller that will hold the transcluded element
-// <div class="accordion-group">
-//   <div class="accordion-heading" ><a ... accordion-transclude="heading">...</a></div>
-//   ...
-// </div>
-.directive('accordionTransclude', function() {
-  return {
-    require: '^accordionGroup',
-    link: function(scope, element, attr, controller) {
-      scope.$watch(function() { return controller[attr.accordionTransclude]; }, function(heading) {
-        if ( heading ) {
-          element.html('');
-          element.append(heading);
-        }
-      });
-    }
-  };
-});
-
 angular.module('ui.yt.alert', [])
   .factory('$alert', ['$document', '$rootScope', '$compile', '$q', '$timeout', function($document, $rootScope, $compile, $q, $timeout) {
     var mask = angular.element('<div class="modal-backdrop fade" />');
@@ -331,6 +200,137 @@ angular.module('ui.yt.buttons', [])
           ngModelCtrl.$setViewValue(element.hasClass(buttonsCtrl.activeClass) ? getFalseValue() : getTrueValue());
           ngModelCtrl.$render();
         });
+      });
+    }
+  };
+});
+
+angular.module('ui.yt.accordion', ['ui.yt.collapse'])
+
+.constant('accordionConfig', {
+  closeOthers: true
+})
+
+.controller('AccordionController', ['$scope', '$attrs', 'accordionConfig', function ($scope, $attrs, accordionConfig) {
+
+  // This array keeps track of the accordion groups
+  this.groups = [];
+
+  // Ensure that all the groups in this accordion are closed, unless close-others explicitly says not to
+  this.closeOthers = function(openGroup) {
+    var closeOthers = angular.isDefined($attrs.closeOthers) ? $scope.$eval($attrs.closeOthers) : accordionConfig.closeOthers;
+    if ( closeOthers ) {
+      angular.forEach(this.groups, function (group) {
+        if ( group !== openGroup ) {
+          group.isOpen = false;
+        }
+      });
+    }
+  };
+
+  // This is called from the accordion-group directive to add itself to the accordion
+  this.addGroup = function(groupScope) {
+    var that = this;
+    this.groups.push(groupScope);
+
+    groupScope.$on('$destroy', function (event) {
+      that.removeGroup(groupScope);
+    });
+  };
+
+  // This is called from the accordion-group directive when to remove itself
+  this.removeGroup = function(group) {
+    var index = this.groups.indexOf(group);
+    if ( index !== -1 ) {
+      this.groups.splice(index, 1);
+    }
+  };
+
+}])
+
+// The accordion directive simply sets up the directive controller
+// and adds an accordion CSS class to itself element.
+.directive('accordion', function () {
+  return {
+    restrict:'EA',
+    controller:'AccordionController',
+    transclude: true,
+    replace: false,
+    templateUrl: 'accordion/template/accordion.html'
+  };
+})
+
+// The accordion-group directive indicates a block of html that will expand and collapse in an accordion
+.directive('accordionGroup', function() {
+  return {
+    require:'^accordion',         // We need this directive to be inside an accordion
+    restrict:'EA',
+    transclude:true,              // It transcludes the contents of the directive into the template
+    replace: true,                // The element containing the directive will be replaced with the template
+    templateUrl:'accordion/template/accordion-group.html',
+    scope: {
+      heading: '@',               // Interpolate the heading attribute onto this scope
+      isOpen: '=?',
+      isDisabled: '=?'
+    },
+    controller: function() {
+      this.setHeading = function(element) {
+        this.heading = element;
+      };
+    },
+    link: function(scope, element, attrs, accordionCtrl) {
+      accordionCtrl.addGroup(scope);
+
+      scope.$watch('isOpen', function(value) {
+        if ( value ) {
+          accordionCtrl.closeOthers(scope);
+        }
+      });
+
+      scope.toggleOpen = function() {
+        if ( !scope.isDisabled ) {
+          scope.isOpen = !scope.isOpen;
+        }
+      };
+    }
+  };
+})
+
+// Use accordion-heading below an accordion-group to provide a heading containing HTML
+// <accordion-group>
+//   <accordion-heading>Heading containing HTML - <img src="..."></accordion-heading>
+// </accordion-group>
+.directive('accordionHeading', function() {
+  return {
+    restrict: 'EA',
+    transclude: true,   // Grab the contents to be used as the heading
+    template: '',       // In effect remove this element!
+    replace: true,
+    require: '^accordionGroup',
+    link: function(scope, element, attr, accordionGroupCtrl, transclude) {
+      // Pass the heading to the accordion-group controller
+      // so that it can be transcluded into the right place in the template
+      // [The second parameter to transclude causes the elements to be cloned so that they work in ng-repeat]
+      accordionGroupCtrl.setHeading(transclude(scope, function() {}));
+    }
+  };
+})
+
+// Use in the accordion-group template to indicate where you want the heading to be transcluded
+// You must provide the property on the accordion-group controller that will hold the transcluded element
+// <div class="accordion-group">
+//   <div class="accordion-heading" ><a ... accordion-transclude="heading">...</a></div>
+//   ...
+// </div>
+.directive('accordionTransclude', function() {
+  return {
+    require: '^accordionGroup',
+    link: function(scope, element, attr, controller) {
+      scope.$watch(function() { return controller[attr.accordionTransclude]; }, function(heading) {
+        if ( heading ) {
+          element.html('');
+          element.append(heading);
+        }
       });
     }
   };
@@ -554,7 +554,7 @@ angular.module('ui.yt.carousel', ['ui.yt.transition'])
     replace: true,
     controller: 'CarouselController',
     require: 'carousel',
-    templateUrl: '/carouseltemplate/carousel.html',
+    templateUrl: 'carousel/template/carousel.html',
     scope: {
       interval: '=',
       noTransition: '=',
@@ -2667,6 +2667,7 @@ angular.module('ui.yt.popoverConfirm', ['ui.yt.position'])
 
         var $popoverScope = scope.$new();
         $popoverScope.isOpened = false; // isOpened maintains status
+        $popoverScope.isGoodToOpen = false;
         $popoverScope.position = {
           top: 0,
           left: 0
@@ -2674,6 +2675,7 @@ angular.module('ui.yt.popoverConfirm', ['ui.yt.position'])
         var defaultOptions = {
           confirmText: 'Confirm',
           cancelText: 'Cancel',
+          title: 'Are u sure?',
           confirmBtnClass: 'btn-primary'
         };
         var ifDocumentClickedBind = false;
@@ -2725,6 +2727,7 @@ angular.module('ui.yt.popoverConfirm', ['ui.yt.position'])
             updateContent();
             $timeout(function() {
               updatePosition();
+              $popoverScope.isGoodToOpen = true;
             });
             $document.bind('click', documentClicked);
             if (ifElementClickBind) {
@@ -2737,6 +2740,7 @@ angular.module('ui.yt.popoverConfirm', ['ui.yt.position'])
             }
             element.bind('click', elementClicked);
             ifElementClickBind = true;
+            $popoverScope.isGoodToOpen = false;
           }
         });
 
@@ -4748,7 +4752,7 @@ try { module = angular.module("popoverConfirm/template/wrapper.html"); }
 catch(err) { module = angular.module("popoverConfirm/template/wrapper.html", []); }
 module.run(["$templateCache", function($templateCache) {
   $templateCache.put("popoverConfirm/template/wrapper.html",
-    "<div class=\"popover top\" ng-style=\"{display: (isOpened && 'block') || 'none', top: position.top+'px', left: position.left+'px', zIndex: 3000}\">\n" +
+    "<div class=\"popover top\" ng-style=\"{display: (isOpened && 'block') || 'none', visibility: (isGoodToOpen && 'visible') || 'hidden', top: position.top+'px', left: position.left+'px', zIndex: 3000}\">\n" +
     "  <div class=\"arrow\"></div>\n" +
     "  <div class=\"popover-inner\">\n" +
     "    <h3 class=\"popover-title\" ng-if=\"title\">{{title}}</h3>\n" +

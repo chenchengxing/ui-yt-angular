@@ -1,5 +1,8 @@
 <div ng-controller="popoverConfirmDemoCtrl">
-  <button popover-confirm confirm="confirm()" cancel="cancel()">DELETE IT</button> 
+  <button class="btn btn-primary" popover-confirm confirm="confirm()" cancel="cancel()">Go!!</button>
+  <button class="btn btn-danger" popover-confirm="popDeleteOpts" confirm="deleteIt()" cancel="deleteCancel()">DELETE IT</button>
   <h4>Result</h4>
-  {{result}}
+  <div class="well">
+    {{result}}
+  </div>
 </div>

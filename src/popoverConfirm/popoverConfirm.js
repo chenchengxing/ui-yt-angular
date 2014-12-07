@@ -10,6 +10,7 @@ angular.module('ui.yt.popoverConfirm', ['ui.yt.position'])
 
         var $popoverScope = scope.$new();
         $popoverScope.isOpened = false; // isOpened maintains status
+        $popoverScope.isGoodToOpen = false;
         $popoverScope.position = {
           top: 0,
           left: 0
@@ -17,6 +18,7 @@ angular.module('ui.yt.popoverConfirm', ['ui.yt.position'])
         var defaultOptions = {
           confirmText: 'Confirm',
           cancelText: 'Cancel',
+          title: 'Are u sure?',
           confirmBtnClass: 'btn-primary'
         };
         var ifDocumentClickedBind = false;
@@ -68,6 +70,7 @@ angular.module('ui.yt.popoverConfirm', ['ui.yt.position'])
             updateContent();
             $timeout(function() {
               updatePosition();
+              $popoverScope.isGoodToOpen = true;
             });
             $document.bind('click', documentClicked);
             if (ifElementClickBind) {
@@ -80,6 +83,7 @@ angular.module('ui.yt.popoverConfirm', ['ui.yt.position'])
             }
             element.bind('click', elementClicked);
             ifElementClickBind = true;
+            $popoverScope.isGoodToOpen = false;
           }
         });
 

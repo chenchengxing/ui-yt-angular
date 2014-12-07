@@ -24,20 +24,6 @@ angular.module('ui.yt.demo').controller('AccordionDemoCtrl', function ($scope) {
     isFirstDisabled: false
   };
 });
-angular.module('ui.yt.demo').controller('AlertsDemoCtrl', function ($scope) {
-  $scope.alerts = [
-    { type: 'danger', msg: 'Oh snap! Change a few things up and try submitting again.' },
-    { type: 'success', msg: 'Well done! You successfully read this important alert message.' }
-  ];
-
-  $scope.addAlert = function() {
-    $scope.alerts.push({msg: 'Another alert!'});
-  };
-
-  $scope.closeAlert = function(index) {
-    $scope.alerts.splice(index, 1);
-  };
-});
 angular.module('ui.yt.demo').controller('alertDemoCtrl', function ($scope, $alert, $log) {
   $scope.alert1 = function () {
     $alert();
@@ -56,6 +42,20 @@ angular.module('ui.yt.demo').controller('alertDemoCtrl', function ($scope, $aler
       $scope.ct ++;
       $log.info('$alert dismissed');
     });
+  };
+});
+angular.module('ui.yt.demo').controller('AlertsDemoCtrl', function ($scope) {
+  $scope.alerts = [
+    { type: 'danger', msg: 'Oh snap! Change a few things up and try submitting again.' },
+    { type: 'success', msg: 'Well done! You successfully read this important alert message.' }
+  ];
+
+  $scope.addAlert = function() {
+    $scope.alerts.push({msg: 'Another alert!'});
+  };
+
+  $scope.closeAlert = function(index) {
+    $scope.alerts.splice(index, 1);
   };
 });
 angular.module('ui.yt.demo').controller('busySpinDemoCtrl', function ($scope, $busySpin, $timeout) {
@@ -286,11 +286,27 @@ angular.module('ui.yt.demo').controller('PopoverDemoCtrl', function ($scope) {
 });
 
 angular.module('ui.yt.demo').controller('popoverConfirmDemoCtrl', function ($scope) {
+  $scope.result = 'noting happened yet~';
+
   $scope.confirm = function () {
-    $scope.result = 'confirmed';
+    $scope.result = 'on going';
   };
   $scope.cancel = function () {
     $scope.result = 'canceled';
+  };
+
+  $scope.deleteIt = function () {
+    $scope.result = 'it is be deleted!';
+  };
+  $scope.deleteCancel = function () {
+    $scope.result = 'it is still here!';
+  };
+
+  $scope.popDeleteOpts = {
+    confirmText: 'Delete it',
+    cancelText: 'Keep it',
+    title: 'Do u want to delete it?',
+    confirmBtnClass: 'btn-danger'
   };
 });
 angular.module('ui.yt.demo').controller('ProgressDemoCtrl', function ($scope) {

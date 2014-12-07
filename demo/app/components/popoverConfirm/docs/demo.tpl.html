@@ -1,9 +1,12 @@
 <div class="container mb_20">
   <div class="row">
     <div class="col-md-6"><div ng-controller="popoverConfirmDemoCtrl">
-  <button popover-confirm confirm="confirm()" cancel="cancel()">DELETE IT</button> 
+  <button class="btn btn-primary" popover-confirm confirm="confirm()" cancel="cancel()">Go!!</button>
+  <button class="btn btn-danger" popover-confirm="popDeleteOpts" confirm="deleteIt()" cancel="deleteCancel()">DELETE IT</button>
   <h4>Result</h4>
-  {{result}}
+  <div class="well">
+    {{result}}
+  </div>
 </div></div>
     <div class="col-md-6"><p><em>* popoverConfirm *</em> deal with the ux that prevent user from the slip.</p>
 
@@ -28,7 +31,7 @@ confirm callback is always we needed, not cancel.</p>
       <div>
         <pre>
           <code data-language="html" rainbow>
-&lt;div ng-controller=&quot;popoverConfirmDemoCtrl&quot;&gt;&#10;  &lt;button popover-confirm confirm=&quot;confirm()&quot; cancel=&quot;cancel()&quot;&gt;DELETE IT&lt;/button&gt; &#10;  &lt;h4&gt;Result&lt;/h4&gt;&#10;  {{result}}&#10;&lt;/div&gt;
+&lt;div ng-controller=&quot;popoverConfirmDemoCtrl&quot;&gt;&#10;  &lt;button class=&quot;btn btn-primary&quot; popover-confirm confirm=&quot;confirm()&quot; cancel=&quot;cancel()&quot;&gt;Go!!&lt;/button&gt;&#10;  &lt;button class=&quot;btn btn-danger&quot; popover-confirm=&quot;popDeleteOpts&quot; confirm=&quot;deleteIt()&quot; cancel=&quot;deleteCancel()&quot;&gt;DELETE IT&lt;/button&gt;&#10;  &lt;h4&gt;Result&lt;/h4&gt;&#10;  &lt;div class=&quot;well&quot;&gt;&#10;    {{result}}&#10;  &lt;/div&gt;&#10;&lt;/div&gt;
           </code>
         </pre>
       </div>
@@ -39,11 +42,27 @@ confirm callback is always we needed, not cancel.</p>
       <pre>
         <code data-language="javascript" rainbow>
 angular.module('ui.yt.demo').controller('popoverConfirmDemoCtrl', function ($scope) {
+  $scope.result = 'noting happened yet~';
+
   $scope.confirm = function () {
-    $scope.result = 'confirmed';
+    $scope.result = 'on going';
   };
   $scope.cancel = function () {
     $scope.result = 'canceled';
+  };
+
+  $scope.deleteIt = function () {
+    $scope.result = 'it is be deleted!';
+  };
+  $scope.deleteCancel = function () {
+    $scope.result = 'it is still here!';
+  };
+
+  $scope.popDeleteOpts = {
+    confirmText: 'Delete it',
+    cancelText: 'Keep it',
+    title: 'Do u want to delete it?',
+    confirmBtnClass: 'btn-danger'
   };
 });
         </code>

@@ -1,8 +1,6 @@
 ui-yi-angular
 =============
 
-## yt ui for angular
-
 Trying to write some [AngularJS](http://angularjs.org/) ui with [Bootstrap](http://getbootstrap.com)
 
 It is base on [UI Bootstrap](http://angular-ui.github.io/bootstrap/)

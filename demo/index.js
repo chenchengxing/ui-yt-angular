@@ -75,21 +75,46 @@ angular.module('app', ['ui.router', 'ui.yt.demo', 'ui.yt'])
       }
     };
 
-    function createBuild (components) {
-      console.log(components);
+    var dependence = {
+      typehead: ['position', 'bindHtml'],
+      tooltip: ['position', 'bindHtml'],
+      popoverConfirm: ['position'],
+      popover: ['tooltip', 'position', 'bindHtml'],
+      modal: ['transition'],
+      datepicker: ['dateparser', 'position'],
+      collapse: ['transition'],
+      carousel: ['transition'],
+      accordion: ['collapse', 'transition']
+    };
 
+    function resolveDependence(components) {
+      var ret = [];
+      for (var i = 0, iLen = components.length; i < iLen; i++) {
+        var name = components[i].name;
+        ret.push(name);
+        if (dependence[name]) {
+          ret = ret.concat(dependence[name]);
+        }
+      }
+      return ret;
+    }
+
+    function createBuild(components) {
+      components = resolveDependence(components);
       $http.get('dist/componentsSrc.json').success(function (data) {
         var content = '';
         var moduleNames = [];
         for (var i = 0, iLen = components.length; i < iLen; i++) {
-          var component = data[components[i].name];
-          for (var moduleName in component) {
-            moduleNames.push(moduleName);
-            content = content + '\n' + component[moduleName];
+          var componentName = components[i];
+          var component = data[componentName];
+          if (component) {
+            for (var moduleName in component) {
+              moduleNames.push(moduleName);
+              content = content + '\n' + component[moduleName];
+            }
+            delete data[componentName];
           }
         }
-        console.log(moduleNames);
-        console.log(content);
 
         var header = 'angular.module(\'ui.yt\', [\'';
         var modules = moduleNames.join('\',\'');
@@ -202,8 +227,8 @@ angular.module('app', ['ui.router', 'ui.yt.demo', 'ui.yt'])
       restrict: 'A',
       link: function ($scope, element, attrs) {
         $timeout(function () {
-          Rainbow.color(element[0].innerHTML, 'javascript', function(highlighted_code) {
-            element.context.innerHTML = highlighted_code;
+          Rainbow.color(element[0].textContent, 'javascript', function(highlighted_code) {
+            element.html(highlighted_code);
           });
         });
       }
