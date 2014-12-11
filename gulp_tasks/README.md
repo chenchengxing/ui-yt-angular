@@ -9,7 +9,7 @@ src/aComponent/
 			> oneWordDescription.info
 			> readme.md
 		- test/
-			aComponent.spec.js
+			> aComponent.spec.js
 		> aComponent.js
 ```
 
