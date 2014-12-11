@@ -22,9 +22,7 @@ var file = require('gulp-file');
 var clean = require('gulp-clean');
 
 
-// gulp.task('demoWatch', function () {
-//   return gulp.watch('src/**/*.{js,css,html}', ['demoJsMerge', 'demoCssMerge', 'demo', 'demoOneWordDescription'])
-// });
+gulp.task('demo', ['demoJsMerge', 'demoJsMerge', 'demoBuild', 'demoOneWordDescription']);
 
 gulp.task('demoJsMerge', function () {
   return gulp.src('src/*/docs/demo.js')
@@ -60,7 +58,7 @@ gulp.task('demoOneWordDescriptionClean', function () {
           .pipe(clean());
 })
 
-gulp.task('demo', folders(componentsPath, function(component){
+gulp.task('demoBuild', folders(componentsPath, function(component){
   //This will loop over all folders inside pathToFolder main, secondary
   //Return stream so gulp-folders can concatenate all of them
   //so you still can use safely use gulp multitasking

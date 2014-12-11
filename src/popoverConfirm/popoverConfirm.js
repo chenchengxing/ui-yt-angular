@@ -1,5 +1,14 @@
+// last: ['2014-12-05', 'wujun07']
+// contributors: ['wujun07', 'chenchengxing']
+
 angular.module('ui.yt.popoverConfirm', ['ui.yt.position'])
-  .directive('popoverConfirm', ['$compile', '$document', '$timeout', '$position', '$parse', function($compile, $document, $timeout, $position, $parse) {
+  .directive('popoverConfirm', [
+    '$compile',
+    '$document',
+    '$timeout',
+    '$position',
+    '$parse',
+  function($compile, $document, $timeout, $position, $parse) {
     return {
       scope: {
         options: '=popoverConfirm',

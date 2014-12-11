@@ -5,7 +5,7 @@ var file = require('gulp-file');
 var minimatch = require("minimatch")
 
 
-gulp.task('srcJson', function () {
+gulp.task('srcJson', ['build'], function () {
   var srcJson = {};
   var components = fs.readdirSync('src');
   for (var i = 0, iLen = components.length; i < iLen; i++) {

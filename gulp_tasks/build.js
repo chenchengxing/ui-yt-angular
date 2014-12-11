@@ -6,7 +6,7 @@ var uglify = require('gulp-uglify');
  * build task
  * @description concat ui-yi.js, also minified one
  */
-gulp.task('build', ['mergeCss', 'generateBuildPrefix'], function() {
+gulp.task('build', ['mergeCss', 'generateBuildPrefix', 'html2js'], function() {
   return gulp.src(['misc/build-prefix.js', 'src/*/*.js', 'src/*/template/*.js'])
     .pipe(concat('ui-yt.js'))
     .pipe(gulp.dest('dist'))

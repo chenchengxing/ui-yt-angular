@@ -1,3 +1,6 @@
+// last: ['2014-12-05', 'wujun07']
+// contributors: ['wujun07', 'chenchengxing']
+
 describe('popoverConfirm', function() {
   var rootScope, $compile, element;
   beforeEach(function () {
@@ -40,12 +43,12 @@ describe('popoverConfirm', function() {
     expect($('.popover').css('display')).toBe('none');
   });
 
-  it('click confirm should close popover, and trigger ', function() {
+  it('click confirm should close popover, and fire the confirm function', function() {
     var tpl ='<button popover-confirm confirm="confirm()" />';
     element = angular.element(tpl);
     var $scope = $rootScope.$new();
     $scope.confirm = function () {
-      
+
     };
     $compile(element)($scope);
     var spy = sinon.spy($scope, 'confirm');

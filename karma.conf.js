@@ -16,13 +16,15 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'misc/test-lib/jquery.js',
+      'misc/test-lib/jasmine-jquery.js',
       'misc/test-lib/angular.js',
       'misc/test-lib/angular-mocks.js',
       'misc/test-lib/sinon.js',
       'src/*/*.js',
-      'src/*/template/*.js',
+      {pattern: 'src/*/template/*.js', watched: false},
       'src/*/test/*.spec.js'
     ],
+
 
 
     // list of files to exclude
