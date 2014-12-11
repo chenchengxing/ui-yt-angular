@@ -15,35 +15,6 @@ When you are done downloading all the dependencies and project files the only re
 angular.module('myModule', ['ui.yt']);
 ```
 
-## Contents
-
-### placeholder
-`directive` for ie
-
-### focusOnce
-`directive` trigger once focus
-
-### busySpin
-`service` busy spin for long time data loading
-
-### popoverConfirm
-`directive` quick confirm preventing from a slip
-
-### toaster
-`service` toast
-
-### checklist
-`directive` checkbox list model
-
-### alert
-`service` alert
-
-### confirm
-`service` confirm
-
-### dropdownlist
-`directive` for dropdown array
-
 ## Compatibility
 ie8+, Chrome, ff
 
