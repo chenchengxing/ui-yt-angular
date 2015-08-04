@@ -1,4 +1,4 @@
-ui-yi-angular
+ui-yt-angular
 =============
 
 Trying to write some [AngularJS](http://angularjs.org/) ui with [Bootstrap](http://getbootstrap.com)
